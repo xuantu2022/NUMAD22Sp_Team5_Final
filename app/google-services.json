@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "374882886733",
+    "project_id": "footprint-ca93e",
+    "storage_bucket": "footprint-ca93e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374882886733:android:4bbd2fdfcc469af74ba804",
+        "android_client_info": {
+          "package_name": "edu.neu.madcourse.numad22sp_team5"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374882886733-6kc3egdl1jhckn5oibisfu7p93vtuvm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZE23cjXKCga1T2fzywDw0bKOs7qCNOFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374882886733-6kc3egdl1jhckn5oibisfu7p93vtuvm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
