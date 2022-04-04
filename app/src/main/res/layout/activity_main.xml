@@ -6,11 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--
+    <androidx.appcompat.widget.Toolbar
+        android:layout_alignParentTop="true"
+
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/purple_500"
+        android:elevation="4dp"
+        app:menu="@menu/top_action_bar"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>-->
+
     <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom"
-        android:id="@+id/fragment_container"/>
+        android:layout_above="@+id/bottom"/>
+        <!--android:layout_below="@+id/my_toolbar"-->
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
