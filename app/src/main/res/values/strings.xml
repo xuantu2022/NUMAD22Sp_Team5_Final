@@ -8,4 +8,6 @@
     <string name="growth">Growth</string>
     <string name="milestone">Milestone</string>
     <string name="family">Family</string>
+    <string name="growth_history">Growth</string>
+    <string name="milestone_history">Milestone</string>
 </resources>
