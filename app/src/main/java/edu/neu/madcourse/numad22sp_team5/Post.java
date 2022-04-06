@@ -7,11 +7,12 @@ public class Post {
     private String publisher;
     private String tag;
     private String time;
+    private String postType;
     private String description;
     private String postImages;
     private String growth;
 
-    public Post(String postid, String publisher, String babyId, String tag, String time, String description, String postImages, String growth) {
+    public Post(String postid, String publisher, String tag, String time, String description, String postImages, String growth, String postType) {
         this.postid = postid;
         this.publisher = publisher;
         this.tag = tag;
@@ -19,10 +20,15 @@ public class Post {
         this.time = time;
         this.description = description;
         this.postImages = postImages;
+        this.postType = postType;
     }
 
     public Post(){
 
+    }
+
+    public String getPostType() {
+        return postType;
     }
 
     public String getGrowth() {
@@ -31,6 +37,10 @@ public class Post {
 
     public String getPostid() {
         return postid;
+    }
+
+    public void setPostType(String postType) {
+        this.postType = postType;
     }
 
     public void setPostid(String postid) {
