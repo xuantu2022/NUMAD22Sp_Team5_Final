@@ -106,9 +106,9 @@
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below = "@+id/background_container"
-        android:id = "@+id/post_list"/>
+        android:layout_below="@+id/background_container" />
 
 </RelativeLayout>
