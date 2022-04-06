@@ -1,7 +1,7 @@
 package edu.neu.madcourse.numad22sp_team5;
 
 import android.content.Context;
-import android.icu.util.Calendar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -54,22 +53,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         Post post = mPost.get(position);
 
         //To display growth
+        if (post.getPostType().equals("growth")) {
+            holder.growth_holder.setVisibility(View.VISIBLE);
+            holder.growth.setText(post.getGrowth());
+        } else {
+            holder.growth_holder.setVisibility(View.GONE);
+        }
+        /*
         if (post.getGrowth() != null) {
             holder.growth.setVisibility(View.VISIBLE);
             holder.growth_holder.setVisibility(View.VISIBLE);
             holder.growth.setText(post.getGrowth());
         } else {
             holder.growth_holder.setVisibility(View.GONE);
-        }
+        }*/
 
         //to display tag
-        if (post.getTag() != null) {
+        if (post.getPostType().equals("milestone")) {
             holder.tag_holder.setVisibility(View.VISIBLE);
-            holder.tag.setVisibility(View.VISIBLE);
             holder.tag.setText(post.getTag());
         } else {
             holder.tag_holder.setVisibility(View.GONE);
-            holder.tag.setVisibility(View.GONE);
         }
 
         //set post image
@@ -77,14 +81,15 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.post_image.setVisibility(View.GONE);
         } else {
             holder.post_image.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(post.getPostImages()).override(400, 400).fitCenter().into(holder.post_image);
+            Glide.with(mContext).load(post.getPostImages()).override(800, 800).fitCenter().into(holder.post_image);
         }
 
         //set description
         if (post.getDescription() == null) {
-            holder.description.setVisibility(View.GONE);
+            holder.description_holder.setVisibility(View.GONE);
+            holder.description_holder.setMinimumHeight(0);
         } else {
-            holder.description.setVisibility(View.VISIBLE);
+            holder.description_holder.setVisibility(View.VISIBLE);
             holder.description.setText(post.getDescription());
         }
 
@@ -127,8 +132,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         public ImageView post_image, like, comment;
         public TextView likes, publisher, description, comments, growth, tag, publish_time;
-        public CardView tag_holder;
-        public LinearLayout growth_holder;
+        public LinearLayout growth_holder, description_holder, tag_holder;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -145,8 +149,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tag = itemView.findViewById(R.id.tag);
             publish_time = itemView.findViewById(R.id.time);
 
+            //LinearLayout to hide info
             tag_holder = itemView.findViewById(R.id.tag_holder);
             growth_holder = itemView.findViewById(R.id.growth_holder);
+            description_holder = itemView.findViewById(R.id.description_holder);
 
         }
 
