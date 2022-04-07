@@ -12,38 +12,43 @@
         android:layout_height="wrap_content"
         android:text="photo"
         tools:layout_editor_absoluteX="26dp"
-        tools:layout_editor_absoluteY="118dp" />
+        tools:layout_editor_absoluteY="118dp"
+        tools:ignore="MissingConstraints" />
 
-    <Button
-        android:id="@+id/btn_camera"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="camera"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="118dp" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_camera"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="camera"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        tools:layout_editor_absoluteY="118dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
-    <Button
-        android:id="@+id/btn_diary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Diary"
-        tools:layout_editor_absoluteX="284dp"
-        tools:layout_editor_absoluteY="117dp" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_diary"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Diary"-->
+<!--        tools:layout_editor_absoluteX="284dp"-->
+<!--        tools:layout_editor_absoluteY="117dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
-    <Button
-        android:id="@+id/button_growth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Growth"
-        tools:layout_editor_absoluteX="27dp"
-        tools:layout_editor_absoluteY="213dp" />
+<!--    <Button-->
+<!--        android:id="@+id/button_growth"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Growth"-->
+<!--        tools:layout_editor_absoluteX="27dp"-->
+<!--        tools:layout_editor_absoluteY="213dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 
-    <Button
-        android:id="@+id/btn_milestone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Milestone"
-        tools:layout_editor_absoluteX="159dp"
-        tools:layout_editor_absoluteY="212dp" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_milestone"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Milestone"-->
+<!--        tools:layout_editor_absoluteX="159dp"-->
+<!--        tools:layout_editor_absoluteY="212dp"-->
+<!--        tools:ignore="MissingConstraints" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>
