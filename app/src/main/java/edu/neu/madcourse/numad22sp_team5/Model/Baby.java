@@ -1,4 +1,4 @@
-package edu.neu.madcourse.numad22sp_team5;
+package edu.neu.madcourse.numad22sp_team5.Model;
 
 public class Baby {
     private String babyid;
