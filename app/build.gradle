@@ -46,6 +46,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'jp.wasabeef:glide-transformations:4.1.0'
 
+    //A library to display nine pic dynamic
+    implementation'com.w4lle.library:NineLayout:1.0.0'
+
+    //a library to generate round pic
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.3'
