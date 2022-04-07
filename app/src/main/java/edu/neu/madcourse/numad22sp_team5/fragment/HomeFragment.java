@@ -33,6 +33,7 @@ import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
+import edu.neu.madcourse.numad22sp_team5.AddItemActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.Support.ThroughTimeLineDecorator;
 
@@ -77,6 +78,14 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         //Set icon for FBA
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setImageResource(R.drawable.ic_add_items);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddItemActivity();
+
+            }
+        });
 
         //add background pic for home fragment
         StorageReference backgroundRef = FirebaseStorage.getInstance().getReference().child("app_materials/bg1.jpg");
@@ -177,6 +186,11 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         });
 
     }
+    public void openAddItemActivity(){
+        Intent intent = new Intent(getActivity(),AddItemActivity.class);
+        startActivity(intent);
+    }
+
 
 
     @Override
