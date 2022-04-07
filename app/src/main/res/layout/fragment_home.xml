@@ -9,8 +9,6 @@
     <!-- TODO: Update blank fragment layout -->
 
 
-
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

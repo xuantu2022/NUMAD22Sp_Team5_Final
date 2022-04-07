@@ -12,12 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,8 +27,8 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.neu.madcourse.numad22sp_team5.Post;
-import edu.neu.madcourse.numad22sp_team5.PostAdapter;
+import edu.neu.madcourse.numad22sp_team5.Model.Post;
+import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
 import edu.neu.madcourse.numad22sp_team5.R;
 
 
