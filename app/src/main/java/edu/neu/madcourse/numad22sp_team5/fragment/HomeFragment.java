@@ -3,6 +3,7 @@ package edu.neu.madcourse.numad22sp_team5.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +31,7 @@ import java.util.List;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
 import edu.neu.madcourse.numad22sp_team5.R;
+import edu.neu.madcourse.numad22sp_team5.ThroughTimeLineDecorator;
 
 
 public class HomeFragment extends Fragment {
@@ -74,6 +76,12 @@ public class HomeFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        //set timeline decoration for recycler view with two drawable source dot.xml and shape_line.xml
+        //Decoration use a resource class ThroughTimeLineDecorator
+        recyclerView.addItemDecoration(new ThroughTimeLineDecorator(ResourcesCompat.getDrawable(getResources(), R.drawable.dot, null),
+                ResourcesCompat.getDrawable(getResources(), R.drawable.shape_line, null),10, 5, 15));
+
         postLists = new ArrayList<>();
         postAdapter = new PostAdapter(getContext(), postLists);
         recyclerView.setAdapter(postAdapter);
