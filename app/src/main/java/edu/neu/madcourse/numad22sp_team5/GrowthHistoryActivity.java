@@ -23,7 +23,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference database;
     GrowthHistoryAdapter adapter;
-    ArrayList<Growth> list;
+    ArrayList<Post> list;
     FirebaseAuth mAuth;
 
     // email-User mapping
@@ -74,8 +74,27 @@ public class GrowthHistoryActivity extends AppCompatActivity {
             }
         });
 
-        // growth
+        // post - growth
+        database = FirebaseDatabase.getInstance().getReference("Posts/baby01");
+        list = new ArrayList<>();
+        adapter = new GrowthHistoryAdapter(this, list);
+        recyclerView.setAdapter(adapter);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    Post post = dataSnapshot.getValue(Post.class);
+                    if (post.getGrowth().length() != 0) {
+                        list.add(post);
+                    }
+                }
+                adapter.notifyDataSetChanged();
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
+            }
+        });
     }
 }

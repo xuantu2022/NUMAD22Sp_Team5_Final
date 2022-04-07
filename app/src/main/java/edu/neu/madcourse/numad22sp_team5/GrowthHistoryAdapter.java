@@ -13,12 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdapter.GrowthHistoryViewHolder> {
-    ArrayList<Growth> list;
+    ArrayList<Post> list;
     Context context;
 
-    public GrowthHistoryAdapter(ArrayList<Growth> list, Context context) {
-        this.list = list;
+    public GrowthHistoryAdapter(Context context, ArrayList<Post> list) {
         this.context = context;
+        this.list = list;
     }
 
     @NonNull
@@ -30,11 +30,12 @@ public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdap
 
     @Override
     public void onBindViewHolder(@NonNull GrowthHistoryAdapter.GrowthHistoryViewHolder holder, int position) {
-        Growth growth = list.get(position);
-        holder.date.setText(growth.getDate());
-        holder.height.setText(growth.getHeight());
-        holder.weight.setText(growth.getWeight());
-        holder.headCirc.setText(growth.getHeadCirc());
+        Post growthPost = list.get(position);
+        holder.date.setText(growthPost.getTime());
+//        holder.height.setText(growth.getHeight());
+//        holder.weight.setText(growth.getWeight());
+//        holder.headCirc.setText(growth.getHeadCirc());
+        holder.babyinfo.setText(growthPost.getGrowth());
     }
 
     @Override
@@ -44,16 +45,18 @@ public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdap
 
     public static class GrowthHistoryViewHolder extends RecyclerView.ViewHolder {
         TextView date;
-        TextView height;
-        TextView weight;
-        TextView headCirc;
+//        TextView height;
+//        TextView weight;
+//        TextView headCirc;
+        TextView babyinfo;
 
         public GrowthHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
             date = itemView.findViewById(R.id.textView_date_growth);
-            height = itemView.findViewById(R.id.textView_height_growth);
-            weight = itemView.findViewById(R.id.textView_weight_growth);
-            headCirc = itemView.findViewById(R.id.textView_headCirc_growth);
+//            height = itemView.findViewById(R.id.textView_height_growth);
+//            weight = itemView.findViewById(R.id.textView_weight_growth);
+//            headCirc = itemView.findViewById(R.id.textView_headCirc_growth);
+            babyinfo = itemView.findViewById(R.id.textView_babyinfo_growth);
         }
     }
 }
