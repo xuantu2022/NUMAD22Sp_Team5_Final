@@ -84,7 +84,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (post.getGrowth().length() != 0) {
+                    if (post.getPostType().equals("growth") && post.getGrowth().length() != 0) {
                         list.add(post);
                     }
                 }

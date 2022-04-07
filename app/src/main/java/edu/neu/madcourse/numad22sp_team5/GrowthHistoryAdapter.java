@@ -31,11 +31,11 @@ public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdap
     @Override
     public void onBindViewHolder(@NonNull GrowthHistoryAdapter.GrowthHistoryViewHolder holder, int position) {
         Post growthPost = list.get(position);
-        holder.date.setText(growthPost.getTime());
+        holder.timeGrowth.setText(growthPost.getTime());
 //        holder.height.setText(growth.getHeight());
 //        holder.weight.setText(growth.getWeight());
 //        holder.headCirc.setText(growth.getHeadCirc());
-        holder.babyinfo.setText(growthPost.getGrowth());
+        holder.babyinfoGrowth.setText(growthPost.getGrowth());
     }
 
     @Override
@@ -44,19 +44,19 @@ public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdap
     }
 
     public static class GrowthHistoryViewHolder extends RecyclerView.ViewHolder {
-        TextView date;
+        TextView timeGrowth;
 //        TextView height;
 //        TextView weight;
 //        TextView headCirc;
-        TextView babyinfo;
+        TextView babyinfoGrowth;
 
         public GrowthHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            date = itemView.findViewById(R.id.textView_date_growth);
+            timeGrowth = itemView.findViewById(R.id.textView_date_growth);
 //            height = itemView.findViewById(R.id.textView_height_growth);
 //            weight = itemView.findViewById(R.id.textView_weight_growth);
 //            headCirc = itemView.findViewById(R.id.textView_headCirc_growth);
-            babyinfo = itemView.findViewById(R.id.textView_babyinfo_growth);
+            babyinfoGrowth = itemView.findViewById(R.id.textView_babyinfo_growth);
         }
     }
 }
