@@ -16,7 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
-            android:name=".CommentsActivity"
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".PostDetailActivity"
             android:exported="false" />
         <activity android:name=".RecyclerViewHolder"></activity>
         <activity android:name=".RegisterActivity" />

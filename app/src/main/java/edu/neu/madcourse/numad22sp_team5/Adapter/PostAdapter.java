@@ -2,7 +2,6 @@ package edu.neu.madcourse.numad22sp_team5.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
-import edu.neu.madcourse.numad22sp_team5.CommentsActivity;
+import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Model.User;
 import edu.neu.madcourse.numad22sp_team5.R;
@@ -101,11 +100,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.publish_time.setText(post.getTime());
 
         //get like status and numbers
-        /*
-        isLiked(post.getPostid(),holder.like);
+
+        //isLiked(post.getPostid(),holder.like);
         nrLikes(holder.likes, post.getPostid());
         getComments(post.getPostid(),holder.comments);
-        */
+
 
 
         //update like number
@@ -126,7 +125,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, CommentsActivity.class);
+                Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", post.getPostid());
                 intent.putExtra("publisherid", post.getPublisher());
                 mContext.startActivity(intent);
@@ -136,13 +135,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         holder.comments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, CommentsActivity.class);
+                Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", post.getPostid());
                 intent.putExtra("publisherid", post.getPublisher());
                 mContext.startActivity(intent);
             }
         });
-
 
 
     }
@@ -188,7 +186,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                comments.setText("View All" + snapshot.getChildrenCount() + " Comments");
+                comments.setText("View All " + snapshot.getChildrenCount() + " Comments");
             }
 
             @Override
@@ -229,7 +227,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                likes.setText(snapshot.getChildrenCount() + "likes");
+                likes.setText(snapshot.getChildrenCount() + " likes");
             }
 
             @Override
@@ -246,7 +244,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                publisher.setText(user.getUsername());
+                publisher.setText("Publisher: " + user.getUsername());
             }
 
             @Override
