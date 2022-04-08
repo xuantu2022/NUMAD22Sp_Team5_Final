@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.neu.madcourse.numad22sp_team5.Model.Post;
+import edu.neu.madcourse.numad22sp_team5.Model.User;
 
 public class GrowthHistoryActivity extends AppCompatActivity {
 
@@ -35,9 +39,8 @@ public class GrowthHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_growth_history);
-        mAuth = FirebaseAuth.getInstance();
-        String email = mAuth.getCurrentUser().getEmail();
-
+//        mAuth = FirebaseAuth.getInstance();
+//        String email = mAuth.getCurrentUser().getEmail();
         recyclerView = findViewById(R.id.recyclerView_growth);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -60,19 +63,19 @@ public class GrowthHistoryActivity extends AppCompatActivity {
 
             }
         });
-        // isFollowing mapping
-        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        // isFollowing mapping
+//        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
+//        database.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         // post - growth
         database = FirebaseDatabase.getInstance().getReference("Posts/baby01");

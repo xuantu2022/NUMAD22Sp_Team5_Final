@@ -1,5 +1,6 @@
 package edu.neu.madcourse.numad22sp_team5.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -28,6 +31,10 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
+import edu.neu.madcourse.numad22sp_team5.GrowthHistoryActivity;
+import edu.neu.madcourse.numad22sp_team5.MainActivity;
+import edu.neu.madcourse.numad22sp_team5.MilestoneHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
 import edu.neu.madcourse.numad22sp_team5.R;
@@ -43,8 +50,8 @@ public class HomeFragment extends Fragment {
     //private List<String> followingList;
 
     private String babyid;
-
-
+    private TextView home_growth;
+    private TextView home_milestone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,27 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        // add onclick for history display
+        home_growth = view.findViewById(R.id.growth);
+        home_growth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GrowthHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        home_milestone = view.findViewById(R.id.milestone);
+        home_milestone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MilestoneHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
 
         //Set icon for FBA
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);

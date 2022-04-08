@@ -3,14 +3,14 @@ package edu.neu.madcourse.numad22sp_team5.Model;
 
 
 public class Post {
-    private String postid;
-    private String publisher;
-    private String tag;
-    private String time;
-    private String postType;
-    private String description;
-    private String postImages;
-    private String growth;
+    public String postid;
+    public String publisher;
+    public String tag;
+    public String time;
+    public String postType;
+    public String description;
+    public String postImages;
+    public String growth;
 
     public Post(String postid, String publisher, String tag, String time, String description, String postImages, String growth, String postType) {
         this.postid = postid;

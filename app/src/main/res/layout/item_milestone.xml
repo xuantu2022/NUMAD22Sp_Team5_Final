@@ -36,7 +36,7 @@
 
             <TextView
                 android:id="@+id/textView_tag_milestone"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:text="First time  to ..."
                 android:textSize="20dp"

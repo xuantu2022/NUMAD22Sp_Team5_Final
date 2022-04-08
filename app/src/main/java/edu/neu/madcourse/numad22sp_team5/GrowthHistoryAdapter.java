@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.numad22sp_team5.Model.Post;
+
 public class GrowthHistoryAdapter extends RecyclerView.Adapter<GrowthHistoryAdapter.GrowthHistoryViewHolder> {
     ArrayList<Post> list;
     Context context;

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.neu.madcourse.numad22sp_team5.Model.Post;
+import edu.neu.madcourse.numad22sp_team5.Model.User;
 
 public class MilestoneHistoryActivity extends AppCompatActivity {
 
@@ -35,12 +39,12 @@ public class MilestoneHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_milestone_history);
-        mAuth = FirebaseAuth.getInstance();
-        String email = mAuth.getCurrentUser().getEmail();
-
-        recyclerView = findViewById(R.id.recyclerView_growth);
+//        mAuth = FirebaseAuth.getInstance();
+//        String email = mAuth.getCurrentUser().getEmail();
+        recyclerView = findViewById(R.id.recyclerView_milestone);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         // user mapping
         database = FirebaseDatabase.getInstance().getReference("Users");
         database.addValueEventListener(new ValueEventListener() {
@@ -60,19 +64,19 @@ public class MilestoneHistoryActivity extends AppCompatActivity {
 
             }
         });
-        // isFollowing mapping
-        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        // isFollowing mapping
+//        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
+//        database.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
         // post - milestone
         database = FirebaseDatabase.getInstance().getReference("Posts/baby01");
@@ -84,9 +88,9 @@ public class MilestoneHistoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (post.getPostType().equals("milestone") && post.getTag().length() > 0) {
+                    //if (post.getPostType().equals("milestone") && post.getTag().length() > 0) {
                         list.add(post);
-                    }
+                    //}
                 }
                 adapter.notifyDataSetChanged();
             }
