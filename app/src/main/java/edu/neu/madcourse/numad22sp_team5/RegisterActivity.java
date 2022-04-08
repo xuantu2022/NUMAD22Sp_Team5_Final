@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +31,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     DatabaseReference reference;
+    // ProgressDialog is deprecated change to progress bar Yadan
     ProgressDialog pd;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +60,12 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pd = new ProgressDialog(RegisterActivity.this);
-                pd.setMessage("Please wait...");
-                pd.show();
+                progressBar = new ProgressBar(RegisterActivity.this);
+                progressBar.setVisibility(View.VISIBLE);
+
+                //pd = new ProgressDialog(RegisterActivity.this);
+                //pd.setMessage("Please wait...");
+                //pd.show();
 
                 String str_username = username.getText().toString();
                 String str_fullname = fullname.getText().toString();
@@ -98,15 +104,20 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("id", userid);
                             hashMap.put("username", username.toLowerCase());
                             hashMap.put("fullname", fullname);
-                            hashMap.put("bio", "");
-                            hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/footprint-ca93e.appspot.com/o/app_materials%2Fbaby1.jpeg?alt=media&token=1b0ead61-80f4-4307-9fc7-83309406814a");
+                            //We do not need this field comment by Yadan
+                            //hashMap.put("bio", "");
+                            //we do not need imageurl too comment by Yadan
+                            //hashMap.put("imageurl", "https://firebasestorage.googleapis.com/v0/b/footprint-ca93e.appspot.com/o/app_materials%2Fbaby1.jpeg?alt=media&token=1b0ead61-80f4-4307-9fc7-83309406814a");
 
                             reference.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
-                                        pd.dismiss();
-                                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        //pd.dismiss();
+                                        progressBar.setVisibility(View.GONE);
+                                        // Here we go to babylist page not main page Yadan
+                                        //Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                        Intent intent = new Intent(RegisterActivity.this, BabyListActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         startActivity(intent);
                                     }
