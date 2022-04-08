@@ -1,4 +1,4 @@
-package edu.neu.madcourse.numad22sp_team5;
+package edu.neu.madcourse.numad22sp_team5.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.numad22sp_team5.Adapter.BabyViewHolder;
+import edu.neu.madcourse.numad22sp_team5.ItemClickListener;
+import edu.neu.madcourse.numad22sp_team5.LinkItem;
+import edu.neu.madcourse.numad22sp_team5.R;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder> {
+
+public class BabyAdapter extends RecyclerView.Adapter<BabyViewHolder> {
     private ArrayList<LinkItem> mData;
     private ItemClickListener mListner;
 
-    public RecyclerViewAdapter(ItemClickListener listener) {
+    public BabyAdapter(ItemClickListener listener) {
         mData = new ArrayList<>();
         mListner = listener;
     }
@@ -41,13 +46,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+    public BabyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new BabyViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.rv_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(BabyViewHolder holder, int position) {
         holder.babyName.setText(mData.get(position).getName());
 
         if (mListner != null) {

@@ -8,13 +8,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CalendarView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class BabyDetail extends AppCompatActivity {
     private Button next;
-    private EditText nickname, dob, gender;
+    private EditText nickname, dob;
+    private RadioGroup gender;
+    private ImageView headshot;
+    private CalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +28,9 @@ public class BabyDetail extends AppCompatActivity {
         setContentView(R.layout.activity_baby_detail);
 
         next = findViewById(R.id.next);
+        nickname = findViewById(R.id.nickname_input);
+        dob = findViewById(R.id.dob_input);
+        gender = findViewById(R.id.radio_gender);
 
         // click next button to go back to baby list activity
         next.setOnClickListener(new View.OnClickListener() {

@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference reference;
     // ProgressDialog is deprecated change to progress bar Yadan
-    ProgressDialog pd;
+    //ProgressDialog pd;
     ProgressBar progressBar;
 
     @Override
@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         username = findViewById(R.id.username);
-        fullname = findViewById(R.id.fullname);
+        //fullname = findViewById(R.id.fullname);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         register = findViewById(R.id.register);
@@ -68,11 +68,11 @@ public class RegisterActivity extends AppCompatActivity {
                 //pd.show();
 
                 String str_username = username.getText().toString();
-                String str_fullname = fullname.getText().toString();
+                //String str_fullname = fullname.getText().toString();
                 String str_email = email.getText().toString();
                 String str_password = password.getText().toString();
 
-                if (TextUtils.isEmpty(str_username) || TextUtils.isEmpty(str_fullname)
+                if (TextUtils.isEmpty(str_username) //|| TextUtils.isEmpty(str_fullname)
                         || TextUtils.isEmpty(str_email) || TextUtils.isEmpty(str_password)) {
                     Toast.makeText(RegisterActivity.this, "All fields are required!",
                             Toast.LENGTH_SHORT).show();
@@ -80,7 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Password should be 6 characters!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    register(str_username, str_fullname,str_email,str_password);
+                    register(str_username,str_email,str_password);
 
                 }
 
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void register(final String username, final String fullname, String email, String password) {
+    private void register(final String username, String email, String password) {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                             HashMap<String, Object> hashMap = new HashMap<>();
                             hashMap.put("id", userid);
                             hashMap.put("username", username.toLowerCase());
-                            hashMap.put("fullname", fullname);
+                            hashMap.put("email", email);
                             //We do not need this field comment by Yadan
                             //hashMap.put("bio", "");
                             //we do not need imageurl too comment by Yadan
@@ -125,7 +125,8 @@ public class RegisterActivity extends AppCompatActivity {
                             });
 
                         } else {
-                            pd.dismiss();
+                            //pd.dismiss();
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(RegisterActivity.this, "You can't register with this email or password!", Toast.LENGTH_SHORT).show();
 
                         }
