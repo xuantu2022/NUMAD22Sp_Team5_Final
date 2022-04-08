@@ -18,6 +18,13 @@
         <activity
             android:name=".CommentsActivity"
             android:exported="false" />
+        <activity android:name=".RecyclerViewHolder"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".StartActivity" />
+        <activity android:name=".BabyDetail" />
+        <activity android:name=".AddBaby" />
+        <activity android:name=".SignUp" />
         <activity
             android:name=".BabyListActivity"
             android:exported="false" />

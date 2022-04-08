@@ -27,6 +27,12 @@
         android:background="@drawable/background"
         android:orientation="vertical">
 
+        <com.w4lle.library.NineGridlayout
+            android:id="@+id/post_images_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            tools:ignore="MissingClass" />
 
 
         <ImageView
