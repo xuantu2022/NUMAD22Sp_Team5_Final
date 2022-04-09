@@ -29,30 +29,24 @@ public class MilestoneHistoryAdapter extends RecyclerView.Adapter<MilestoneHisto
     @NonNull
     @Override
     public MilestoneHistoryAdapter.MilestoneHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Log.i("db-debug", "a0");
         View view = LayoutInflater.from(context).inflate(R.layout.item_milestone, parent, false);
-        Log.i("db-debug", "a1");
         return new MilestoneHistoryViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MilestoneHistoryAdapter.MilestoneHistoryViewHolder holder, int position) {
-        Log.i("db-debug", "a2");
         Post milestonePost = list.get(position);
-        Log.i("db-debug", "a3");
         holder.timeMilestone.setText(milestonePost.getTime());
         holder.tagMilestone.setText(milestonePost.getTag());
+
         // fetch image
-        Log.i("db-debug", "a4");
         String url = milestonePost.getPostImages();
-        Log.i("db-debug", "a5");
         Glide.with(context).load(url).centerCrop().into(holder.imageMilestone);
-        Log.i("db-debug", "a6");
+
     }
 
     @Override
     public int getItemCount() {
-        Log.i("db-debug", "a7");
         return list.size();
     }
 
@@ -63,11 +57,9 @@ public class MilestoneHistoryAdapter extends RecyclerView.Adapter<MilestoneHisto
 
         public MilestoneHistoryViewHolder(@NonNull View itemView) {
             super(itemView);
-            Log.i("db-debug", "a8");
             timeMilestone = itemView.findViewById(R.id.textView_time_milestone);
             tagMilestone = itemView.findViewById(R.id.textView_tag_milestone);
             imageMilestone = itemView.findViewById(R.id.imageView_image_milestone);
-            Log.i("db-debug", "a9");
         }
     }
 }
