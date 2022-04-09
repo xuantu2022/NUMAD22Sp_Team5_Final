@@ -1,9 +1,9 @@
 package edu.neu.madcourse.numad22sp_team5.Model;
 
 public class User {
-    private String userid;
-    private String email;
-    private String username;
+    public String userid;
+    public String email;
+    public String username;
 
     public User(String userid, String email, String username) {
         this.userid = userid;

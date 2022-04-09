@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
+import edu.neu.madcourse.numad22sp_team5.FamilyPageActivity;
 import edu.neu.madcourse.numad22sp_team5.GrowthHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.MilestoneHistoryActivity;
@@ -52,6 +53,7 @@ public class HomeFragment extends Fragment {
     private String babyid;
     private TextView home_growth;
     private TextView home_milestone;
+    private TextView home_family;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MilestoneHistoryActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        home_family = view.findViewById(R.id.family);
+        home_family.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), FamilyPageActivity.class);
                 startActivity(intent);
             }
         });
