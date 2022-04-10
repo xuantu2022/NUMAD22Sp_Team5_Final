@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,39 +32,48 @@ public class GrowthHistoryActivity extends AppCompatActivity {
     ArrayList<Post> list;
     FirebaseAuth mAuth;
 
-    // email-User mapping
-    Map<String, User> userMapping = new HashMap<>();
-    // email-isFollowingWhichBaby mapping
-    Map<String, Boolean> isFollowing = new HashMap<>();
+//    // email-User mapping
+//    Map<String, User> userMapping = new HashMap<>();
+//    // email-isFollowingWhichBaby mapping
+//    Map<String, Boolean> isFollowing = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_growth_history);
-//        mAuth = FirebaseAuth.getInstance();
-//        String email = mAuth.getCurrentUser().getEmail();
+
+        // get current babyid
+        Intent intent = getIntent();
+        String babyid = intent.getStringExtra("babyid");
+
+        // get userid
+        mAuth = FirebaseAuth.getInstance();
+        String userid = mAuth.getCurrentUser().getUid();
+
+
+
         recyclerView = findViewById(R.id.recyclerView_growth);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // user mapping
-        database = FirebaseDatabase.getInstance().getReference("Users");
-        database.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    if (user != null) {
-                        userMapping.put(user.getEmail(), user);
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        // user mapping
+//        database = FirebaseDatabase.getInstance().getReference("Users");
+//        database.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+//                    User user = dataSnapshot.getValue(User.class);
+//                    if (user != null) {
+//                        userMapping.put(user.getEmail(), user);
+//                    }
+//                }
+//                adapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 //        // isFollowing mapping
 //        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
 //        database.addValueEventListener(new ValueEventListener() {
@@ -77,8 +88,30 @@ public class GrowthHistoryActivity extends AppCompatActivity {
 //            }
 //        });
 
+
+        // check if current user follows baby
+        String path1 = "Follow/" + userid;
+        database = FirebaseDatabase.getInstance().getReference(path1);
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (!snapshot.child(babyid).exists()) {
+                        Toast.makeText(getApplicationContext(), "You have no access to baby's moments", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         // post - growth
-        database = FirebaseDatabase.getInstance().getReference("Posts/baby01");
+        String path2 = "Posts/" + babyid;
+        database = FirebaseDatabase.getInstance().getReference(path2);
         list = new ArrayList<>();
         adapter = new GrowthHistoryAdapter(this, list);
         recyclerView.setAdapter(adapter);
