@@ -97,7 +97,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     if (!snapshot.child(babyid).exists()) {
-                        Toast.makeText(getApplicationContext(), "You have no access to baby's moments", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "You have no access to baby's Growth", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 }

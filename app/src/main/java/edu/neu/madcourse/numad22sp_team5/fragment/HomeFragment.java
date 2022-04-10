@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MilestoneHistoryActivity.class);
+                intent.putExtra("babyid", "baby01");
                 startActivity(intent);
             }
         });
