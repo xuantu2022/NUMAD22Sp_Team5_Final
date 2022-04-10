@@ -1,12 +1,12 @@
 package edu.neu.madcourse.numad22sp_team5.Model;
 
 public class User {
-    public String userid;
+    public String id;
     public String email;
     public String username;
 
     public User(String userid, String email, String username) {
-        this.userid = userid;
+        this.id = userid;
         this.email = email;
         this.username = username;
     }
@@ -15,12 +15,12 @@ public class User {
 
     }
 
-    public String getUserid() {
-        return userid;
+    public String getId() {
+        return id;
     }
 
-    public void setUserid(String userid) {
-        this.userid = userid;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getEmail() {

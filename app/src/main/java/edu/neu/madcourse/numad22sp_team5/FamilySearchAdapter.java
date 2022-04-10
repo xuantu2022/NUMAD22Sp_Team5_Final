@@ -1,7 +1,6 @@
 package edu.neu.madcourse.numad22sp_team5;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +45,7 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
         User user = list.get(position);
         holder.button_follow.setVisibility(View.VISIBLE);
         holder.search_username.setText(user.getUsername());
-        isFollowing(user.getUserid(), holder.button_follow);
+        isFollowing(user.getId(), holder.button_follow);
 //        // do not show current user
 //        if (user.getUserid().equals(firebaseUser.getUid())) {
 //            holder.button_follow.setVisibility(View.GONE);

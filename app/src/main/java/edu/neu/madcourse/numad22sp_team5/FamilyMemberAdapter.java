@@ -1,12 +1,10 @@
 package edu.neu.madcourse.numad22sp_team5;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,7 +41,7 @@ public class FamilyMemberAdapter extends RecyclerView.Adapter<FamilyMemberAdapte
         holder.family_username.setText(user.getUsername());
         holder.family_email.setText(user.getEmail());
 
-        if (user.getUserid() != null && user.getUserid().equals(firebaseUser.getUid())) {
+        if (user.getId() != null && user.getId().equals(firebaseUser.getUid())) {
             holder.family_me.setVisibility(View.VISIBLE);
         }
     }
