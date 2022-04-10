@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,12 +27,13 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
     Context context;
     List<User> list;
 
-    //FirebaseUser firebaseUser;
-    String babyId = "baby01";
+    FirebaseUser firebaseUser;
+    String babyid;
 
-    public FamilySearchAdapter(Context context, List<User> list) {
+    public FamilySearchAdapter(Context context, List<User> list, String babyid) {
         this.context = context;
         this.list = list;
+        this.babyid = babyid;
     }
 
     @NonNull
@@ -41,24 +45,24 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
 
     @Override
     public void onBindViewHolder(@NonNull FamilySearchAdapter.FamilySearchViewHolder holder, int position) {
-        //firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         User user = list.get(position);
         holder.button_follow.setVisibility(View.VISIBLE);
         holder.search_username.setText(user.getUsername());
         isFollowing(user.getId(), holder.button_follow);
-//        // do not show current user
-//        if (user.getUserid().equals(firebaseUser.getUid())) {
-//            holder.button_follow.setVisibility(View.GONE);
-//        }
+        // do not show button for current user
+        if (user.getId().equals(firebaseUser.getUid())) {
+            holder.button_follow.setVisibility(View.GONE);
+        }
         holder.button_follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (holder.button_follow.getText().toString().equals("follow")) {
-                    //FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid()).child(babyId).setValue(true);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).setValue(true);
+                if (holder.button_follow.getText().toString().equals("add")) {
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).setValue(true);
+                    //FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).setValue(true);
                 } else {
-                    //FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid()).child(babyId).removeValue();
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).removeValue();
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).removeValue();
+                    //FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).removeValue();
                 }
             }
         });
@@ -81,15 +85,15 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
     }
 
     private void isFollowing(final String userid, final Button button) {
-        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Follow").child(firebaseUser.getUid());
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Follow").child("user01");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Follow").child(userid);
+        //DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Follow").child("user01");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(babyId).exists()) {
-                    button.setText("following");
+                if (snapshot.child(babyid).exists()) {
+                    button.setText("remove");
                 } else {
-                    button.setText("follow");
+                    button.setText("add");
                 }
             }
 

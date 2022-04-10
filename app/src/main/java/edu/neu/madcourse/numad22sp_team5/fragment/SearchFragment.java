@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,8 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // get baby id by intent
-        //String babyId = getActivity().getIntent().getExtras().getString("babyId");
+        String babyId = getActivity().getIntent().getExtras().getString("babyid");
+        Log.i("db-debug", "search fragment baby id:" + babyId);
         //String babyId = "baby01";
 
         // Inflate the layout for this fragment
@@ -54,7 +56,7 @@ public class SearchFragment extends Fragment {
 
         search_bar = view.findViewById(R.id.search_bar);
         users = new ArrayList<>();
-        familySearchAdapter = new FamilySearchAdapter(getContext(), users);
+        familySearchAdapter = new FamilySearchAdapter(getContext(), users, babyId);
         recyclerView_family_search.setAdapter(familySearchAdapter);
 
         readUsers();

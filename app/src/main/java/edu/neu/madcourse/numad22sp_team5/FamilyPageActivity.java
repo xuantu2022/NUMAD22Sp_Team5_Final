@@ -45,6 +45,7 @@ public class FamilyPageActivity extends AppCompatActivity {
         // get current babyid
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
+        Log.i("db-debug", "family page baby id: " + babyid);
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
@@ -55,6 +56,8 @@ public class FamilyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FamilySearchContainerActivity.class);
+                intent.putExtra("babyid", babyid);
+                Log.i("db-debug", "family page baby id: " + babyid + " add on click");
                 startActivity(intent);
             }
         });
