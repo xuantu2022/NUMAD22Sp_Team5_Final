@@ -45,7 +45,7 @@ public class FamilyPageActivity extends AppCompatActivity {
         // get current babyid
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
-        Log.i("db-debug", "family page baby id: " + babyid);
+        //Log.i("db-debug", "family page baby id: " + babyid);
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
@@ -57,11 +57,22 @@ public class FamilyPageActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FamilySearchContainerActivity.class);
                 intent.putExtra("babyid", babyid);
-                Log.i("db-debug", "family page baby id: " + babyid + " add on click");
+                //Log.i("db-debug", "family page baby id: " + babyid + " add on click");
                 startActivity(intent);
             }
         });
 
+        displayFamilyMembers();
+    }
+
+    // update recyclerview when add family members and back to family page
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        displayFamilyMembers();
+    }
+
+    private void displayFamilyMembers() {
         recyclerView = findViewById(R.id.recyclerView_family_member);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -100,6 +111,7 @@ public class FamilyPageActivity extends AppCompatActivity {
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
                 if (snapshot.child(id).exists()) { // check if user exists in Follow branch
                     // check if user follow current baby
                     database = FirebaseDatabase.getInstance().getReference("Follow/" + id);
