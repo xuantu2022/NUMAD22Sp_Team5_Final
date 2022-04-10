@@ -1,5 +1,7 @@
 package edu.neu.madcourse.numad22sp_team5;
 
+import static com.theartofdev.edmodo.cropper.CropImage.activity;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -37,6 +41,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,14 +49,6 @@ import java.util.HashMap;
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 
 public class PhotoActivity extends AppCompatActivity {
-//    RecyclerView recyclerView;
-//    Button add;
-//    TextView textView;
-
-//    ArrayList<Uri> uri = new ArrayList<>();
-//    PhotoRecyclerAdapter adapter;
-//
-//    private static final int Read_Permission = 101;
     Uri imageUri;
     String myUrl = "";
     StorageTask uploadTask;
@@ -78,6 +75,7 @@ public class PhotoActivity extends AppCompatActivity {
         close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("close", "close_onClick: ");
                 startActivity(new Intent(PhotoActivity.this, MainActivity.class));
                 finish();
 
@@ -87,16 +85,49 @@ public class PhotoActivity extends AppCompatActivity {
         post.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("post", "post_onClick: ");
                 uploadImage();
             }
         });
 
+        final int PIC_CROP = 1;
+
+//        CropImage.activity().start(PhotoActivity.this);
         CropImage.activity()
-                .setAspectRatio(1, 1)
-                .start(PhotoActivity.this);
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(this);
+//        try {
+//            Intent cropIntent = new Intent("com.android.camera.action.CROP");
+//            // indicate image type and Uri
+//            cropIntent.setDataAndType(imageUri, "image/*");
+//            // set crop properties here
+//            cropIntent.putExtra("crop", true);
+//            // indicate aspect of desired crop
+//            cropIntent.putExtra("aspectX", 1);
+//            cropIntent.putExtra("aspectY", 1);
+//            // indicate output X and Y
+//            cropIntent.putExtra("outputX", 128);
+//            cropIntent.putExtra("outputY", 128);
+//            // retrieve data on return
+//            cropIntent.putExtra("return-data", true);
+//            Log.i("cropIntent", "109");
+//            // start the activity - we handle returning in onActivityResult
+//            startActivityForResult(cropIntent, PIC_CROP);
+//        }
+//        // respond to users whose devices do not support the crop action
+//        catch (ActivityNotFoundException anfe) {
+//            // display an error message
+//            String errorMessage = "Whoops - your device doesn't support the crop action!";
+//            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
+//            toast.show();
+//        }
+
+        Log.i("cropAct", "aaaaaa ");
+        Log.i("cropAct", "bbb: ");
     }
 
         private String getFileExtension(Uri uri){
+            Log.i("getFileExtension", "cccc: ");
 
             ContentResolver contentResolver = getContentResolver();
             MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -105,6 +136,7 @@ public class PhotoActivity extends AppCompatActivity {
         }
 
         private void uploadImage() {
+            Log.i("uploadImage", "upload");
             ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Posting");
 
@@ -117,6 +149,7 @@ public class PhotoActivity extends AppCompatActivity {
                 uploadTask.continueWithTask(new Continuation() {
                     @Override
                     public Object then(@NonNull Task task) throws Exception {
+                        Log.i("uploadImage", "success");
                         if(!task.isSuccessful()){
                             throw task.getException();
 
@@ -165,46 +198,10 @@ public class PhotoActivity extends AppCompatActivity {
 
 
 
-
-
-
-
-
-
-//        recyclerView = findViewById(R.id.recyclerView_Gallery_Images);
-//        add = findViewById(R.id.btn_add);
-//        textView = findViewById(R.id.totalPhotos);
-
-//        adapter = new PhotoRecyclerAdapter(uri);
-//        recyclerView.setLayoutManager(new GridLayoutManager(PhotoActivity.this,3));
-//        recyclerView.setAdapter(adapter);
-//
-//        if(ContextCompat.checkSelfPermission(PhotoActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-//
-//            ActivityCompat.requestPermissions(PhotoActivity.this,
-//                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},Read_Permission);
-//        }
-//
-//        add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2){
-//                    intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-//                }
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent,"Select Picture"), 1);
-//
-//
-//            }
-//        });
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+        Log.i("onAct", "onActivityResult: ");
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -219,24 +216,5 @@ public class PhotoActivity extends AppCompatActivity {
 
         }
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-//        super.onActivityResult(requestCode,resultCode,data);
-//        if(requestCode == 1 && resultCode==Activity.RESULT_OK){
-//            if(data.getClipData() != null){
-//                int x = data.getClipData().getItemCount();
-//
-//                for(int i=0;i<x;i++){
-//                    uri.add(data.getClipData().getItemAt(i).getUri());
-//                }
-//                adapter.notifyDataSetChanged();
-////                textView.setText("Photos ("+uri.size()+")");
-//            }else if(data.getData() != null){
-//                String imageURL = data.getData().getPath();
-//                uri.add(Uri.parse(imageURL));
-//
-//            }
-//        }
-//
-//    }
+
 }
