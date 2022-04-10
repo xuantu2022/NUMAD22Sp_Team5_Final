@@ -31,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.madcourse.numad22sp_team5.AlbumHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
 import edu.neu.madcourse.numad22sp_team5.FamilyPageActivity;
 import edu.neu.madcourse.numad22sp_team5.GrowthHistoryActivity;
@@ -54,6 +55,7 @@ public class HomeFragment extends Fragment {
     private TextView home_growth;
     private TextView home_milestone;
     private TextView home_family;
+    private TextView home_album;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,6 +92,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), FamilyPageActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        home_album = view.findViewById(R.id.album);
+        home_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AlbumHistoryActivity.class);
                 startActivity(intent);
             }
         });
