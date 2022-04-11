@@ -33,15 +33,15 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
     @Override
     public void onBindViewHolder(ItemMessageHolder holder, int position) {
         ItemMessage currentItem = itemList.get(position);
-        holder.messageName.setText(currentItem.getMessageName());
+        holder.nickName.setText(currentItem.getNickname());
 
         ItemMessage message = itemList.get(position);
 
-        holder.messageName.setOnClickListener(new View.OnClickListener() {
+        holder.nickName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, TimelineActivity.class);
-                intent.putExtra("baby_id", message.getMessageName());
+                intent.putExtra("baby_id", message.getBabyId());
                 mContext.startActivity(intent);
             }
         });

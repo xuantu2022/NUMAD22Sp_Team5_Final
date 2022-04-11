@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import edu.neu.madcourse.numad22sp_team5.R;
 
 public class ItemMessageHolder extends RecyclerView.ViewHolder {
-    public TextView messageName;
+    public TextView nickName;
 
     public ItemMessageHolder(View itemView) {
         super(itemView);
-        messageName = itemView.findViewById(R.id.message_name);
+        nickName = itemView.findViewById(R.id.nick_name);
     }
 }

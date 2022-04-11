@@ -58,12 +58,13 @@ public class TimelineActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eventList.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
+                    String babyid = data.child("babyid").getValue().toString();
                     String time = data.child("time").getValue().toString();
                     String publisher = data.child("publisher").getValue().toString();
                     String type = data.child("postType").getValue().toString();
                     String description = data.child("description").getValue().toString();
                     String post_id = data.child("postid").getValue().toString();
-                    eventList.add(0, new ItemEvent(time, "publisher: " + publisher, "post type: " + type, "description: " +description, post_id));
+                    eventList.add(0, new ItemEvent(babyid, time, "publisher: " + publisher, "post type: " + type, "description: " +description, post_id));
                 }
                 // TODO: sort by time.
                 eventAdapter.notifyDataSetChanged();

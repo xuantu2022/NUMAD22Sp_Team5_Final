@@ -42,15 +42,14 @@ public class MessageFragment extends Fragment {
         createMessageView(view);
 
         readNotification();
-        // addMessage(0, "System notification");
+        // addMessage(0, "System notification", "nickname");
         return view;
     }
 
     // Generates a list of babies that the user is following.
     private void readNotification() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        // TODO: Replace user01 by firebaseUser.userid.
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow").child("user01");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow").child(firebaseUser.getUid());
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -59,7 +58,8 @@ public class MessageFragment extends Fragment {
                     boolean follow = (boolean) snapshot.getValue();
                     if (follow) {
                         String baby_id = snapshot.getKey();
-                        messages.add(0, new ItemMessage(baby_id));
+                        String nickname = baby_id;
+                        messages.add(0, new ItemMessage(baby_id, nickname));
                     }
                 }
 
@@ -83,8 +83,8 @@ public class MessageFragment extends Fragment {
         messageView.setAdapter(messageAdapter);
     }
 
-    private void addMessage(int position, String name) {
-        messages.add(position, new ItemMessage(name));
+    private void addMessage(int position, String babyId, String nickname) {
+        messages.add(position, new ItemMessage(babyId, nickname));
         messageAdapter.notifyItemInserted(position);
     }
 }

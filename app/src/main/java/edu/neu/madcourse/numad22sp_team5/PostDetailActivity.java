@@ -67,6 +67,9 @@ public class PostDetailActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);*/
 
         Intent intent = getIntent();
+        // NOTE(If here then there): Any change to the intent parsing would cause crush in
+        // ItemEventAdapter. For example, adding a new field here would require update to the
+        // ItemEventAdapter to properly propagate that field through the intent.
         postid = intent.getStringExtra("postid");
         babyid = intent.getStringExtra("babyid");
         publisherid = intent.getStringExtra("publisherid");
