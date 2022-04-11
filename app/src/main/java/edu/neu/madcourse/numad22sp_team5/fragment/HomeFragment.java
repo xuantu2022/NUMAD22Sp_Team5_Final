@@ -189,6 +189,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     }
     public void openAddItemActivity(){
         Intent intent = new Intent(getActivity(),AddItemActivity.class);
+        intent.putExtra("babyid",babyid);
         startActivity(intent);
     }
 
