@@ -2,18 +2,36 @@ package edu.neu.madcourse.numad22sp_team5.Adapter;
 
 public class ItemEvent {
     private String time;
-    private String descroption;
+    private String publisher;
+    private String type;
+    private String description;
+    private String postId;
 
-    public ItemEvent(String time, String descroption) {
+    public ItemEvent(String time, String publisher, String type, String description, String postId) {
         this.time = time;
-        this.descroption = descroption;
+        this.publisher = publisher;
+        this.type = type;
+        this.description = description;
+        this.postId = postId;
+    }
+
+    public String getPublisher() {
+        return publisher;
     }
 
     public String getTime() {
         return time;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public String getDescription() {
-        return descroption;
+        return description;
+    }
+
+    public String getPostId() {
+        return postId;
     }
 }

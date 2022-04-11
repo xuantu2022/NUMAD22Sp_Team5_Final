@@ -31,11 +31,25 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/event_publisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/event_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+
+            <TextView
                 android:id="@+id/event_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryDark"
-                android:textStyle="normal"/>
+                android:textStyle="normal" />
 
         </LinearLayout>
     </RelativeLayout>
