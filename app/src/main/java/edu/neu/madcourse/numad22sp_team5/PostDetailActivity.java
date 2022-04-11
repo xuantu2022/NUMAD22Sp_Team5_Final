@@ -42,6 +42,7 @@ public class PostDetailActivity extends AppCompatActivity {
 
     String postid;
     String publisherid;
+    String babyid;
     Post post;
 
     FirebaseUser firebaseUser;
@@ -62,11 +63,12 @@ public class PostDetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         Intent intent = getIntent();
         postid = intent.getStringExtra("postid");
+        babyid = intent.getStringExtra("babyid");
         publisherid = intent.getStringExtra("publisherid");
-
 
         recyclerView = findViewById(R.id.comments_list);
         recyclerView.setHasFixedSize(true);
@@ -96,7 +98,7 @@ public class PostDetailActivity extends AppCompatActivity {
         sendComment = findViewById(R.id.send_comment);
         addComment = findViewById(R.id.add_comment);
 
-        //isLiked(post.getPostid(),like);
+        isLiked(postid,like);
 
         readPost(postid, growth_holder, tag_holder, description_holder,  growth, tag,
                 description,  post_image,  publish_time, publisher);
@@ -104,7 +106,7 @@ public class PostDetailActivity extends AppCompatActivity {
         comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //should move focus to add comment up-to-date
+                addComment.requestFocus();
             }
         });
 
@@ -117,6 +119,19 @@ public class PostDetailActivity extends AppCompatActivity {
                     Toast.makeText(PostDetailActivity.this, "Please say something.", Toast.LENGTH_SHORT).show();
                 } else {
                     addComment();
+                }
+            }
+        });
+
+        like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(like.getTag().equals("like")) {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
+                            .child(firebaseUser.getUid()).setValue(true);
+                } else {
+                    FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
+                            .child(firebaseUser.getUid()).removeValue();
                 }
             }
         });
@@ -192,7 +207,7 @@ public class PostDetailActivity extends AppCompatActivity {
                           final LinearLayout description_holder, final TextView growth, final TextView tag,
                           final TextView description, final ImageView post_image, final TextView publish_time,
                           final TextView publisher) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child("baby01").child(postid);
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(babyid).child(postid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override

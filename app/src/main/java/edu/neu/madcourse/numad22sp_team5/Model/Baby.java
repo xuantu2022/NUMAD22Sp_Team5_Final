@@ -1,11 +1,11 @@
 package edu.neu.madcourse.numad22sp_team5.Model;
 
 public class Baby {
-    private String babyid;
-    private String nickname;
-    private String dob;
-    private String gender;
-    private String headshot;
+    public String babyid;
+    public String nickname;
+    public String dob;
+    public String gender;
+    public String headshot;
 
     public Baby(String babyid, String nickname, String dob, String gender, String headshot) {
         this.babyid = babyid;

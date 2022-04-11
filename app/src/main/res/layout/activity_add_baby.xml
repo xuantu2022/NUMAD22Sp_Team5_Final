@@ -7,7 +7,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".BabyDetail">
+    tools:context=".AddBabyActivity">
 
 <!--    ImageView needs to get fixed, how to abstract photos-->
 
@@ -140,6 +140,7 @@
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_marginTop="30dp"
+        android:visibility="gone"
         style="?android:attr/progressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -1,5 +1,6 @@
 package edu.neu.madcourse.numad22sp_team5.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
 import com.bumptech.glide.Glide;
@@ -28,21 +30,26 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
+import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.ThroughTimeLineDecorator;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements PostAdapter.OnPostListener {
 
     private RecyclerView recyclerView;
     private PostAdapter postAdapter;
     private List<Post> postLists;
-
-    //private List<String> followingList;
+    private TextView babyName;
 
     private String babyid;
+    private String babyHeadshot;
+    private String nickname;
+
+    //private List<String> followingList;
 
 
 
@@ -57,18 +64,30 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        //get babyid and baby headshot from baby list
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        babyid = mainActivity.getBabyid();
+        babyHeadshot = mainActivity.getHeadshot();
+        nickname = mainActivity.getNickname();
+
+        //set baby name
+        babyName = view.findViewById(R.id.baby_name);
+        babyName.setText(nickname);
+
         //Set icon for FBA
         FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setImageResource(R.drawable.ic_add_items);
 
         //add background pic for home fragment
         StorageReference backgroundRef = FirebaseStorage.getInstance().getReference().child("app_materials/bg1.jpg");
-        StorageReference headshotRef = FirebaseStorage.getInstance().getReference().child("app_materials/baby1.jpeg");
         ImageView background = view.findViewById(R.id.background);
+        Glide.with(this).load(backgroundRef).centerCrop().into(background);
+
+        //set baby headshot
         ImageView headshot = view.findViewById(R.id.headshot);
         //center crop crop picture based on imageview size
-        Glide.with(this).load(backgroundRef).centerCrop().into(background);
-        Glide.with(this).load(headshotRef).centerCrop().into(headshot);
+        Glide.with(this).load(babyHeadshot).centerCrop().into(headshot);
 
         recyclerView = view.findViewById(R.id.post_list);
         recyclerView.setHasFixedSize(true);
@@ -83,7 +102,7 @@ public class HomeFragment extends Fragment {
                 ResourcesCompat.getDrawable(getResources(), R.drawable.shape_line, null),10, 5, 15));
 
         postLists = new ArrayList<>();
-        postAdapter = new PostAdapter(getContext(), postLists);
+        postAdapter = new PostAdapter(getContext(), postLists, this);
         recyclerView.setAdapter(postAdapter);
 
         //checkFollowing();
@@ -134,7 +153,7 @@ public class HomeFragment extends Fragment {
     //add a babyId layer, should come from babyList Intent
     private void readPosts() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Posts")
-                .child("baby01");
+                .child(babyid);
 
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -147,11 +166,6 @@ public class HomeFragment extends Fragment {
                             postLists.add(post);
                     //    }
                     //}
-                }
-                for (Post post: postLists) {
-                    Log.d("post", post.getTag());
-                    Log.d("post", post.getDescription());
-                    Log.d("post", post.getPostImages());
                 }
 
                 postAdapter.notifyDataSetChanged();
@@ -166,6 +180,12 @@ public class HomeFragment extends Fragment {
     }
 
 
-
-
+    @Override
+    public void onPostClick(int position) {
+        Intent intent = new Intent(getActivity(), PostDetailActivity.class);
+        intent.putExtra("postid", postLists.get(position).getPostid());
+        intent.putExtra("babyid", postLists.get(position).getBabyid());
+        intent.putExtra("publisherid", postLists.get(position).getPublisher());
+        startActivity(intent);
+    }
 }
