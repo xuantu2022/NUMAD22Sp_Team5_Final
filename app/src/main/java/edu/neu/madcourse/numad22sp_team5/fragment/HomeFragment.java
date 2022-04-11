@@ -38,6 +38,7 @@ import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.Support.ThroughTimeLineDecorator;
 
 
+
 public class HomeFragment extends Fragment implements PostAdapter.OnPostListener {
 
     private RecyclerView recyclerView;
@@ -51,6 +52,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     FloatingActionButton floatingActionButton;
 
     //private List<String> followingList;
+
 
 
 
