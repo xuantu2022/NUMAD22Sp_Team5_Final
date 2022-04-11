@@ -48,6 +48,8 @@ import java.util.HashMap;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 
+import java.util.ArrayList;
+
 public class PhotoActivity extends AppCompatActivity {
     Uri imageUri;
     String myUrl = "";
@@ -81,7 +83,6 @@ public class PhotoActivity extends AppCompatActivity {
                 Log.i("close", "close_onClick: ");
                 startActivity(new Intent(PhotoActivity.this, MainActivity.class));
                 finish();
-
             }
         });
 
