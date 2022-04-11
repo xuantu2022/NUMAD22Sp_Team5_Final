@@ -71,6 +71,7 @@ public class PhotoActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,35 +93,11 @@ public class PhotoActivity extends AppCompatActivity {
 
         final int PIC_CROP = 1;
 
-//        CropImage.activity().start(PhotoActivity.this);
+
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this);
-//        try {
-//            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-//            // indicate image type and Uri
-//            cropIntent.setDataAndType(imageUri, "image/*");
-//            // set crop properties here
-//            cropIntent.putExtra("crop", true);
-//            // indicate aspect of desired crop
-//            cropIntent.putExtra("aspectX", 1);
-//            cropIntent.putExtra("aspectY", 1);
-//            // indicate output X and Y
-//            cropIntent.putExtra("outputX", 128);
-//            cropIntent.putExtra("outputY", 128);
-//            // retrieve data on return
-//            cropIntent.putExtra("return-data", true);
-//            Log.i("cropIntent", "109");
-//            // start the activity - we handle returning in onActivityResult
-//            startActivityForResult(cropIntent, PIC_CROP);
-//        }
-//        // respond to users whose devices do not support the crop action
-//        catch (ActivityNotFoundException anfe) {
-//            // display an error message
-//            String errorMessage = "Whoops - your device doesn't support the crop action!";
-//            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
+
 
         Log.i("cropAct", "aaaaaa ");
         Log.i("cropAct", "bbb: ");
