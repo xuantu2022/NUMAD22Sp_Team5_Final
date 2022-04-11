@@ -108,7 +108,7 @@
             android:id="@+id/dob"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:text="Date of Birth"
+            android:text="Birthday"
             android:gravity="center_vertical"
             android:textStyle="normal"
             android:textSize="20sp"
