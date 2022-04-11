@@ -149,6 +149,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("babyid", babyid);
                         map.put("nickname", nickname_str);
+                        map.put("ownerid", userid);
                         map.put("dob", dob_str);
                         map.put("headshot", myUri);
                         map.put("gender", gender_picked);

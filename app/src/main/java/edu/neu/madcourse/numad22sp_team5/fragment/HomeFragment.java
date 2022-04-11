@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,7 @@ import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
-import edu.neu.madcourse.numad22sp_team5.ThroughTimeLineDecorator;
+import edu.neu.madcourse.numad22sp_team5.Support.ThroughTimeLineDecorator;
 
 
 public class HomeFragment extends Fragment implements PostAdapter.OnPostListener {

@@ -17,7 +17,6 @@
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
             android:name=".PostDetailActivity"
-            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />

@@ -48,9 +48,10 @@ public class MainActivity extends AppCompatActivity {
         Log.d("babyidmain", babyid);
 
         //enable back button on action bar and hide title
+        /*
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
         //bottom navigation bar selector
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
