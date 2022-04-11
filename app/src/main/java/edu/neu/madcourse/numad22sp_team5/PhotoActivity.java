@@ -48,6 +48,8 @@ import java.util.HashMap;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 
+import java.util.ArrayList;
+
 public class PhotoActivity extends AppCompatActivity {
     Uri imageUri;
     String myUrl = "";
@@ -58,6 +60,7 @@ public class PhotoActivity extends AppCompatActivity {
     TextView post;
     EditText description;
     TextView tag;
+    String babyid;
 
 
 
@@ -65,6 +68,12 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            babyid = extras.getString("babyid");
+        }
+
 
         close = findViewById(R.id.close);
         image_added = findViewById(R.id.image_added);
@@ -81,7 +90,6 @@ public class PhotoActivity extends AppCompatActivity {
                 Log.i("close", "close_onClick: ");
                 startActivity(new Intent(PhotoActivity.this, MainActivity.class));
                 finish();
-
             }
         });
 
@@ -147,11 +155,14 @@ public class PhotoActivity extends AppCompatActivity {
                             String postid = reference.push().getKey();
 
                             HashMap<String,Object> hashMap = new HashMap<>();
+                            hashMap.put("babyid",babyid);
+                            hashMap.put("description",description.getText().toString());
+                            hashMap.put("growth","");
                             hashMap.put("postid",postid);
                             hashMap.put("postImages",myUrl);
-                            hashMap.put("description",description.getText().toString());
                             hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             hashMap.put("tag",tag.getText().toString());
+
                             if(tag.getText().toString().equals("")){
                                 hashMap.put("postType","moments");
                             }else{

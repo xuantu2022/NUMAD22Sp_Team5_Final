@@ -18,6 +18,4 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/btn_photo"
         android:text="Camera" />
-
-
 </RelativeLayout>
