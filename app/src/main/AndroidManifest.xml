@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
+            android:name=".TimelineActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostDetailActivity"
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
@@ -29,7 +32,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".BabyDetail" />
         <activity
             android:name=".BabyListActivity"
@@ -40,11 +42,10 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:parentActivityName=".BabyListActivity">
-        </activity>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+            android:parentActivityName=".BabyListActivity"></activity>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>
