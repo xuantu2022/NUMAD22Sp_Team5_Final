@@ -71,7 +71,7 @@ public class PhotoActivity extends AppCompatActivity {
         description = findViewById(R.id.description);
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
