@@ -19,17 +19,20 @@ public class AlbumHistoryAdapter extends RecyclerView.Adapter<AlbumHistoryAdapte
 
     Context context;
     ArrayList<Post> list;
+    OnAlbumListener listener;
 
-    public AlbumHistoryAdapter(Context context, ArrayList<Post> list) {
+
+    public AlbumHistoryAdapter(Context context, ArrayList<Post> list, OnAlbumListener listener) {
         this.context = context;
         this.list = list;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public AlbumHistoryAdapter.AlbumHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_album, parent, false);
-        return new AlbumHistoryViewHolder(view);
+        return new AlbumHistoryViewHolder(view, listener);
     }
 
     @Override
@@ -44,12 +47,25 @@ public class AlbumHistoryAdapter extends RecyclerView.Adapter<AlbumHistoryAdapte
         return list.size();
     }
 
-    public static class AlbumHistoryViewHolder extends RecyclerView.ViewHolder {
+    public class AlbumHistoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         RoundedImageView roundedImageView;
+        OnAlbumListener onAlbumListener;
 
-        public AlbumHistoryViewHolder(@NonNull View itemView) {
+        public AlbumHistoryViewHolder(@NonNull View itemView, OnAlbumListener onAlbumListener) {
             super(itemView);
             roundedImageView = itemView.findViewById(R.id.roundedImageView_album);
+            this.onAlbumListener = onAlbumListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onAlbumListener.onAlbumClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnAlbumListener {
+        void onAlbumClick(int position);
     }
 }

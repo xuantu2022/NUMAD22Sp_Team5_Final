@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
+            android:name=".AlbumFullImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".AlbumHistoryActivity"
             android:exported="false" />
         <activity
@@ -54,7 +57,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:parentActivityName=".BabyListActivity"></activity>
+            android:parentActivityName=".BabyListActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />

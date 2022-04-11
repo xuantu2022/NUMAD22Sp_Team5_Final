@@ -104,6 +104,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AlbumHistoryActivity.class);
+                intent.putExtra("babyid", "baby01");
                 startActivity(intent);
             }
         });

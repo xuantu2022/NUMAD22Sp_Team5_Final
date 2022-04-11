@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,26 +19,37 @@ import java.util.ArrayList;
 
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 
-public class AlbumHistoryActivity extends AppCompatActivity {
+public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHistoryAdapter.OnAlbumListener {
 
     RecyclerView recyclerView;
     DatabaseReference database;
     AlbumHistoryAdapter adapter;
     ArrayList<Post> list;
     FirebaseAuth mAuth;
+    String babyid;
+    String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_history);
 
+        // get current babyid
+        Intent intent = getIntent();
+        babyid = intent.getStringExtra("babyid");
+
+        // get userid
+        mAuth = FirebaseAuth.getInstance();
+        userid = mAuth.getCurrentUser().getUid();
+
         recyclerView = findViewById(R.id.recyclerView_album);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL));
 
-        database = FirebaseDatabase.getInstance().getReference("Posts/baby01");
+        String path = "Posts/" + babyid;
+        database = FirebaseDatabase.getInstance().getReference(path);
         list = new ArrayList<>();
-        adapter = new AlbumHistoryAdapter(this, list);
+        adapter = new AlbumHistoryAdapter(this, list, this);
         recyclerView.setAdapter(adapter);
         database.addValueEventListener(new ValueEventListener() {
             @Override
@@ -56,5 +68,17 @@ public class AlbumHistoryActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onAlbumClick(int position) {
+        Post post = list.get(position);
+
+        Intent intent = new Intent(getApplicationContext(), AlbumFullImageActivity.class);
+        intent.putExtra("babyid", babyid);
+        intent.putExtra("postid", post.getPostid());
+        intent.putExtra("postImages", post.getPostImages());
+
+        startActivity(intent);
     }
 }
