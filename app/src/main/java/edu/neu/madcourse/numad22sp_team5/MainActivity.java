@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
 
+    //add notification indicator
     View notificationIndicator;
 
 
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_message:
                         selectedFragment = new MessageFragment();
+                        //add notification indicator
                         if(notificationIndicator != null){
                             if(notificationIndicator.getVisibility() == View.VISIBLE){
                                 notificationIndicator.setVisibility(View.GONE);
@@ -80,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
 
+        //add notification indicator
         showNotificationIndicator();
     }
 
+    //add notification indicator
     private void showNotificationIndicator(){
         NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
