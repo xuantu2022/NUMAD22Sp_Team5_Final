@@ -7,12 +7,15 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import androidx.appcompat.widget.Toolbar;
 
 
-
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.navigation.NavigationBarView;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
@@ -24,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     //BottomNavigationView bottomNavigationView;
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
+
+    View notificationIndicator;
+
 
 
     @Override
@@ -51,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_message:
                         selectedFragment = new MessageFragment();
+                        if(notificationIndicator != null){
+                            if(notificationIndicator.getVisibility() == View.VISIBLE){
+                                notificationIndicator.setVisibility(View.GONE);
+                            }
+                        }
                         break;
                     case R.id.nav_setting:
                         selectedFragment = new SettingFragment();
@@ -68,6 +79,16 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
+
+        showNotificationIndicator();
+    }
+
+    private void showNotificationIndicator(){
+        NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
+        notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
+        notificationIndicator.setVisibility(View.VISIBLE);
+        itemView.addView(notificationIndicator);
+
     }
 
     /* disable camera on toolbar
