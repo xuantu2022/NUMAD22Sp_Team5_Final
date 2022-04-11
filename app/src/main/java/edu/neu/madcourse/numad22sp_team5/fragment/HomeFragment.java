@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         //get babyid and baby headshot from baby list
 
         MainActivity mainActivity = (MainActivity) getActivity();
@@ -79,6 +80,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         babyName.setText(nickname);
 
         //Set icon for FBA
+
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setImageResource(R.drawable.ic_add_items);
 
