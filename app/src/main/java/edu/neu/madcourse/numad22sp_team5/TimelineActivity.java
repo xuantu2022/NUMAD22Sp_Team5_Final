@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEvent;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEventAdapter;
@@ -57,8 +58,14 @@ public class TimelineActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eventList.clear();
                 for (DataSnapshot data : snapshot.getChildren()) {
-                    eventList.add(0, new ItemEvent("time", "description"));
+                    String time = data.child("time").getValue().toString();
+                    String publisher = data.child("publisher").getValue().toString();
+                    String type = data.child("postType").getValue().toString();
+                    String description = data.child("description").getValue().toString();
+                    String post_id = data.child("postid").getValue().toString();
+                    eventList.add(0, new ItemEvent(time, "publisher: " + publisher, "post type: " + type, "description: " +description, post_id));
                 }
+                // TODO: sort by time.
                 eventAdapter.notifyDataSetChanged();
             }
 
