@@ -61,9 +61,10 @@ public class PostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
 
+        /*
         getSupportActionBar().setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);*/
 
         Intent intent = getIntent();
         postid = intent.getStringExtra("postid");
@@ -240,7 +241,6 @@ public class PostDetailActivity extends AppCompatActivity {
                 //set description
                 if (post.getDescription() == null) {
                     description_holder.setVisibility(View.GONE);
-                    description_holder.setMinimumHeight(0);
                 } else {
                     description_holder.setVisibility(View.VISIBLE);
                     description.setText(post.getDescription());

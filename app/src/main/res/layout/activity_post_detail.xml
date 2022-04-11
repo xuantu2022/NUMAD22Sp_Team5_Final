@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/grey_0"
     tools:context=".PostDetailActivity">
 
     <LinearLayout
@@ -19,7 +20,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/post_detail_time"
             android:layout_marginEnd="0dp"
-            android:background="@drawable/border"
+            android:layout_marginStart="8dp"
             android:textSize="20sp"
             android:textColor="@color/black"
             android:text="publish time"/>
@@ -27,6 +28,7 @@
         <ImageView
             android:id="@+id/post_detail_image"
             android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
 
@@ -36,6 +38,7 @@
             <LinearLayout
                 android:id="@+id/post_detail_growth_holder"
                 android:layout_width="match_parent"
+                android:layout_marginTop="8dp"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="match_parent"
@@ -86,6 +89,7 @@
 
                     <TextView
                         android:id="@+id/post_detail_tag"
+                        android:layout_marginEnd="5dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -99,6 +103,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:padding="0dp">
 
             <ImageView
@@ -147,15 +152,16 @@
         android:layout_alignParentBottom="true">
 
         <EditText
+            android:id="@+id/add_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Add a comment ..."
-            android:id="@+id/add_comment"
-            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:textSize="20sp"
             android:layout_toLeftOf="@+id/send_comment"
-            android:background="@color/light_grey"/>
+            android:background="@drawable/edittext_background"
+            android:hint="Add a comment ..." />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -23,15 +23,40 @@
         <TextView
             android:id="@+id/name_baby"
             android:layout_width="wrap_content"
-            android:layout_marginTop="7dp"
-            android:text="baby name"
-            android:layout_marginStart="15dp"
-            android:layout_centerVertical="true"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="7dp"
             android:layout_toEndOf="@+id/pic_baby"
+            android:text="baby name"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@+id/name_baby"
+            android:layout_centerVertical="true"
+            android:background="@drawable/edittext_background"
+            app:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/baby_owner"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:text="baby"
+                android:textAlignment="center"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/teal_200"
+                android:textSize="10sp"/>
+
+        </androidx.cardview.widget.CardView>
+
+
 
         <ImageView
             android:layout_width="wrap_content"

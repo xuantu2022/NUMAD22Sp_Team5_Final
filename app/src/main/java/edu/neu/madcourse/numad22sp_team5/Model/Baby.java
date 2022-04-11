@@ -6,9 +6,11 @@ public class Baby {
     public String dob;
     public String gender;
     public String headshot;
+    public String ownerid;
 
-    public Baby(String babyid, String nickname, String dob, String gender, String headshot) {
+    public Baby(String babyid,String ownerid, String nickname, String dob, String gender, String headshot) {
         this.babyid = babyid;
+        this.ownerid = ownerid;
         this.nickname = nickname;
         this.dob = dob;
         this.gender = gender;
@@ -17,6 +19,14 @@ public class Baby {
 
     public Baby() {
 
+    }
+
+    public String getOwnerid() {
+        return ownerid;
+    }
+
+    public void setOwnerid(String ownerid) {
+        this.ownerid = ownerid;
     }
 
     public String getBabyid() {

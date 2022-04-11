@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -42,6 +43,11 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Baby baby = babyList.get(position);
         holder.babyName.setText(baby.getNickname());
+        if (baby.getOwnerid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            holder.babyOwner.setText("My");
+        } else {
+            holder.babyOwner.setVisibility(View.GONE);
+        }
         Glide.with(context).load(baby.getHeadshot()).centerCrop().into(holder.headshot);
     }
 
@@ -53,7 +59,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private ImageView headshot;
-        private TextView babyName;
+        private TextView babyName, babyOwner;
         private OnBabyListener onBabyListener;
 
 
@@ -62,6 +68,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
 
             headshot = itemView.findViewById(R.id.pic_baby);
             babyName = itemView.findViewById(R.id.name_baby);
+            babyOwner = itemView.findViewById(R.id.baby_owner);
             this.onBabyListener = onBabyListener;
 
             itemView.setOnClickListener(this);
