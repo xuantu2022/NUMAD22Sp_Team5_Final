@@ -57,6 +57,7 @@ public class PhotoActivity extends AppCompatActivity {
     ImageView close,image_added;
     TextView post;
     EditText description;
+    TextView tag;
 
 
 
@@ -69,8 +70,10 @@ public class PhotoActivity extends AppCompatActivity {
         image_added = findViewById(R.id.image_added);
         post = findViewById(R.id.post);
         description = findViewById(R.id.description);
+        tag = findViewById(R.id.tag);
 
         storageReference = FirebaseStorage.getInstance().getReference("posts");
+//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,35 +95,11 @@ public class PhotoActivity extends AppCompatActivity {
 
         final int PIC_CROP = 1;
 
-//        CropImage.activity().start(PhotoActivity.this);
+        Log.i("cropAct", "ddddd ");
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
                 .start(this);
-//        try {
-//            Intent cropIntent = new Intent("com.android.camera.action.CROP");
-//            // indicate image type and Uri
-//            cropIntent.setDataAndType(imageUri, "image/*");
-//            // set crop properties here
-//            cropIntent.putExtra("crop", true);
-//            // indicate aspect of desired crop
-//            cropIntent.putExtra("aspectX", 1);
-//            cropIntent.putExtra("aspectY", 1);
-//            // indicate output X and Y
-//            cropIntent.putExtra("outputX", 128);
-//            cropIntent.putExtra("outputY", 128);
-//            // retrieve data on return
-//            cropIntent.putExtra("return-data", true);
-//            Log.i("cropIntent", "109");
-//            // start the activity - we handle returning in onActivityResult
-//            startActivityForResult(cropIntent, PIC_CROP);
-//        }
-//        // respond to users whose devices do not support the crop action
-//        catch (ActivityNotFoundException anfe) {
-//            // display an error message
-//            String errorMessage = "Whoops - your device doesn't support the crop action!";
-//            Toast toast = Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT);
-//            toast.show();
-//        }
+
 
         Log.i("cropAct", "aaaaaa ");
         Log.i("cropAct", "bbb: ");
@@ -169,9 +148,15 @@ public class PhotoActivity extends AppCompatActivity {
 
                             HashMap<String,Object> hashMap = new HashMap<>();
                             hashMap.put("postid",postid);
-                            hashMap.put("postimage",myUrl);
+                            hashMap.put("postImages",myUrl);
                             hashMap.put("description",description.getText().toString());
                             hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            hashMap.put("tag",tag.getText().toString());
+                            if(tag.getText().toString().equals("")){
+                                hashMap.put("postType","moments");
+                            }else{
+                                hashMap.put("postType","milestone");
+                            }
 
                             reference.child(postid).setValue(hashMap);
 
@@ -215,6 +200,40 @@ public class PhotoActivity extends AppCompatActivity {
             finish();
 
         }
+    }
+
+    public void tagButton(View view){
+        switch (view.getId()){
+            case R.id.swim:
+                tag.setText("First Swimming");
+                break;
+            case R.id.walk:
+                tag.setText("First Walking");
+                break;
+            case R.id.medicine:
+                tag.setText("First Taking Medicine");
+                break;
+            case R.id.smile:
+                tag.setText("First Smiling");
+                break;
+            case R.id.flight:
+                tag.setText("First Taking Flight");
+                break;
+            case R.id.shower:
+                tag.setText("First Taking Shower");
+                break;
+            case R.id.nail:
+                tag.setText("First Clipping Nail");
+                break;
+            case R.id.ice:
+                tag.setText("First Eating Ice Cream");
+                break;
+            default:
+                tag.setText("");
+        }
+
+
+
     }
 
 }
