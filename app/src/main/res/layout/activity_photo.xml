@@ -68,6 +68,95 @@
             android:maxLines="5"
             android:id= "@+id/description"
             />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:hint="Tag:First Time For"
+            android:maxLines="5"
+            android:id= "@+id/tag"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/swim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:text="swim" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#C5BEBE"
+                android:id="@+id/walk"
+                android:text="walk"
+                android:layout_toRightOf="@+id/swim"
+                android:layout_marginStart="5dp"
+                android:onClick="tagButton"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#C5BEBE"
+                android:id="@+id/medicine"
+                android:text="Take Medicine"
+                android:layout_toRightOf="@+id/walk"
+                android:layout_marginStart="5dp"
+                android:onClick="tagButton"/>
+
+            <Button
+                android:id="@+id/smile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/swim"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:text="Smile" />
+            <Button
+                android:id="@+id/flight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/smile"
+                android:layout_below="@+id/swim"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:layout_marginStart="5dp"
+                android:text="Flight" />
+            <Button
+                android:id="@+id/shower"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/flight"
+                android:layout_below="@+id/swim"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:layout_marginStart="5dp"
+                android:text="Shower" />
+            <Button
+                android:id="@+id/nail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/shower"
+                android:layout_below="@+id/swim"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:layout_marginStart="5dp"
+                android:text="Clip Nail" />
+            <Button
+                android:id="@+id/ice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/smile"
+                android:backgroundTint="#C5BEBE"
+                android:onClick="tagButton"
+                android:text="Ice Cream" />
+
+
+
+
+        </RelativeLayout>
 
 
 
