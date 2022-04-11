@@ -16,6 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
+            android:name=".TimelineActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostDetailActivity"
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
