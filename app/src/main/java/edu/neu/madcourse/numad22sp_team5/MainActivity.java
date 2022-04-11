@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.widget.Toolbar;
@@ -25,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
 
+    private String babyid;
+    private String headshot;
+    private String nickname;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         /* disable customized toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);*/
+
+        Intent intent = getIntent();
+        babyid = intent.getStringExtra("babyid");
+        headshot = intent.getStringExtra("headshot");
+        nickname = intent.getStringExtra("nickname");
+        Log.d("babyidmain", babyid);
 
         //enable back button on action bar and hide title
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -93,5 +104,17 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }*/
+
+    public String getBabyid() {
+        return babyid;
+    }
+
+    public String  getHeadshot() {
+        return headshot;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
 }
 

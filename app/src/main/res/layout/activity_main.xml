@@ -23,7 +23,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom"/>
+        android:layout_above="@+id/bottom" />
         <!--android:layout_below="@+id/my_toolbar"-->
 
     <com.google.android.material.appbar.AppBarLayout

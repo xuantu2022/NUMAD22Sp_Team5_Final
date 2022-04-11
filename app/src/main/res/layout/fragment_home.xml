@@ -15,8 +15,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButton"
-            tools:src="@drawable/ic_add_items"
-            app:backgroundTint="@color/purple_200"
+            tools:srcCompat="@drawable/ic_add_items"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -64,12 +63,12 @@
                 <TextView
                     android:id="@+id/baby_name"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
-                    android:textSize="20sp"
                     android:layout_toRightOf="@+id/headshot"
-                    android:layout_height="wrap_content"
-                    android:text="Sierra" />
+                    android:text="Sierra"
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"

@@ -17,20 +17,15 @@
         android:theme="@style/Theme.NUMAD22Sp_Team5">
         <activity
             android:name=".PostDetailActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".StartActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".MainActivity"
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".BabyDetail" />
+        <activity android:name=".AddBabyActivity" />
         <activity
             android:name=".BabyListActivity"
             android:exported="false" />
@@ -38,9 +33,15 @@
             android:name=".AddActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
+            android:name=".StartActivity"
+            android:exported="true"
             android:parentActivityName=".BabyListActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
 
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"

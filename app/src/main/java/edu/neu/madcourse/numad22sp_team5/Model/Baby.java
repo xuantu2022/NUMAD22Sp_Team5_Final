@@ -1,16 +1,16 @@
 package edu.neu.madcourse.numad22sp_team5.Model;
 
 public class Baby {
-    private String babyid;
-    private String nickname;
-    private String birthday;
-    private String gender;
-    private String headshot;
+    public String babyid;
+    public String nickname;
+    public String dob;
+    public String gender;
+    public String headshot;
 
-    public Baby(String babyid, String nickname, String birthday, String gender, String headshot) {
+    public Baby(String babyid, String nickname, String dob, String gender, String headshot) {
         this.babyid = babyid;
         this.nickname = nickname;
-        this.birthday = birthday;
+        this.dob = dob;
         this.gender = gender;
         this.headshot = headshot;
     }
@@ -35,12 +35,12 @@ public class Baby {
         this.nickname = nickname;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public String getDob() {
+        return dob;
     }
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
+    public void setDob(String birthday) {
+        this.dob = birthday;
     }
 
     public String getGender() {
