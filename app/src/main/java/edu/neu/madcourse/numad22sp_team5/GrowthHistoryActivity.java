@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,11 +33,8 @@ public class GrowthHistoryActivity extends AppCompatActivity {
     GrowthHistoryAdapter adapter;
     ArrayList<Post> list;
     FirebaseAuth mAuth;
+    TextView addGrowth;
 
-//    // email-User mapping
-//    Map<String, User> userMapping = new HashMap<>();
-//    // email-isFollowingWhichBaby mapping
-//    Map<String, Boolean> isFollowing = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,43 +49,19 @@ public class GrowthHistoryActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         String userid = mAuth.getCurrentUser().getUid();
 
-
+        // add -> connect to addItemActivity
+        addGrowth = findViewById(R.id.textView_addGrowth);
+        addGrowth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(getApplicationContext(), AddItemActivity.class);
+                startActivity(intent1);
+            }
+        });
 
         recyclerView = findViewById(R.id.recyclerView_growth);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        // user mapping
-//        database = FirebaseDatabase.getInstance().getReference("Users");
-//        database.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-//                    User user = dataSnapshot.getValue(User.class);
-//                    if (user != null) {
-//                        userMapping.put(user.getEmail(), user);
-//                    }
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//        // isFollowing mapping
-//        database = FirebaseDatabase.getInstance().getReference("Follow/" + userMapping.get(email).getUsername());
-//        database.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
 
         // check if current user follows baby

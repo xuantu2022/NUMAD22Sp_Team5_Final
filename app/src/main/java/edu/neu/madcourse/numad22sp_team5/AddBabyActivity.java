@@ -39,7 +39,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class BabyDetail extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class AddBabyActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private Button next;
     private EditText nickname, dob;
 
@@ -57,13 +57,15 @@ public class BabyDetail extends AppCompatActivity implements DatePickerDialog.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_baby_detail);
+        setContentView(R.layout.activity_add_baby);
 
         next = findViewById(R.id.next);
         nickname = findViewById(R.id.nickname_input);
         dob = findViewById(R.id.dob_input);
         headshot = findViewById(R.id.headshot);
         progressBar = findViewById(R.id.progressBar);
+
+        headshot.setImageResource(R.drawable.ic_add_items);
 
 
         storageReference = FirebaseStorage.getInstance().getReference("headshots");
@@ -83,7 +85,7 @@ public class BabyDetail extends AppCompatActivity implements DatePickerDialog.On
             public void onClick(View view) {
                 CropImage.activity()
                         .setAspectRatio(1, 1)
-                        .start(BabyDetail.this);
+                        .start(AddBabyActivity.this);
             }
         });
 
@@ -97,7 +99,7 @@ public class BabyDetail extends AppCompatActivity implements DatePickerDialog.On
                 String nickname_str = nickname.getText().toString();
                 String dob_str = dob.getText().toString();
                 if (TextUtils.isEmpty(nickname_str) || TextUtils.isEmpty(dob_str)) {
-                    Toast.makeText(BabyDetail.this, "All fields are required!",
+                    Toast.makeText(AddBabyActivity.this, "All fields are required!",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     addBaby(nickname_str, dob_str);
@@ -147,6 +149,7 @@ public class BabyDetail extends AppCompatActivity implements DatePickerDialog.On
                         HashMap<String, Object> map = new HashMap<>();
                         map.put("babyid", babyid);
                         map.put("nickname", nickname_str);
+                        map.put("ownerid", userid);
                         map.put("dob", dob_str);
                         map.put("headshot", myUri);
                         map.put("gender", gender_picked);
@@ -158,22 +161,22 @@ public class BabyDetail extends AppCompatActivity implements DatePickerDialog.On
                         referenceFollows.child(userid).child(babyid).setValue(true);
 
                         progressBar.setVisibility(View.GONE);
-                        startActivity(new Intent(BabyDetail.this, BabyListActivity.class));
+                        startActivity(new Intent(AddBabyActivity.this, BabyListActivity.class));
                         finish();
                     } else {
-                        Toast.makeText(BabyDetail.this, "Save failed!",
+                        Toast.makeText(AddBabyActivity.this, "Save failed!",
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(BabyDetail.this, e.getMessage(),
+                    Toast.makeText(AddBabyActivity.this, e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            Toast.makeText(BabyDetail.this, "No image selected",
+            Toast.makeText(AddBabyActivity.this, "No image selected",
                     Toast.LENGTH_SHORT).show();
         }
     }

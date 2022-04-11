@@ -33,18 +33,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     public Context mContext;
     public List<Post> mPost;
 
+    private OnPostListener onPostListener;
+
     private FirebaseUser firebaseUser;
 
-    public PostAdapter(Context mContext, List<Post> mPost) {
+    public PostAdapter(Context mContext, List<Post> mPost, OnPostListener onPostListener) {
         this.mContext = mContext;
         this.mPost = mPost;
+        this.onPostListener = onPostListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.post_item, parent, false);
-        return new PostAdapter.ViewHolder(view);
+        return new PostAdapter.ViewHolder(view, onPostListener);
     }
 
     @Override
@@ -61,14 +64,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         } else {
             holder.growth_holder.setVisibility(View.GONE);
         }
-        /*
-        if (post.getGrowth() != null) {
-            holder.growth.setVisibility(View.VISIBLE);
-            holder.growth_holder.setVisibility(View.VISIBLE);
-            holder.growth.setText(post.getGrowth());
-        } else {
-            holder.growth_holder.setVisibility(View.GONE);
-        }*/
 
         //to display tag
         if (post.getPostType().equals("milestone")) {
@@ -89,7 +84,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         //set description
         if (post.getDescription() == null) {
             holder.description_holder.setVisibility(View.GONE);
-            holder.description_holder.setMinimumHeight(0);
         } else {
             holder.description_holder.setVisibility(View.VISIBLE);
             holder.description.setText(post.getDescription());
@@ -101,14 +95,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         //get like status and numbers
 
-        //isLiked(post.getPostid(),holder.like);
+        isLiked(post.getPostid(),holder.like);
         nrLikes(holder.likes, post.getPostid());
         getComments(post.getPostid(),holder.comments);
 
 
 
         //update like number
-        /*
+
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,7 +114,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                             .child(firebaseUser.getUid()).removeValue();
                 }
             }
-        });*/
+        });
+
 
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +123,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", post.getPostid());
                 intent.putExtra("publisherid", post.getPublisher());
+                intent.putExtra("babyid", post.getBabyid());
                 mContext.startActivity(intent);
             }
         });
@@ -138,6 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", post.getPostid());
                 intent.putExtra("publisherid", post.getPublisher());
+                intent.putExtra("babyid", post.getBabyid());
                 mContext.startActivity(intent);
             }
         });
@@ -150,13 +147,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return mPost.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView post_image, like, comment;
         public TextView likes, publisher, description, comments, growth, tag, publish_time;
         public LinearLayout growth_holder, description_holder, tag_holder;
+        private OnPostListener onPostListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnPostListener onPostListener) {
             super(itemView);
 
             post_image = itemView.findViewById(R.id.post_image);
@@ -176,8 +174,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             growth_holder = itemView.findViewById(R.id.growth_holder);
             description_holder = itemView.findViewById(R.id.description_holder);
 
+            this.onPostListener = onPostListener;
+            itemView.setOnClickListener(this);
+
         }
 
+        @Override
+        public void onClick(View view) {
+            onPostListener.onPostClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnPostListener {
+        void onPostClick(int position);
     }
 
     private void getComments(String postid, final TextView comments){

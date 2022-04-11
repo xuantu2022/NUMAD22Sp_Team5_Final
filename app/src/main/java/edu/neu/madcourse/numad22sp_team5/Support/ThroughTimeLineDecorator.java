@@ -1,4 +1,4 @@
-package edu.neu.madcourse.numad22sp_team5;
+package edu.neu.madcourse.numad22sp_team5.Support;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
