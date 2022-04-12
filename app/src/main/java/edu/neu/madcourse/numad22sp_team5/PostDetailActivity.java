@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,8 +133,13 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(like.getTag().equals("like")) {
+
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    String time = dtf.format(now);
+
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
-                            .child(firebaseUser.getUid()).setValue(true);
+                            .child(firebaseUser.getUid()).child("time").setValue(time);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
                             .child(firebaseUser.getUid()).removeValue();
@@ -177,6 +184,12 @@ public class PostDetailActivity extends AppCompatActivity {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Comments").child(postid);
 
         HashMap<String, Object> map = new HashMap<>();
+        //add comment time to database
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time = dtf.format(now);
+        map.put("time", time);
+
         map.put("comment", addComment.getText().toString());
         map.put("publisher", firebaseUser.getUid());
 

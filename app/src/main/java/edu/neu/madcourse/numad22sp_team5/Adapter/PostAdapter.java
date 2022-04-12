@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
@@ -107,8 +109,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onClick(View view) {
                 if(holder.like.getTag().equals("like")) {
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    String time = dtf.format(now);
+
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
-                            .child(firebaseUser.getUid()).setValue(true);
+                            .child(firebaseUser.getUid()).child("time").setValue(time);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
                             .child(firebaseUser.getUid()).removeValue();

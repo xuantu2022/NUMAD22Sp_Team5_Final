@@ -59,7 +59,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     private String nickname;
     FloatingActionButton floatingActionButton;
 
-    //private List<String> followingList;
 
 
     private TextView home_growth;
@@ -176,50 +175,13 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         postAdapter = new PostAdapter(getContext(), postLists, this);
         recyclerView.setAdapter(postAdapter);
 
-        //checkFollowing();
 
-
-        //get value pass from activity use bundle or create a method
-        //Bundle bundle = new Bundle();
-        //bundle.putString("babyid", "baby01");
-        //// set Fragmentclass Arguments
-        //Fragmentclass fragobj = new Fragmentclass();
-        //fragobj.setArguments(bundle);
-        //https://stackoverflow.com/questions/12739909/send-data-from-activity-to-fragment-in-android
-
-        // disable for temp
-        // babyid = getArguments().getString("babyid");
         readPosts();
 
         // Inflate the layout for this fragment
         return view;
     }
 
-    //do not need this part
-    /*
-    private void checkFollowing() {
-        followingList = new ArrayList<>();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow")
-                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .child("following");
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                followingList.clear();
-                for(DataSnapshot data: snapshot.getChildren()) {
-                    followingList.add(data.getKey());
-                }
-                readPosts();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }*/
 
     //add a babyId layer, should come from babyList Intent
     private void readPosts() {
