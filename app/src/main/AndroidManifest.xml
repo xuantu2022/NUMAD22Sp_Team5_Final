@@ -19,6 +19,24 @@
             android:name=".TimelineActivity"
             android:exported="false" />
         <activity
+            android:name=".AlbumFullImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AlbumHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FamilySearchContainerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FamilyPageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MilestoneHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GrowthHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".PostDetailActivity"
             android:exported="false" />
         <activity android:name=".RegisterActivity" />
@@ -26,7 +44,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
-
         <activity android:name=".AddBabyActivity" />
         <activity
             android:name=".BabyListActivity"
@@ -34,14 +51,12 @@
         <activity
             android:name=".AddActivity"
             android:exported="false" />
-
         <activity
             android:name=".PhotoActivity"
             android:exported="false"/>
         <activity
             android:name=".AddItemActivity"
             android:exported="false"/>
-
         <activity
             android:name=".StartActivity"
             android:exported="true"
