@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
+
     // Generates a list of babies that the user is following.
     private void readNotification() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -60,7 +62,8 @@ public class MessageFragment extends Fragment {
                     if (follow) {
                         String baby_id = followSnapshot.getKey();
                         String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
-                        messages.add(0, new ItemMessage(baby_id, nickname));
+                        String headshot = dataSnapshot.child("Babys").child(baby_id).child("headshot").getValue().toString();
+                        messages.add(0, new ItemMessage(baby_id, nickname, headshot));
                     }
                 }
 
@@ -84,8 +87,8 @@ public class MessageFragment extends Fragment {
         messageView.setAdapter(messageAdapter);
     }
 
-    private void addMessage(int position, String babyId, String nickname) {
-        messages.add(position, new ItemMessage(babyId, nickname));
-        messageAdapter.notifyItemInserted(position);
-    }
+//    private void addMessage(int position, String babyId, String nickname) {
+//        messages.add(position, new ItemMessage(babyId, nickname, headshot));
+//        messageAdapter.notifyItemInserted(position);
+//    }
 }

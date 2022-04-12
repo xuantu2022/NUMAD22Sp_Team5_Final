@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +43,9 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
         ItemMessage currentItem = itemList.get(position);
         holder.nickName.setText(currentItem.getNickname());
         holder.unread.setVisibility(View.GONE);
+
+
+        Glide.with(mContext).load(currentItem.getHeadshot()).centerCrop().into(holder.headshot);
 
         ItemMessage message = itemList.get(position);
 
