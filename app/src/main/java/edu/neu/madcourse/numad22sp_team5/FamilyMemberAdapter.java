@@ -1,7 +1,6 @@
 package edu.neu.madcourse.numad22sp_team5;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +42,6 @@ public class FamilyMemberAdapter extends RecyclerView.Adapter<FamilyMemberAdapte
         holder.family_email.setText(user.getEmail());
 
         if (user.getId() != null && user.getId().equals(firebaseUser.getUid())) {
-            Log.i("db-debug", "a me:" + user.getId());
             holder.family_me.setVisibility(View.VISIBLE);
         }
     }

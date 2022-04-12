@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,7 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import edu.neu.madcourse.numad22sp_team5.Model.User;
@@ -45,13 +43,29 @@ public class FamilyPageActivity extends AppCompatActivity {
         // get current babyid
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
-        //Log.i("db-debug", "family page baby id: " + babyid);
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
         userid = mAuth.getCurrentUser().getUid();
 
         family_add = findViewById(R.id.textView_family_add);
+
+        // check if current user is baby owner, if not, add button will be gone
+        database = FirebaseDatabase.getInstance().getReference("Babys/" + babyid).child("ownerid");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String ownerid = (String) snapshot.getValue();
+                if (!ownerid.equals(userid)) {
+                    family_add.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         family_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

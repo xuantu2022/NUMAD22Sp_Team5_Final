@@ -1,6 +1,5 @@
 package edu.neu.madcourse.numad22sp_team5.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,13 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,8 +41,6 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // get baby id by intent
         String babyId = getActivity().getIntent().getExtras().getString("babyid");
-        Log.i("db-debug", "search fragment baby id:" + babyId);
-        //String babyId = "baby01";
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
