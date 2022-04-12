@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddGrowthActivity">
+
+    <TextView
+        android:id="@+id/growth_text"
+        android:layout_width="141dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="46dp"
+        android:text="Record Baby Growth" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/growth_text"
+        android:layout_marginStart="47dp"
+        android:id="@+id/height"
+        android:hint="height: cm"/>
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/height"
+        android:layout_marginStart="47dp"
+        android:id="@+id/weight"
+        android:hint="weight: kg"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weight"
+        android:layout_marginStart="47dp"
+        android:text="Post"
+        android:id="@+id/growth_post"/>
+
+
+
+
+</RelativeLayout>
