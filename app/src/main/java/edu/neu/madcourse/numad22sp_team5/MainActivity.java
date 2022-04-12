@@ -98,6 +98,16 @@ public class MainActivity extends AppCompatActivity {
         showNotificationIndicator();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.nav_home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     //add notification indicator
     private void showNotificationIndicator(){
         NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);

@@ -28,6 +28,7 @@ public class AddItemActivity extends AppCompatActivity {
 
                 openPhotoAct();
 
+
             }
         });
     }
@@ -36,6 +37,8 @@ public class AddItemActivity extends AppCompatActivity {
         Intent intent = new Intent(this, PhotoActivity.class);
         intent.putExtra("babyid",babyid);
         startActivity(intent);
+        //finish this activity
+        finish();
 
 
     }

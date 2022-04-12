@@ -92,7 +92,8 @@ public class PhotoActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Log.i("close", "close_onClick: ");
-                startActivity(new Intent(PhotoActivity.this, MainActivity.class));
+
+                //startActivity(new Intent(PhotoActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -182,7 +183,7 @@ public class PhotoActivity extends AppCompatActivity {
 
                             progressDialog.dismiss();
 
-                            startActivity(new Intent(PhotoActivity.this,MainActivity.class));
+                            //startActivity(new Intent(PhotoActivity.this, MainActivity.class));
                             finish();
 
                         }else{
