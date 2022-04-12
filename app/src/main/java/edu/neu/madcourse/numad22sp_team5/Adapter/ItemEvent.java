@@ -9,7 +9,8 @@ public class ItemEvent {
     private String description;
     private String postId;
 
-    public ItemEvent(String babyid, String publisherName, String time, String publisher, String type, String description, String postId) {
+    public ItemEvent(String babyid, String publisherName, String time, String publisher,
+                     String type, String description, String postId) {
         this.babyid = babyid;
         this.time = time;
         this.publisher = publisher;

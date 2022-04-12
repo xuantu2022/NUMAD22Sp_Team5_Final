@@ -81,7 +81,7 @@ public class TimelineActivity extends AppCompatActivity {
                     publisher_id_to_name.put(publisher, publisherName);
                     user_id_to_name.put(publisher, publisherName);
                     post_id_list.add(post_id);
-                    eventList.add(0, new ItemEvent(baby_id, "publisher: " + publisherName, time, publisher, "type: post", "description: " +description, post_id));
+                    eventList.add(0, new ItemEvent(baby_id, "New post from " + publisherName, time, publisher, "Post type: " + type, "Description: " + description, post_id));
                 }
                 for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
                     String post_id = comment_snapshot.getKey().toString();
@@ -90,7 +90,8 @@ public class TimelineActivity extends AppCompatActivity {
                         for (DataSnapshot comments : comment_snapshot.getChildren()) {
                             String comment_detail = comments.child("comment").getValue().toString();
                             String comment_publisher = comments.child("publisher").getValue().toString();
-                            eventList.add(0, new ItemEvent(baby_id, "Publisher: " + publisher_id_to_name.get(comment_publisher), "no time", comment_publisher, "type: comments", "comment detail: " + comment_detail, post_id ));
+                            String comment_time = comments.child("time").getValue().toString();
+                            eventList.add(0, new ItemEvent(baby_id, "New comment from " + publisher_id_to_name.get(comment_publisher), comment_time, comment_publisher,"type: comment", "Comment detail: " + comment_detail, post_id ));
                         }
                     }
                 }
@@ -100,7 +101,8 @@ public class TimelineActivity extends AppCompatActivity {
                     if (post_id_list.contains(post_id)) {
                         for (DataSnapshot users : like_snapshot.getChildren()) {
                             String user_id = users.getKey().toString();
-                            eventList.add(0, new ItemEvent(baby_id, "Liked by: " + user_id_to_name.get(user_id), "no time", user_id, "type: like", "user " + user_id_to_name.get(user_id) + " liked your post", post_id));
+                            String like_time = users.child("time").getValue().toString();
+                            eventList.add(0, new ItemEvent(baby_id, "New like by " + user_id_to_name.get(user_id), like_time, user_id, "type: like", "User " + user_id_to_name.get(user_id) + " liked your post", post_id));
                         }
                     }
                 }
