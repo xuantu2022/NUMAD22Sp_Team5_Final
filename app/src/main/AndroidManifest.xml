@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="edu.neu.madcourse.numad22sp_team5">
+    package="edu.neu.madcourse.numad22sp_team5" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,7 +14,10 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_footprint_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.NUMAD22Sp_Team5">
+        android:theme="@style/Theme.NUMAD22Sp_Team5" >
+        <activity
+            android:name=".AddGrowthActivity"
+            android:exported="false" />
         <activity
             android:name=".TimelineActivity"
             android:exported="false" />
@@ -43,31 +46,30 @@
         <activity android:name=".LoginActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity android:name=".AddBabyActivity" />
         <activity
             android:name=".BabyListActivity"
             android:exported="false" />
         <activity
             android:name=".PhotoActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".AddItemActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".StartActivity"
             android:exported="true"
-            android:parentActivityName=".BabyListActivity">
-
+            android:parentActivityName=".BabyListActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/>
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
 </manifest>

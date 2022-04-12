@@ -184,8 +184,7 @@ public class PhotoActivity extends AppCompatActivity {
                                 hashMap.put("postType","milestone");
                             }
 
-                            System.out.println("babyid=" + babyid);
-                            System.out.println("postid=" + postid);
+
 
                             HashMap<String,Object> postHash = new HashMap<>();
                             postHash.put(postid, hashMap);
