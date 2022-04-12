@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessage;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessageAdapter;
@@ -42,24 +43,24 @@ public class MessageFragment extends Fragment {
         createMessageView(view);
 
         readNotification();
-        // addMessage(0, "System notification");
+        // addMessage(0, "System notification", "nickname");
         return view;
     }
 
     // Generates a list of babies that the user is following.
     private void readNotification() {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        // TODO: Replace user01 by firebaseUser.userid.
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Follow").child("user01");
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // messages.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    boolean follow = (boolean) snapshot.getValue();
+                messages.clear();
+                for (DataSnapshot followSnapshot : dataSnapshot.child("Follow").child(firebaseUser.getUid()).getChildren()) {
+                    boolean follow = (boolean) followSnapshot.getValue();
                     if (follow) {
-                        String baby_id = snapshot.getKey();
-                        messages.add(0, new ItemMessage(baby_id));
+                        String baby_id = followSnapshot.getKey();
+                        String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
+                        messages.add(0, new ItemMessage(baby_id, nickname));
                     }
                 }
 
@@ -83,8 +84,8 @@ public class MessageFragment extends Fragment {
         messageView.setAdapter(messageAdapter);
     }
 
-    private void addMessage(int position, String name) {
-        messages.add(position, new ItemMessage(name));
+    private void addMessage(int position, String babyId, String nickname) {
+        messages.add(position, new ItemMessage(babyId, nickname));
         messageAdapter.notifyItemInserted(position);
     }
 }

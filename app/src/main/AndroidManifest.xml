@@ -24,28 +24,38 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity
-            android:name=".StartActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:name=".MainActivity"
+            android:exported="false"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".BabyDetail" />
+        <activity android:name=".AddBabyActivity" />
         <activity
             android:name=".BabyListActivity"
             android:exported="false" />
         <activity
             android:name=".AddActivity"
             android:exported="false" />
+
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:parentActivityName=".BabyListActivity"></activity>
+            android:name=".PhotoActivity"
+            android:exported="false"/>
         <activity
-            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat" />
+            android:name=".AddItemActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".StartActivity"
+            android:exported="true"
+            android:parentActivityName=".BabyListActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
 
 </manifest>

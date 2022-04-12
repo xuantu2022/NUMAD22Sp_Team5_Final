@@ -7,8 +7,12 @@ import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import androidx.appcompat.widget.Toolbar;
 
 
@@ -25,6 +29,14 @@ public class MainActivity extends AppCompatActivity {
     NavigationBarView navigationBarView;
     Fragment selectedFragment = null;
 
+    //add notification indicator
+    View notificationIndicator;
+
+
+    private String babyid;
+    private String headshot;
+    private String nickname;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +48,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);*/
 
+        Intent intent = getIntent();
+        babyid = intent.getStringExtra("babyid");
+        headshot = intent.getStringExtra("headshot");
+        nickname = intent.getStringExtra("nickname");
+        Log.d("babyidmain", babyid);
+
         //enable back button on action bar and hide title
+        /*
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);*/
 
         //bottom navigation bar selector
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
@@ -51,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_message:
                         selectedFragment = new MessageFragment();
+                        //add notification indicator
+                        if(notificationIndicator != null){
+                            if(notificationIndicator.getVisibility() == View.VISIBLE){
+                                notificationIndicator.setVisibility(View.GONE);
+                            }
+                        }
                         break;
                     case R.id.nav_setting:
                         selectedFragment = new SettingFragment();
@@ -68,6 +93,18 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
+
+        //add notification indicator
+        showNotificationIndicator();
+    }
+
+    //add notification indicator
+    private void showNotificationIndicator(){
+        NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
+        notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
+        notificationIndicator.setVisibility(View.VISIBLE);
+        itemView.addView(notificationIndicator);
+
     }
 
     /* disable camera on toolbar
@@ -93,5 +130,17 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }*/
+
+    public String getBabyid() {
+        return babyid;
+    }
+
+    public String  getHeadshot() {
+        return headshot;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
 }
 

@@ -34,7 +34,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
         ItemEvent currentEvent = eventList.get(position);
         holder.eventType.setText(currentEvent.getType());
         holder.eventTime.setText(currentEvent.getTime());
-        holder.eventPublisher.setText(currentEvent.getPublisher());
+        holder.eventPublisher.setText(currentEvent.getPublisherName());
         holder.eventDescription.setText(currentEvent.getDescription());
 
         ItemEvent event = eventList.get(position);
@@ -44,6 +44,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", event.getPostId());
+                intent.putExtra("babyid", event.getBabyid());
                 intent.putExtra("publisherid", event.getPublisher());
                 mContext.startActivity(intent);
             }
@@ -54,6 +55,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", event.getPostId());
+                intent.putExtra("babyid", event.getBabyid());
                 intent.putExtra("publisherid", event.getPublisher());
                 mContext.startActivity(intent);
             }
@@ -64,6 +66,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", event.getPostId());
+                intent.putExtra("babyid", event.getBabyid());
                 intent.putExtra("publisherid", event.getPublisher());
                 mContext.startActivity(intent);
             }
@@ -74,6 +77,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
                 intent.putExtra("postid", event.getPostId());
+                intent.putExtra("babyid", event.getBabyid());
                 intent.putExtra("publisherid", event.getPublisher());
                 mContext.startActivity(intent);
             }
