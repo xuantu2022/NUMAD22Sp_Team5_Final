@@ -69,10 +69,14 @@ public class PhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photo);
 
+
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             babyid = extras.getString("babyid");
+            Log.i("babyid from extras: %s", babyid);
         }
+
+
 
 
         close = findViewById(R.id.close);
@@ -151,8 +155,8 @@ public class PhotoActivity extends AppCompatActivity {
                             myUrl = downloadUri.toString();
 
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
-
                             String postid = reference.push().getKey();
+
 
                             HashMap<String,Object> hashMap = new HashMap<>();
                             hashMap.put("babyid",babyid);
@@ -169,7 +173,12 @@ public class PhotoActivity extends AppCompatActivity {
                                 hashMap.put("postType","milestone");
                             }
 
-                            reference.child(postid).setValue(hashMap);
+                            System.out.println("babyid=" + babyid);
+                            System.out.println("postid=" + postid);
+
+                            HashMap<String,Object> postHash = new HashMap<>();
+                            postHash.put(postid, hashMap);
+                            reference.child(babyid).updateChildren(postHash);
 
                             progressDialog.dismiss();
 

@@ -46,6 +46,7 @@ import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.Support.ThroughTimeLineDecorator;
 
 
+
 public class HomeFragment extends Fragment implements PostAdapter.OnPostListener {
 
     private RecyclerView recyclerView;
@@ -66,6 +67,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     private TextView home_family;
     private TextView home_album;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +79,14 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         //get babyid and baby headshot from baby list
 
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
+
+
+        System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
         nickname = mainActivity.getNickname();
 
@@ -132,6 +138,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
 
         //Set icon for FBA
+
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         floatingActionButton.setImageResource(R.drawable.ic_add_items);
 
