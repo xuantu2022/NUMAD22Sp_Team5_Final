@@ -49,9 +49,6 @@
             android:name=".BabyListActivity"
             android:exported="false" />
         <activity
-            android:name=".AddActivity"
-            android:exported="false" />
-        <activity
             android:name=".PhotoActivity"
             android:exported="false"/>
         <activity
