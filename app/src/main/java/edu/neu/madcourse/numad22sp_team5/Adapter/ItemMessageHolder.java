@@ -16,6 +16,7 @@ public class ItemMessageHolder extends RecyclerView.ViewHolder {
     public ImageView unread;
     public boolean onCreate = true;
 
+
     public ItemMessageHolder(View itemView) {
         super(itemView);
         headshot = itemView.findViewById(R.id.pic_baby);

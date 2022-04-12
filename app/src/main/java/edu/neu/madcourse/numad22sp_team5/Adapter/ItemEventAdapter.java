@@ -39,7 +39,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
 
         ItemEvent event = eventList.get(position);
 
-        holder.eventDescription.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, PostDetailActivity.class);
@@ -50,38 +50,38 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
             }
         });
 
-        holder.eventType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, PostDetailActivity.class);
-                intent.putExtra("postid", event.getPostId());
-                intent.putExtra("babyid", event.getBabyid());
-                intent.putExtra("publisherid", event.getPublisher());
-                mContext.startActivity(intent);
-            }
-        });
-
-        holder.eventPublisher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, PostDetailActivity.class);
-                intent.putExtra("postid", event.getPostId());
-                intent.putExtra("babyid", event.getBabyid());
-                intent.putExtra("publisherid", event.getPublisher());
-                mContext.startActivity(intent);
-            }
-        });
-
-        holder.eventTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, PostDetailActivity.class);
-                intent.putExtra("postid", event.getPostId());
-                intent.putExtra("babyid", event.getBabyid());
-                intent.putExtra("publisherid", event.getPublisher());
-                mContext.startActivity(intent);
-            }
-        });
+//        holder.eventType.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, PostDetailActivity.class);
+//                intent.putExtra("postid", event.getPostId());
+//                intent.putExtra("babyid", event.getBabyid());
+//                intent.putExtra("publisherid", event.getPublisher());
+//                mContext.startActivity(intent);
+//            }
+//        });
+//
+//        holder.eventPublisher.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, PostDetailActivity.class);
+//                intent.putExtra("postid", event.getPostId());
+//                intent.putExtra("babyid", event.getBabyid());
+//                intent.putExtra("publisherid", event.getPublisher());
+//                mContext.startActivity(intent);
+//            }
+//        });
+//
+//        holder.eventTime.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(mContext, PostDetailActivity.class);
+//                intent.putExtra("postid", event.getPostId());
+//                intent.putExtra("babyid", event.getBabyid());
+//                intent.putExtra("publisherid", event.getPublisher());
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
     @Override

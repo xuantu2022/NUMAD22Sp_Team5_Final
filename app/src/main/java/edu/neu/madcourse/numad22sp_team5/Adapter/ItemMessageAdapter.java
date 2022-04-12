@@ -26,6 +26,7 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
     private Context mContext;
     private ArrayList<ItemMessage> itemList;
 
+
     //Constructor
     public ItemMessageAdapter(Context context, ArrayList<ItemMessage> itemList) {
         this.mContext = context;
@@ -65,7 +66,8 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
             }
         });
 
-        holder.nickName.setOnClickListener(new View.OnClickListener() {
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.unread.setVisibility(View.GONE);
