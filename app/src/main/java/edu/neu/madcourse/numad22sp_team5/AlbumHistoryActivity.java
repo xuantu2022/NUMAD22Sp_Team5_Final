@@ -78,6 +78,7 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
         intent.putExtra("babyid", babyid);
         intent.putExtra("postid", post.getPostid());
         intent.putExtra("postImages", post.getPostImages());
+        intent.putExtra("publisher", post.getPublisher());
 
         startActivity(intent);
     }
