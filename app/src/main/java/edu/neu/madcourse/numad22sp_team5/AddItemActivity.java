@@ -11,6 +11,7 @@ import android.content.Intent;
 
 public class AddItemActivity extends AppCompatActivity {
     Button photo;
+    Button growth;
     String babyid;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +32,16 @@ public class AddItemActivity extends AppCompatActivity {
 
             }
         });
+
+        growth = findViewById(R.id.btn_growth);
+        growth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openGrowthAct();
+            }
+        });
+
+
     }
 
     public void openPhotoAct(){
@@ -41,5 +52,12 @@ public class AddItemActivity extends AppCompatActivity {
         finish();
 
 
+    }
+
+    public void openGrowthAct(){
+        Intent i = new Intent(this,AddGrowthActivity.class);
+        i.putExtra("babyid",babyid);
+        startActivity(i);
+        finish();
     }
 }
