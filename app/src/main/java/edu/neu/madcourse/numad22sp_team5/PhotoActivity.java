@@ -30,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -43,8 +44,12 @@ import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Calendar;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 
@@ -61,6 +66,7 @@ public class PhotoActivity extends AppCompatActivity {
     EditText description;
     TextView tag;
     String babyid;
+    Date currentTime;
 
 
 
@@ -157,6 +163,9 @@ public class PhotoActivity extends AppCompatActivity {
 
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
                             String postid = reference.push().getKey();
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            String time = dtf.format(now);
 
 
                             HashMap<String,Object> hashMap = new HashMap<>();
@@ -167,6 +176,7 @@ public class PhotoActivity extends AppCompatActivity {
                             hashMap.put("postImages",myUrl);
                             hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             hashMap.put("tag",tag.getText().toString());
+                            hashMap.put("time",time);
 
                             if(tag.getText().toString().equals("")){
                                 hashMap.put("postType","moments");
