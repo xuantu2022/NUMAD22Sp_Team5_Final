@@ -4,14 +4,16 @@ public class ItemEvent {
     private String babyid;
     private String time;
     private String publisher;
+    private String publisherName;
     private String type;
     private String description;
     private String postId;
 
-    public ItemEvent(String babyid, String time, String publisher, String type, String description, String postId) {
+    public ItemEvent(String babyid, String publisherName, String time, String publisher, String type, String description, String postId) {
         this.babyid = babyid;
         this.time = time;
         this.publisher = publisher;
+        this.publisherName = publisherName;
         this.type = type;
         this.description = description;
         this.postId = postId;
@@ -19,6 +21,10 @@ public class ItemEvent {
 
     public String getBabyid() {
         return babyid;
+    }
+
+    public String getPublisherName() {
+        return publisherName;
     }
 
     public String getPublisher() {
