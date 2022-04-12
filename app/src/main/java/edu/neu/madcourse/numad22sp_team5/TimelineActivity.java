@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEvent;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEventAdapter;
@@ -33,6 +34,7 @@ public class TimelineActivity extends AppCompatActivity {
     private HashMap<String, String> post_id_to_publisher = new HashMap<>();
     private HashMap<String, String> publisher_id_to_name = new HashMap<>();
     private HashMap<String, String> user_id_to_name = new HashMap<>();
+    private HashSet<String> post_id_list = new HashSet<>();
     private ArrayList<ItemEvent> eventList = new ArrayList<>();
 
     private RecyclerView eventView;
@@ -67,6 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
                 post_id_to_publisher.clear();
                 publisher_id_to_name.clear();
                 user_id_to_name.clear();
+                post_id_list.clear();
                 for (DataSnapshot data : snapshot.child("Posts").child(baby_id).getChildren()) {
                     String post_id = data.getKey().toString();
                     String time = data.child("time").getValue().toString();
@@ -77,11 +80,13 @@ public class TimelineActivity extends AppCompatActivity {
                     post_id_to_publisher.put(post_id, publisher);
                     publisher_id_to_name.put(publisher, publisherName);
                     user_id_to_name.put(publisher, publisherName);
+                    post_id_list.add(post_id);
                     eventList.add(0, new ItemEvent(baby_id, "publisher: " + publisherName, time, publisher, "type: post", "description: " +description, post_id));
                 }
                 for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
                     String post_id = comment_snapshot.getKey().toString();
-                    if (post_id_to_publisher.get(post_id) == firebaseUser.getUid()) {
+                    // if(post_id_to_publisher.get(post_id) == firebaseUser.getUid())
+                    if (post_id_list.contains(post_id)) {
                         for (DataSnapshot comments : comment_snapshot.getChildren()) {
                             String comment_detail = comments.child("comment").getValue().toString();
                             String comment_publisher = comments.child("publisher").getValue().toString();
@@ -91,7 +96,8 @@ public class TimelineActivity extends AppCompatActivity {
                 }
                 for (DataSnapshot like_snapshot : snapshot.child("Likes").getChildren()) {
                     String post_id = like_snapshot.getKey().toString();
-                    if (post_id_to_publisher.get(post_id) == firebaseUser.getUid()) {
+                    // if (post_id_to_publisher.get(post_id) == firebaseUser.getUid())
+                    if (post_id_list.contains(post_id)) {
                         for (DataSnapshot users : like_snapshot.getChildren()) {
                             String user_id = users.getKey().toString();
                             eventList.add(0, new ItemEvent(baby_id, "Liked by: " + user_id_to_name.get(user_id), "no time", user_id, "type: like", "user " + user_id_to_name.get(user_id) + " liked your post", post_id));
