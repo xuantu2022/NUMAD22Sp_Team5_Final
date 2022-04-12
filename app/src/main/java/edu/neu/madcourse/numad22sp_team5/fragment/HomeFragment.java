@@ -9,11 +9,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.bumptech.glide.Glide;
@@ -29,6 +31,12 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.neu.madcourse.numad22sp_team5.AlbumHistoryActivity;
+import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
+import edu.neu.madcourse.numad22sp_team5.FamilyPageActivity;
+import edu.neu.madcourse.numad22sp_team5.GrowthHistoryActivity;
+import edu.neu.madcourse.numad22sp_team5.MainActivity;
+import edu.neu.madcourse.numad22sp_team5.MilestoneHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Adapter.PostAdapter;
@@ -36,6 +44,7 @@ import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.AddItemActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.Support.ThroughTimeLineDecorator;
+
 
 
 public class HomeFragment extends Fragment implements PostAdapter.OnPostListener {
@@ -53,6 +62,11 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     //private List<String> followingList;
 
 
+    private TextView home_growth;
+    private TextView home_milestone;
+    private TextView home_family;
+    private TextView home_album;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,10 +79,14 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+
         //get babyid and baby headshot from baby list
 
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
+
+
+        System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
         nickname = mainActivity.getNickname();
 
@@ -76,9 +94,53 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         babyName = view.findViewById(R.id.baby_name);
         babyName.setText(nickname);
 
+        // add onclick for history display
+        home_growth = view.findViewById(R.id.growth);
+        home_growth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), GrowthHistoryActivity.class);
+                intent.putExtra("babyid", babyid);
+                startActivity(intent);
+            }
+        });
+
+        home_milestone = view.findViewById(R.id.milestone);
+        home_milestone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MilestoneHistoryActivity.class);
+                intent.putExtra("babyid", babyid);
+                startActivity(intent);
+            }
+        });
+
+        home_family = view.findViewById(R.id.family);
+        home_family.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), FamilyPageActivity.class);
+                intent.putExtra("babyid", babyid);
+                startActivity(intent);
+            }
+        });
+
+        home_album = view.findViewById(R.id.album);
+        home_album.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AlbumHistoryActivity.class);
+                intent.putExtra("babyid", babyid);
+                startActivity(intent);
+            }
+        });
+
+
+
         //Set icon for FBA
+
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
-        floatingActionButton.setImageResource(R.drawable.ic_add_items);
+        floatingActionButton.setImageResource(R.drawable.ic_add);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,7 +1,5 @@
 package edu.neu.madcourse.numad22sp_team5.Model;
 
-
-
 public class Post {
     public String postid;
     public String babyid;
@@ -64,6 +62,7 @@ public class Post {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+
 
     public void setGrowth(String growth) {
         this.growth = growth;

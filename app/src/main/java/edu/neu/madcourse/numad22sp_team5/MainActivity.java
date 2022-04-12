@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         babyid = intent.getStringExtra("babyid");
         headshot = intent.getStringExtra("headshot");
         nickname = intent.getStringExtra("nickname");
-        Log.d("babyidmain", babyid);
+//        Log.d("babyidmain", babyid);
 
         //enable back button on action bar and hide title
         /*
@@ -152,6 +152,16 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.nav_home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     //add notification indicator
     private void showNotificationIndicator() {
         if (onCreate > 3) {
@@ -187,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         return babyid;
     }
 
-    public String  getHeadshot() {
+    public String getHeadshot() {
         return headshot;
     }
 
