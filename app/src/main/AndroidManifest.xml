@@ -52,6 +52,12 @@
             android:name=".AddActivity"
             android:exported="false" />
         <activity
+            android:name=".PhotoActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".AddItemActivity"
+            android:exported="false"/>
+        <activity
             android:name=".StartActivity"
             android:exported="true"
             android:parentActivityName=".BabyListActivity">

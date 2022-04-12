@@ -22,15 +22,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="3dp"
-                android:text="Date "
-                android:textSize="16sp" />
+                android:text="Date: "
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textView_date_growth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
         </LinearLayout>
 
@@ -42,16 +42,17 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Growth Info: "
+                android:text="Info: "
                 android:padding="3dp"
-                android:textSize="16sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/textView_babyinfo_growth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="italic"/>
 
         </LinearLayout>
 
