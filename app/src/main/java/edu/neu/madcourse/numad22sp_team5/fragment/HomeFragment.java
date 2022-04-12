@@ -140,7 +140,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         //Set icon for FBA
 
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
-        floatingActionButton.setImageResource(R.drawable.ic_add_items);
+        floatingActionButton.setImageResource(R.drawable.ic_add);
 
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
