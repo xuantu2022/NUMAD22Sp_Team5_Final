@@ -6,7 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -34,12 +41,30 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
     public void onBindViewHolder(ItemMessageHolder holder, int position) {
         ItemMessage currentItem = itemList.get(position);
         holder.nickName.setText(currentItem.getNickname());
+        holder.unread.setVisibility(View.GONE);
 
         ItemMessage message = itemList.get(position);
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(message.getBabyId());
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (!holder.onCreate) {
+                    holder.unread.setVisibility(View.VISIBLE);
+                }
+                holder.onCreate = false;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         holder.nickName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                holder.unread.setVisibility(View.GONE);
                 Intent intent = new Intent(mContext, TimelineActivity.class);
                 intent.putExtra("baby_id", message.getBabyId());
                 mContext.startActivity(intent);

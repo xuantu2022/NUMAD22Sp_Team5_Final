@@ -18,6 +18,11 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.MessageFragment;
@@ -36,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private String babyid;
     private String headshot;
     private String nickname;
+    private int onCreate = 0;
 
 
     @Override
@@ -94,17 +100,63 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new HomeFragment()).commit();
 
-        //add notification indicator
-        showNotificationIndicator();
+        NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
+        notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
+        notificationIndicator.setVisibility(View.GONE);
+        itemView.addView(notificationIndicator);
+
+        initNotificationIndicator();
+
+        // showNotificationIndicator();
+    }
+
+    private void initNotificationIndicator() {
+        DatabaseReference p_reference = FirebaseDatabase.getInstance().getReference("Posts");
+        p_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                showNotificationIndicator();
+                onCreate++;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        DatabaseReference like_reference = FirebaseDatabase.getInstance().getReference("Likes");
+        like_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                showNotificationIndicator();
+                onCreate++;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        DatabaseReference comments_reference = FirebaseDatabase.getInstance().getReference("Comments");
+        comments_reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                showNotificationIndicator();
+                onCreate++;
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     //add notification indicator
-    private void showNotificationIndicator(){
-        NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
-        notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
-        notificationIndicator.setVisibility(View.VISIBLE);
-        itemView.addView(notificationIndicator);
-
+    private void showNotificationIndicator() {
+        if (onCreate > 3) {
+            notificationIndicator.setVisibility(View.VISIBLE);
+        }
     }
 
     /* disable camera on toolbar

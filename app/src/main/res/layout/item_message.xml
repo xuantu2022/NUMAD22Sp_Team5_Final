@@ -43,7 +43,9 @@
             android:layout_centerVertical="true"
             android:id="@+id/image_unread"
             android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            android:src="@drawable/badge_file"
+            />
 
         
     </RelativeLayout>

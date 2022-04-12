@@ -9,13 +9,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bar"
+        android:id="@+id/timeline_bar"
         android:background="?android:attr/windowBackground">
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/toolbar"
+            android:id="@+id/timeline_toolbar"
             android:background="?android:attr/windowBackground">
 
         </androidx.appcompat.widget.Toolbar>
@@ -38,7 +38,7 @@
         android:id="@+id/timeline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bar"
+        android:layout_below="@+id/timeline_bar"
         tools:listItem="@layout/card_layout" />
 
-</RelativeLayout>
+</RelativeLayout> 
