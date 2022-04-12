@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         babyid = intent.getStringExtra("babyid");
         headshot = intent.getStringExtra("headshot");
         nickname = intent.getStringExtra("nickname");
-        Log.d("babyidmain", babyid);
+//        Log.d("babyidmain", babyid);
 
         //enable back button on action bar and hide title
         /*
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         return babyid;
     }
 
-    public String  getHeadshot() {
+    public String getHeadshot() {
         return headshot;
     }
 

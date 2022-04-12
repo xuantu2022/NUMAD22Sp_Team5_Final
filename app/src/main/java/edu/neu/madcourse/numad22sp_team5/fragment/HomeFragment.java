@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,9 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
+
+
+        System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
         nickname = mainActivity.getNickname();
 
