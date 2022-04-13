@@ -8,9 +8,10 @@ public class ItemEvent {
     private String type;
     private String description;
     private String postId;
+    private String postImage;
 
     public ItemEvent(String babyid, String publisherName, String time, String publisher,
-                     String type, String description, String postId) {
+                     String type, String description, String postId, String postImage) {
         this.babyid = babyid;
         this.time = time;
         this.publisher = publisher;
@@ -18,6 +19,7 @@ public class ItemEvent {
         this.type = type;
         this.description = description;
         this.postId = postId;
+        this.postImage = postImage;
     }
 
     public String getBabyid() {
@@ -46,5 +48,9 @@ public class ItemEvent {
 
     public String getPostId() {
         return postId;
+    }
+
+    public String getPostImage() {
+        return postImage;
     }
 }

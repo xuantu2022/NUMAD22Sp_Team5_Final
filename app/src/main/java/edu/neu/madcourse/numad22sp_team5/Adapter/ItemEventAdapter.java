@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
@@ -41,6 +43,10 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
         holder.eventDescription.setText("Description: " + currentEvent.getDescription());
         if (currentEvent.getDescription().length() == 0){
             holder.eventDescription.setVisibility(View.GONE);
+        }
+        Glide.with(mContext).load(currentEvent.getPostImage()).centerCrop().into(holder.postImage);
+        if (currentEvent.getPostImage().length() == 0) {
+            holder.postImage.setVisibility(View.GONE);
         }
 
         ItemEvent event = eventList.get(position);

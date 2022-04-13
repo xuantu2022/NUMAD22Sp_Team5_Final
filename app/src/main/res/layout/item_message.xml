@@ -55,7 +55,7 @@
             android:layout_marginStart="15dp"
             android:layout_marginTop="7dp"
             android:layout_toEndOf="@+id/pic_baby"
-            android:text="baby name"
+            android:text="@string/baby_name_string"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
