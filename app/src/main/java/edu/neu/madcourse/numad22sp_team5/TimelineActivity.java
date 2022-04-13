@@ -23,6 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -106,7 +108,7 @@ public class TimelineActivity extends AppCompatActivity {
                         }
                     }
                 }
-                // TODO: sort by time.
+                eventList.sort((ItemEvent o1, ItemEvent o2)->o2.getTime().compareToIgnoreCase(o1.getTime()));
                 eventAdapter.notifyDataSetChanged();
             }
 
