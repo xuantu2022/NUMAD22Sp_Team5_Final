@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.util.Log;
@@ -54,10 +55,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);*/
 
+        //get babyInfo from sharedPreferences
+
+        SharedPreferences pref = getSharedPreferences("babyInfo",MODE_PRIVATE);
+        babyid = pref.getString("babyid","");
+        headshot = pref.getString("headshot", "");
+        nickname = pref.getString("nickname", "");
+        /*
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
         headshot = intent.getStringExtra("headshot");
-        nickname = intent.getStringExtra("nickname");
+        nickname = intent.getStringExtra("nickname");*/
 //        Log.d("babyidmain", babyid);
 
         //enable back button on action bar and hide title

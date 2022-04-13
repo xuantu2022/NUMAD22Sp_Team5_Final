@@ -14,6 +14,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/pic_baby"
             android:layout_width="60dp"
+            android:background="@drawable/round_border"
             android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"

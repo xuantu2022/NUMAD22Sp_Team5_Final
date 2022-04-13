@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -72,9 +73,17 @@ public class PostDetailActivity extends AppCompatActivity {
         // NOTE(If here then there): Any change to the intent parsing would cause crush in
         // ItemEventAdapter. For example, adding a new field here would require update to the
         // ItemEventAdapter to properly propagate that field through the intent.
-        postid = intent.getStringExtra("postid");
-        babyid = intent.getStringExtra("babyid");
-        publisherid = intent.getStringExtra("publisherid");
+
+        //postid = intent.getStringExtra("postid");
+        //publisherid = intent.getStringExtra("publisherid");
+        //babyid = intent.getStringExtra("babyid");
+        SharedPreferences postPref = getSharedPreferences("postInfo",MODE_PRIVATE);
+        postid = postPref.getString("postid","");
+        publisherid = postPref.getString("publisherid", "");
+
+        //get babyid from sharedPreferences
+        SharedPreferences babyPref = getSharedPreferences("babyInfo",MODE_PRIVATE);
+        babyid = babyPref.getString("babyid","");
 
         recyclerView = findViewById(R.id.comments_list);
         recyclerView.setHasFixedSize(true);
@@ -255,7 +264,7 @@ public class PostDetailActivity extends AppCompatActivity {
                 }
 
                 //set description
-                if (post.getDescription() == null) {
+                if (post.getDescription().length() == 0) {
                     description_holder.setVisibility(View.GONE);
                 } else {
                     description_holder.setVisibility(View.VISIBLE);

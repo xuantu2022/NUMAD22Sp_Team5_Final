@@ -56,6 +56,7 @@
                     android:id="@+id/headshot"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
+                    android:background="@drawable/round_border"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
                     tools:src="@tools:sample/avatars" />
