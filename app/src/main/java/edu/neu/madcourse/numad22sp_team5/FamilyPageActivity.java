@@ -26,6 +26,9 @@ import edu.neu.madcourse.numad22sp_team5.Model.User;
 public class FamilyPageActivity extends AppCompatActivity {
 
     TextView family_add;
+    TextView parent_name;
+    TextView parent_email;
+    TextView parent_me;
     RecyclerView recyclerView;
     DatabaseReference database;
     FamilyMemberAdapter adapter;
@@ -49,16 +52,45 @@ public class FamilyPageActivity extends AppCompatActivity {
         userid = mAuth.getCurrentUser().getUid();
 
         family_add = findViewById(R.id.textView_family_add);
+        parent_name = findViewById(R.id.textView_parentName);
+        parent_email = findViewById(R.id.textView_parentEmail);
+        parent_me = findViewById(R.id.textView_parent_me);
 
-        // check if current user is baby owner, if not, add button will be gone
-        database = FirebaseDatabase.getInstance().getReference("Babys/" + babyid).child("ownerid");
+        // fetch all the users
+        userMapping = new HashMap<>();
+        database = FirebaseDatabase.getInstance().getReference("Users");
         database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String ownerid = (String) snapshot.getValue();
-                if (!ownerid.equals(userid)) {
-                    family_add.setVisibility(View.GONE);
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    userMapping.put(user.getId(), user);
                 }
+
+                // check if current user is baby owner, if not, add button will be gone
+                database = FirebaseDatabase.getInstance().getReference("Babys/" + babyid).child("ownerid");
+                database.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String ownerid = (String) snapshot.getValue();
+                        if (ownerid.equals(userid)){
+                            parent_me.setVisibility(View.VISIBLE);
+                        }
+                        if (!ownerid.equals(userid)) {
+                            family_add.setVisibility(View.GONE);
+                        }
+                        // set parent information
+                        parent_name.setText(userMapping.get(ownerid).getUsername());
+                        parent_email.setText(userMapping.get(ownerid).getEmail());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -66,6 +98,8 @@ public class FamilyPageActivity extends AppCompatActivity {
 
             }
         });
+
+
         family_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

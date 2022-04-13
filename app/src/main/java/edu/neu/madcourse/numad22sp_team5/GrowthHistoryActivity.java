@@ -55,6 +55,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(getApplicationContext(), AddItemActivity.class);
+                intent1.putExtra("babyid", babyid);
                 startActivity(intent1);
             }
         });

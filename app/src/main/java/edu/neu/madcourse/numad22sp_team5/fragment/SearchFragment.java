@@ -22,7 +22,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.neu.madcourse.numad22sp_team5.FamilySearchAdapter;
 import edu.neu.madcourse.numad22sp_team5.Model.User;
@@ -31,16 +33,19 @@ import edu.neu.madcourse.numad22sp_team5.R;
 public class SearchFragment extends Fragment {
 
     private RecyclerView recyclerView_family_search;
+    private DatabaseReference database;
     private FamilySearchAdapter familySearchAdapter;
     private List<User> users;
+    private Map<String, User> userMapping;
 
     EditText search_bar;
+    String babyid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // get baby id by intent
-        String babyId = getActivity().getIntent().getExtras().getString("babyid");
+        babyid = getActivity().getIntent().getExtras().getString("babyid");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
@@ -51,10 +56,10 @@ public class SearchFragment extends Fragment {
 
         search_bar = view.findViewById(R.id.search_bar);
         users = new ArrayList<>();
-        familySearchAdapter = new FamilySearchAdapter(getContext(), users, babyId);
+        familySearchAdapter = new FamilySearchAdapter(getContext(), users, babyid);
         recyclerView_family_search.setAdapter(familySearchAdapter);
 
-        readUsers();
+        readFollowingUsers(babyid);
 
         search_bar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,19 +101,58 @@ public class SearchFragment extends Fragment {
         });
     }
 
-    private void readUsers() {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void readFollowingUsers(String babyid) {
+        userMapping = new HashMap<>();
+        database = FirebaseDatabase.getInstance().getReference("Users");
+        database.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (search_bar.getText().toString().equals("")) {
                     users.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User user = dataSnapshot.getValue(User.class);
-                        users.add(user);
+                        userMapping.put(user.getId(), user);
+                    }
+                    for (String id : userMapping.keySet()) {
+                        findFollowers(id);
                     }
                     familySearchAdapter.notifyDataSetChanged();
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    // find users that follow current baby
+    private void findFollowers(String id) {
+        database = FirebaseDatabase.getInstance().getReference("Follow");
+        database.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                users.clear();
+                if (snapshot.child(id).exists()) { // check if user exists in Follow branch
+                    // check if user follow current baby
+                    database = FirebaseDatabase.getInstance().getReference("Follow/" + id);
+                    database.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.child(babyid).exists()) {
+                                users.add(userMapping.get(id));
+                            }
+                            familySearchAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                familySearchAdapter.notifyDataSetChanged();
             }
 
             @Override
