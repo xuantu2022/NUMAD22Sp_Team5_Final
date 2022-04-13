@@ -7,7 +7,6 @@
     android:padding="8dp"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/purple_500"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
@@ -56,7 +55,7 @@
             android:layout_marginTop="7dp"
             android:layout_toEndOf="@+id/pic_baby"
             android:text="@string/baby_name_string"
-            android:textColor="@android:color/white"
+            android:textColor="@color/dark_grey"
             android:textSize="20sp"
             android:textStyle="bold" />
         

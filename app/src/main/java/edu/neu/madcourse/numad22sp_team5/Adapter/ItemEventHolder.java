@@ -13,7 +13,7 @@ import edu.neu.madcourse.numad22sp_team5.R;
 public class ItemEventHolder extends RecyclerView.ViewHolder {
     public TextView eventTime;
     public TextView eventPublisher;
-    public TextView eventType;
+    // public TextView eventType;
     public TextView eventDescription;
     public ImageView postImage;
 
@@ -21,7 +21,7 @@ public class ItemEventHolder extends RecyclerView.ViewHolder {
         super(itemView);
         eventTime = itemView.findViewById(R.id.event_time);
         eventPublisher = itemView.findViewById(R.id.event_publisher);
-        eventType = itemView.findViewById(R.id.event_type);
+        // eventType = itemView.findViewById(R.id.event_type);
         eventDescription = itemView.findViewById(R.id.event_description);
         postImage = itemView.findViewById(R.id.post_image);
     }
