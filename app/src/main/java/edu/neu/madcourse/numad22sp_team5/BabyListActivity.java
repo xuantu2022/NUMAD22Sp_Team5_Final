@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
@@ -107,10 +108,21 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
 
     @Override
     public void onBabyClick(int position) {
+        //use sharedPreference to pass value
+
+        SharedPreferences.Editor editor = getSharedPreferences("babyInfo", MODE_PRIVATE).edit();
+        editor.putString("babyid", babyList.get(position).getBabyid());
+        editor.putString("headshot", babyList.get(position).getHeadshot());
+        editor.putString("nickname", babyList.get(position).getNickname());
+        editor.commit();
+
+        //use intent to pass data
+
         Intent intent = new Intent(this, MainActivity.class);
+        /*
         intent.putExtra("babyid", babyList.get(position).getBabyid());
         intent.putExtra("headshot", babyList.get(position).getHeadshot());
-        intent.putExtra("nickname",babyList.get(position).getNickname());
+        intent.putExtra("nickname",babyList.get(position).getNickname());*/
         startActivity(intent);
     }
 }

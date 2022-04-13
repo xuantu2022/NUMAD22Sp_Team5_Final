@@ -1,6 +1,9 @@
 package edu.neu.madcourse.numad22sp_team5.fragment;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -29,6 +32,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.neu.madcourse.numad22sp_team5.AlbumHistoryActivity;
@@ -78,16 +82,20 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        SharedPreferences pref = getActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
+        babyid = pref.getString("babyid","");
+        babyHeadshot = pref.getString("headshot", "");
+        nickname = pref.getString("nickname", "");
 
         //get babyid and baby headshot from baby list
-
+        /*
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
 
 
         System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
-        nickname = mainActivity.getNickname();
+        nickname = mainActivity.getNickname();*/
 
         //set baby name
         babyName = view.findViewById(R.id.baby_name);
@@ -201,6 +209,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                     //}
                 }
 
+                Collections.reverse(postLists);
                 postAdapter.notifyDataSetChanged();
             }
 
@@ -221,10 +230,16 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
     @Override
     public void onPostClick(int position) {
+
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("postInfo", MODE_PRIVATE).edit();
+        editor.putString("postid", postLists.get(position).getPostid());
+        editor.putString("publisherid", postLists.get(position).getPublisher());
+        editor.commit();
+
         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-        intent.putExtra("postid", postLists.get(position).getPostid());
-        intent.putExtra("babyid", postLists.get(position).getBabyid());
-        intent.putExtra("publisherid", postLists.get(position).getPublisher());
+        //intent.putExtra("postid", postLists.get(position).getPostid());
+        //intent.putExtra("babyid", postLists.get(position).getBabyid());
+        //intent.putExtra("publisherid", postLists.get(position).getPublisher());
         startActivity(intent);
     }
 }
