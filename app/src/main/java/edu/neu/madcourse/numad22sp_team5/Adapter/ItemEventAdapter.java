@@ -40,7 +40,7 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
 //        }
         holder.eventTime.setText(currentEvent.getTime());
         holder.eventPublisher.setText(currentEvent.getPublisherName());
-        holder.eventDescription.setText(currentEvent.getDescription());
+        holder.eventDescription.setText("\"" + currentEvent.getDescription() + "\"");
         if (currentEvent.getDescription().length() == 0){
             holder.eventDescription.setVisibility(View.GONE);
         }
