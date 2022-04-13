@@ -9,22 +9,27 @@
     android:orientation="vertical"
     tools:context=".StartActivity">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/logo" />
+
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:text="Log in"
         android:id="@+id/login"
         android:layout_marginTop="15dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/grey_0"
         android:background="@drawable/button_background"/>
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:layout_height="50dp"
         android:text="Register"
         android:id="@+id/register"
         android:layout_marginTop="15dp"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/grey_0"
         android:background="@drawable/button_background"/>
 
 </LinearLayout>

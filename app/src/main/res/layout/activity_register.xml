@@ -6,13 +6,18 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-
     tools:context=".RegisterActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="150dp"
+        android:src="@drawable/logo"/>
+
 
     <EditText
         android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edittext_background"
         android:hint="Username"/>
@@ -29,8 +34,8 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edittext_background"
         android:hint="Email"
@@ -39,8 +44,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/edittext_background"
         android:hint="Password"
@@ -49,12 +54,12 @@
 
     <Button
         android:id="@+id/register"
-        android:layout_width="match_parent"
+        android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="@drawable/button_background"
         android:text="Register"
-        android:textColor="@color/light_grey" />
+        android:textColor="@color/grey_0" />
 
     <TextView
         android:id="@+id/txt_login"
