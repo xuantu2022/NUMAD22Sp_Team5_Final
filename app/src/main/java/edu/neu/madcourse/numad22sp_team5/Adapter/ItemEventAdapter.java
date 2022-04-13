@@ -32,7 +32,10 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
     @Override
     public void onBindViewHolder(ItemEventHolder holder, int position) {
         ItemEvent currentEvent = eventList.get(position);
-        holder.eventType.setText(currentEvent.getType());
+        holder.eventType.setText("Type: " + currentEvent.getType());
+        if (currentEvent.getType() != "post") {
+            holder.eventType.setVisibility(View.GONE);
+        }
         holder.eventTime.setText(currentEvent.getTime());
         holder.eventPublisher.setText(currentEvent.getPublisherName());
         holder.eventDescription.setText(currentEvent.getDescription());
