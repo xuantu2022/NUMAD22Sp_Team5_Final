@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="@color/purple_500"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
@@ -27,28 +26,28 @@
                 android:id="@+id/event_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/event_publisher"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/event_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textStyle="normal" />
+<!--            <TextView-->
+<!--                android:id="@+id/event_type"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/dark_grey"-->
+<!--                android:textStyle="normal" />-->
 
             <TextView
                 android:id="@+id/event_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/dark_grey"
                 android:textStyle="normal" />
 
         </LinearLayout>
