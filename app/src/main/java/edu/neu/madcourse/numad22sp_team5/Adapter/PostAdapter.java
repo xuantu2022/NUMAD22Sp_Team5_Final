@@ -84,7 +84,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         }
 
         //set description
-        if (post.getDescription() == null) {
+        if (post.getDescription().length() == 0) {
             holder.description_holder.setVisibility(View.GONE);
         } else {
             holder.description_holder.setVisibility(View.VISIBLE);
