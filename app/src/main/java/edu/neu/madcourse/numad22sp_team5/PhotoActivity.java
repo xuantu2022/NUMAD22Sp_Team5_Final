@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
@@ -76,11 +77,14 @@ public class PhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photo);
 
 
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            babyid = extras.getString("babyid");
-            Log.i("babyid from extras: %s", babyid);
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if(extras != null){
+//            babyid = extras.getString("babyid");
+//            Log.i("babyid from extras: %s", babyid);
+//        }
+
+        SharedPreferences babyPref = getSharedPreferences("babyInfo", MODE_PRIVATE);
+        babyid = babyPref.getString("babyid","");
 
 
 
