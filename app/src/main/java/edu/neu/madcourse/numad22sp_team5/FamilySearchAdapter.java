@@ -60,10 +60,10 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
             public void onClick(View view) {
                 if (holder.button_follow.getText().toString().equals("add")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).setValue(true);
-                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-                    LocalDateTime now = LocalDateTime.now();
-                    String time = dtf.format(now);
-                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).child("time").setValue(time);
+//                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+//                    LocalDateTime now = LocalDateTime.now();
+//                    String time = dtf.format(now);
+//                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).child("time").setValue(time);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).removeValue();
                 }
