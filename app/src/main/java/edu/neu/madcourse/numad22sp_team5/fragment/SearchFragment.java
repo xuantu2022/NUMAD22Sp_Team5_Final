@@ -86,6 +86,9 @@ public class SearchFragment extends Fragment {
     }
 
     private void searchUsers(String s) {
+        if (s.isEmpty()) {
+            return;
+        }
         Query query = FirebaseDatabase.getInstance().getReference("Users").orderByChild("username").startAt(s).endAt(s + "\uf8ff");
         query.addValueEventListener(new ValueEventListener() {
             @Override
