@@ -1,5 +1,7 @@
 package edu.neu.madcourse.numad22sp_team5.Adapter;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -48,7 +51,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
         } else {
             holder.babyOwner.setVisibility(View.GONE);
         }
-        Glide.with(context).load(baby.getHeadshot()).centerCrop().into(holder.headshot);
+        Glide.with(context).load(baby.getHeadshot()).circleCrop().into(holder.headshot);
     }
 
     @Override

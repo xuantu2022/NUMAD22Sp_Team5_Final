@@ -30,6 +30,8 @@
         <ImageView
             android:id="@+id/post_image"
             android:layout_marginTop="8dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_launcher" />
@@ -41,12 +43,15 @@
             <LinearLayout
                 android:id="@+id/growth_holder"
                 android:layout_marginTop="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/growth"
+
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:textColor="@color/black"

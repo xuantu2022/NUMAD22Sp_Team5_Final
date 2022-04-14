@@ -36,6 +36,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -158,7 +160,10 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                         referenceBaby.child(babyid).setValue(map);
 
                         //store baby and user relationship to database
-                        referenceFollows.child(userid).child(babyid).setValue(true);
+                        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                        LocalDateTime now = LocalDateTime.now();
+                        String time = dtf.format(now);
+                        referenceFollows.child(userid).child(babyid).child("time").setValue(time);
 
                         progressBar.setVisibility(View.GONE);
                         startActivity(new Intent(AddBabyActivity.this, BabyListActivity.class));
