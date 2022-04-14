@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
 import edu.neu.madcourse.numad22sp_team5.TimelineActivity;
@@ -25,6 +26,7 @@ import edu.neu.madcourse.numad22sp_team5.TimelineActivity;
 public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> {
     private Context mContext;
     private ArrayList<ItemMessage> itemList;
+    private Long currentCount;
 
 
     //Constructor
@@ -49,14 +51,16 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
         Glide.with(mContext).load(currentItem.getHeadshot()).centerCrop().into(holder.headshot);
 
         ItemMessage message = itemList.get(position);
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts").child(message.getBabyId());
-        reference.addValueEventListener(new ValueEventListener() {
+        String baby_id = message.getBabyId();
+        DatabaseReference post_reference = FirebaseDatabase.getInstance().getReference("Posts");
+        post_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!holder.onCreate) {
+                Long posts_count = snapshot.child(baby_id).getChildrenCount();
+                if (!holder.onCreate && posts_count > currentCount) {
                     holder.unread.setVisibility(View.VISIBLE);
                 }
+                currentCount = posts_count;
                 holder.onCreate = false;
             }
 
@@ -65,7 +69,6 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
 
             }
         });
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

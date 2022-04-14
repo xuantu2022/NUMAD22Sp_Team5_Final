@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.MessageFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.SettingFragment;
@@ -36,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment selectedFragment = null;
 
     //add notification indicator
-    View notificationIndicator;
+    public View notificationIndicator;
+    private final ReentrantLock lock = new ReentrantLock();
 
 
     private String babyid;
@@ -123,8 +126,10 @@ public class MainActivity extends AppCompatActivity {
         p_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
@@ -136,8 +141,10 @@ public class MainActivity extends AppCompatActivity {
         like_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
@@ -149,8 +156,10 @@ public class MainActivity extends AppCompatActivity {
         comments_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
