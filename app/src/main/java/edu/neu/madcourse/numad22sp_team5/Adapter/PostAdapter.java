@@ -80,7 +80,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             holder.post_image.setVisibility(View.GONE);
         } else {
             holder.post_image.setVisibility(View.VISIBLE);
-            Glide.with(mContext).load(post.getPostImages()).override(800, 800).fitCenter().into(holder.post_image);
+            Glide.with(mContext).load(post.getPostImages()).fitCenter().into(holder.post_image);
         }
 
         //set description
