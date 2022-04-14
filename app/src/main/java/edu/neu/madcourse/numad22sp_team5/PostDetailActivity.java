@@ -74,16 +74,17 @@ public class PostDetailActivity extends AppCompatActivity {
         // ItemEventAdapter. For example, adding a new field here would require update to the
         // ItemEventAdapter to properly propagate that field through the intent.
 
-        //postid = intent.getStringExtra("postid");
-        //publisherid = intent.getStringExtra("publisherid");
-        //babyid = intent.getStringExtra("babyid");
+        postid = intent.getStringExtra("postid");
+        publisherid = intent.getStringExtra("publisherid");
+        babyid = intent.getStringExtra("babyid");
+        /*
         SharedPreferences postPref = getSharedPreferences("postInfo",MODE_PRIVATE);
         postid = postPref.getString("postid","");
-        publisherid = postPref.getString("publisherid", "");
+        publisherid = postPref.getString("publisherid", "");*
 
         //get babyid from sharedPreferences
         SharedPreferences babyPref = getSharedPreferences("babyInfo",MODE_PRIVATE);
-        babyid = babyPref.getString("babyid","");
+        babyid = babyPref.getString("babyid","");*/
 
         recyclerView = findViewById(R.id.comments_list);
         recyclerView.setHasFixedSize(true);
