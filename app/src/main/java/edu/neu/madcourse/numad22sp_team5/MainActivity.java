@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.MessageFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.SettingFragment;
@@ -36,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment selectedFragment = null;
 
     //add notification indicator
-    View notificationIndicator;
+    public View notificationIndicator;
+    private final ReentrantLock lock = new ReentrantLock();
 
 
     private String babyid;
@@ -78,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()) {
                     case R.id.nav_home:
                         selectedFragment = new HomeFragment();
@@ -97,16 +101,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
+                            selectedFragment, "Selected").commit();
                 }
 
                 return true;
             }
         });
 
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        //retrieve saved state
+        if (savedInstanceState != null) {
+            Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, "KEY");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    fragment).commit();
+        }  else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        }
 
         NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
@@ -118,13 +128,25 @@ public class MainActivity extends AppCompatActivity {
         // showNotificationIndicator();
     }
 
+    //Save current state of fragment
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("Selected");
+        if (fragment != null) {
+            getSupportFragmentManager().putFragment(outState, "KEY", fragment);
+        }
+    }
+
     private void initNotificationIndicator() {
         DatabaseReference p_reference = FirebaseDatabase.getInstance().getReference("Posts");
         p_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
@@ -136,8 +158,10 @@ public class MainActivity extends AppCompatActivity {
         like_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
@@ -149,8 +173,10 @@ public class MainActivity extends AppCompatActivity {
         comments_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                showNotificationIndicator();
+                lock.lock();
                 onCreate++;
+                lock.unlock();
+                showNotificationIndicator();
             }
 
             @Override
