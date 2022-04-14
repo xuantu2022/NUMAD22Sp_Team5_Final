@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import edu.neu.madcourse.numad22sp_team5.Model.User;
@@ -59,10 +60,12 @@ public class FamilySearchAdapter extends RecyclerView.Adapter<FamilySearchAdapte
             public void onClick(View view) {
                 if (holder.button_follow.getText().toString().equals("add")) {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).setValue(true);
-                    //FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).setValue(true);
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    String time = dtf.format(now);
+                    FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).child("time").setValue(time);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Follow").child(user.getId()).child(babyid).removeValue();
-                    //FirebaseDatabase.getInstance().getReference().child("Follow").child("user01").child(babyId).removeValue();
                 }
             }
         });
