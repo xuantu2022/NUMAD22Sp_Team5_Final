@@ -27,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -185,6 +186,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
 
         readPosts();
+        recyclerView.scrollToPosition(0);
 
         // Inflate the layout for this fragment
         return view;
@@ -196,6 +198,34 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Posts")
                 .child(babyid);
 
+        Query postsQuery = FirebaseDatabase.getInstance().getReference().child("Posts").child(babyid).orderByChild("time");
+
+        postsQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                postLists.clear();
+                for(DataSnapshot data : snapshot.getChildren()) {
+                    Post post = data.getValue(Post.class);
+                    //for(String id: followingList) {
+                    //    if (post.getPublisher().equals(id)) {
+                    postLists.add(post);
+                    //    }
+                    //}
+                }
+
+                postAdapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(0);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        /*
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -217,7 +247,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
     }
     public void openAddItemActivity(){

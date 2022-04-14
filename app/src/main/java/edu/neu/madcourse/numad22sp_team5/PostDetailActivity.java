@@ -261,7 +261,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     post_image.setVisibility(View.GONE);
                 } else {
                     post_image.setVisibility(View.VISIBLE);
-                    Glide.with(PostDetailActivity.this).load(post.getPostImages()).override(800, 800).fitCenter().into(post_image);
+                    Glide.with(PostDetailActivity.this).load(post.getPostImages()).fitCenter().into(post_image);
                 }
 
                 //set description
