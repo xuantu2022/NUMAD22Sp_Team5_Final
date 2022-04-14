@@ -59,7 +59,7 @@ public class AddGrowthActivity extends AppCompatActivity {
                     LocalDateTime now = LocalDateTime.now();
                     String time = dtf.format(now);
 
-                    growth = "Height  " + height.getText().toString() + "cm  Weight  " + weight.getText().toString()+"kg";
+                    growth = "Height  " + height.getText().toString() + "cm   Weight  " + weight.getText().toString()+"kg";
 
 
                     HashMap<String, Object> hashMap = new HashMap<>();
