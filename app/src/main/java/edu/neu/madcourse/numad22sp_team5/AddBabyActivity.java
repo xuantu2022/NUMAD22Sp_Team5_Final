@@ -160,10 +160,12 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                         referenceBaby.child(babyid).setValue(map);
 
                         //store baby and user relationship to database
+                        /*
                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                         LocalDateTime now = LocalDateTime.now();
-                        String time = dtf.format(now);
-                        referenceFollows.child(userid).child(babyid).child("time").setValue(time);
+                        String time = dtf.format(now);*/
+
+                        referenceFollows.child(userid).child(babyid).setValue(true);
 
                         progressBar.setVisibility(View.GONE);
                         startActivity(new Intent(AddBabyActivity.this, BabyListActivity.class));
