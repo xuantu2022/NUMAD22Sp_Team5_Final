@@ -1,5 +1,7 @@
 package edu.neu.madcourse.numad22sp_team5.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -45,7 +47,9 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // get baby id by intent
-        babyid = getActivity().getIntent().getExtras().getString("babyid");
+        //babyid = getActivity().getIntent().getExtras().getString("babyid");
+        SharedPreferences babyPref = this.getActivity().getSharedPreferences("babyInfo", Context.MODE_PRIVATE);
+        babyid = babyPref.getString("babyid", "");
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);

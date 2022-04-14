@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +36,10 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
         setContentView(R.layout.activity_album_history);
 
         // get current babyid
-        Intent intent = getIntent();
-        babyid = intent.getStringExtra("babyid");
+//        Intent intent = getIntent();
+//        babyid = intent.getStringExtra("babyid");
+        SharedPreferences babyPref = getSharedPreferences("babyInfo", MODE_PRIVATE);
+        babyid = babyPref.getString("babyid", "");
 
         // get userid
         mAuth = FirebaseAuth.getInstance();

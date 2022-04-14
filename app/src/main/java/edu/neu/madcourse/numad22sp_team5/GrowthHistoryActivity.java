@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,8 +43,11 @@ public class GrowthHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_growth_history);
 
         // get current babyid
-        Intent intent = getIntent();
-        String babyid = intent.getStringExtra("babyid");
+//        Intent intent = getIntent();
+//        String babyid = intent.getStringExtra("babyid");
+
+        SharedPreferences babyPref = getSharedPreferences("babyInfo", MODE_PRIVATE);
+        String babyid = babyPref.getString("babyid", "");
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
@@ -55,7 +59,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent1 = new Intent(getApplicationContext(), AddItemActivity.class);
-                intent1.putExtra("babyid", babyid);
+                //intent1.putExtra("babyid", babyid);
                 startActivity(intent1);
             }
         });

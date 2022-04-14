@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), GrowthHistoryActivity.class);
-                intent.putExtra("babyid", babyid);
+                //intent.putExtra("babyid", babyid);
                 startActivity(intent);
             }
         });
@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), MilestoneHistoryActivity.class);
-                intent.putExtra("babyid", babyid);
+                //intent.putExtra("babyid", babyid);
                 startActivity(intent);
             }
         });
@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), FamilyPageActivity.class);
-                intent.putExtra("babyid", babyid);
+                //intent.putExtra("babyid", babyid);
                 startActivity(intent);
             }
         });
@@ -137,7 +137,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AlbumHistoryActivity.class);
-                intent.putExtra("babyid", babyid);
+                //intent.putExtra("babyid", babyid);
                 startActivity(intent);
             }
         });

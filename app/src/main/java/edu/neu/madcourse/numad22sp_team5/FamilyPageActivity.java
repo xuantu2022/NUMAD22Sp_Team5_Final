@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -44,8 +45,11 @@ public class FamilyPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_family_page);
 
         // get current babyid
-        Intent intent = getIntent();
-        babyid = intent.getStringExtra("babyid");
+//        Intent intent = getIntent();
+//        babyid = intent.getStringExtra("babyid");
+
+        SharedPreferences babyPref = getSharedPreferences("babyInfo", MODE_PRIVATE);
+        babyid = babyPref.getString("babyid", "");
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
@@ -104,7 +108,7 @@ public class FamilyPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FamilySearchContainerActivity.class);
-                intent.putExtra("babyid", babyid);
+                //intent.putExtra("babyid", babyid);
                 //Log.i("db-debug", "family page baby id: " + babyid + " add on click");
                 startActivity(intent);
             }
