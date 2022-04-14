@@ -2,6 +2,7 @@ package edu.neu.madcourse.numad22sp_team5;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,11 +34,14 @@ public class AddGrowthActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_growth);
 
-        Bundle extras = getIntent().getExtras();
-        if(extras != null){
-            babyid = extras.getString("babyid");
-            Log.i("babyid from extras: %s", babyid);
-        }
+//        Bundle extras = getIntent().getExtras();
+//        if(extras != null){
+//            babyid = extras.getString("babyid");
+//            Log.i("babyid from extras: %s", babyid);
+//        }
+
+        SharedPreferences babyPref = getSharedPreferences("babyInfo", MODE_PRIVATE);
+        babyid = babyPref.getString("babyid","");
 
 
         height = findViewById(R.id.height);
@@ -55,7 +59,7 @@ public class AddGrowthActivity extends AppCompatActivity {
                     LocalDateTime now = LocalDateTime.now();
                     String time = dtf.format(now);
 
-                    growth = "height " + height.getText().toString() + " weight " + weight.getText().toString();
+                    growth = "Height  " + height.getText().toString() + "cm  Weight  " + weight.getText().toString()+"kg";
 
 
                     HashMap<String, Object> hashMap = new HashMap<>();

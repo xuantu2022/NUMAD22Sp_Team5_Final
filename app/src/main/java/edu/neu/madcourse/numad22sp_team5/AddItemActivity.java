@@ -46,7 +46,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void openPhotoAct(){
         Intent intent = new Intent(this, PhotoActivity.class);
-        intent.putExtra("babyid",babyid);
+//        intent.putExtra("babyid",babyid);
         startActivity(intent);
         //finish this activity
         finish();
@@ -56,7 +56,7 @@ public class AddItemActivity extends AppCompatActivity {
 
     public void openGrowthAct(){
         Intent i = new Intent(this,AddGrowthActivity.class);
-        i.putExtra("babyid",babyid);
+//        i.putExtra("babyid",babyid);
         startActivity(i);
         finish();
     }
