@@ -148,7 +148,9 @@ public class SearchFragment extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.child(babyid).exists()) {
-                                users.add(userMapping.get(id));
+                                if (!users.contains(userMapping.get(id))) { // avoid duplicates
+                                    users.add(userMapping.get(id));
+                                }
                             }
                             familySearchAdapter.notifyDataSetChanged();
                         }
