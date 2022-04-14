@@ -230,16 +230,16 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
     @Override
     public void onPostClick(int position) {
-
+        /*
         SharedPreferences.Editor editor = getActivity().getSharedPreferences("postInfo", MODE_PRIVATE).edit();
         editor.putString("postid", postLists.get(position).getPostid());
         editor.putString("publisherid", postLists.get(position).getPublisher());
-        editor.commit();
+        editor.commit();*/
 
         Intent intent = new Intent(getActivity(), PostDetailActivity.class);
-        //intent.putExtra("postid", postLists.get(position).getPostid());
-        //intent.putExtra("babyid", postLists.get(position).getBabyid());
-        //intent.putExtra("publisherid", postLists.get(position).getPublisher());
+        intent.putExtra("postid", postLists.get(position).getPostid());
+        intent.putExtra("babyid", postLists.get(position).getBabyid());
+        intent.putExtra("publisherid", postLists.get(position).getPublisher());
         startActivity(intent);
     }
 }
