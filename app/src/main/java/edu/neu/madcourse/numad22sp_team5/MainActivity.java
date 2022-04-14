@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         navigationBarView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
                 switch (item.getItemId()) {
                     case R.id.nav_home:
                         selectedFragment = new HomeFragment();
@@ -100,16 +101,22 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                            selectedFragment).commit();
+                            selectedFragment, "Selected").commit();
                 }
 
                 return true;
             }
         });
 
-
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                new HomeFragment()).commit();
+        //retrieve saved state
+        if (savedInstanceState != null) {
+            Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, "KEY");
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    fragment).commit();
+        }  else {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                    new HomeFragment()).commit();
+        }
 
         NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
@@ -119,6 +126,16 @@ public class MainActivity extends AppCompatActivity {
         initNotificationIndicator();
 
         // showNotificationIndicator();
+    }
+
+    //Save current state of fragment
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag("Selected");
+        if (fragment != null) {
+            getSupportFragmentManager().putFragment(outState, "KEY", fragment);
+        }
     }
 
     private void initNotificationIndicator() {
