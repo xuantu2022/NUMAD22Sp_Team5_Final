@@ -8,10 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
+import android.widget.ImageButton;
 
 public class AddItemActivity extends AppCompatActivity {
-    Button photo;
-    Button growth;
+    ImageButton photo;
+    ImageButton growth;
+    ImageButton milestone;
     String babyid;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +40,15 @@ public class AddItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openGrowthAct();
+            }
+        });
+
+        milestone = findViewById(R.id.btn_milestone);
+        milestone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openPhotoAct();
+
             }
         });
 
