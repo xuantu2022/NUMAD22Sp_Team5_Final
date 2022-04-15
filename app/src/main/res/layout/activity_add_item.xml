@@ -6,16 +6,59 @@
     android:layout_height="match_parent"
     tools:context=".AddItemActivity">
 
-    <Button
-        android:id="@+id/btn_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="photo" />
 
-    <Button
+    <ImageButton
+        android:id="@+id/btn_milestone"
+        android:layout_width="91dp"
+        android:layout_height="77dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/ic_milestone" />
+
+    <ImageButton
+        android:id="@+id/btn_photo"
+        android:layout_width="91dp"
+        android:layout_height="77dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/btn_milestone"
+        android:layout_marginEnd="40dp"
+        app:srcCompat="@drawable/ic_add_photo" />
+
+    <ImageButton
         android:id="@+id/btn_growth"
+        android:layout_width="91dp"
+        android:layout_height="77dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="40dp"
+        android:layout_toRightOf="@+id/btn_milestone"
+        app:srcCompat="@drawable/ic_add_growth" />
+
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/btn_photo"
+        android:layout_alignBottom="@+id/btn_photo"
+        android:layout_marginBottom="-30dp"
+        android:layout_marginStart="55dp"
+
+
+        android:text="Photo" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_milestone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-30dp"
+        android:text="Milestone" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btn_growth"
+        android:layout_marginStart="315dp"
+        android:layout_marginBottom="-31dp"
         android:text="Growth" />
 </RelativeLayout>
