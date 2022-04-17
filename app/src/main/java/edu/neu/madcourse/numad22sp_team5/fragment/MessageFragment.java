@@ -74,6 +74,7 @@ public class MessageFragment extends Fragment {
                         String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
                         String headshot = dataSnapshot.child("Babys").child(baby_id).child("headshot").getValue().toString();
                         messages.add(0, new ItemMessage(baby_id, nickname, headshot, globalStatus.shouldNotifyBaby(baby_id), globalStatus));
+                        globalStatus.removeBabyNotify(baby_id);
                     }
                 }
 

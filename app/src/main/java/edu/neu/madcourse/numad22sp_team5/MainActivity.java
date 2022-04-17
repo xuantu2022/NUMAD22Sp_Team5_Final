@@ -190,7 +190,9 @@ public class MainActivity extends AppCompatActivity {
                                     continue;
                                 }
                                 if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
-                                    showNotificationIndicator(baby);
+                                    if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                        showNotificationIndicator(baby);
+                                    }
                                 }
                             }
                         }
@@ -210,7 +212,9 @@ public class MainActivity extends AppCompatActivity {
                                     continue;
                                 }
                                 if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
-                                    showNotificationIndicator(baby);
+                                    if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                        showNotificationIndicator(baby);
+                                    }
                                 }
                             }
                         }

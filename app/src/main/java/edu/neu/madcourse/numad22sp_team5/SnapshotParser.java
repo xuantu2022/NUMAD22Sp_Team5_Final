@@ -209,4 +209,19 @@ public class SnapshotParser {
         return publisher;
     }
 
+    public String publisherOfLastCommentOnPost(DataSnapshot snapshot, String postId) {
+        String publisher = new String();
+        for (DataSnapshot comment_snapshot : snapshot.child("Comments").child(postId).getChildren()) {
+            publisher = comment_snapshot.child("publisher").getValue().toString();
+        }
+        return publisher;
+    }
+
+    public String publisherOfLastLikeOnPost(DataSnapshot snapshot, String postId) {
+        String publisher = new String();
+        for (DataSnapshot like_snapshot : snapshot.child("Likes").child(postId).getChildren()) {
+            publisher = like_snapshot.getKey().toString();
+        }
+        return publisher;
+    }
 }

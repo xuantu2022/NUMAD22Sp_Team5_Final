@@ -75,40 +75,61 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (holder.onCreate) {
-                    Log.d("info", "init message adapter received a data snapshot");
+                    // Log.d("info", "init message adapter received a data snapshot");
                     snapshotParser.parse(snapshot);
                     holder.onCreate = false;
                 } else {
-                    Log.d("info", "message adapter received another data snapshot");
+                    // Log.d("info", "message adapter received another data snapshot");
+
                     // check if there is any new post for this babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
                     if (babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
-                        Log.d("info", "send nitofication for new post " + baby_id);
-                        holder.unread.setVisibility(View.VISIBLE);
+                        if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby_id).equals(firebaseUser.getUid())) {
+                            holder.unread.setVisibility(View.VISIBLE);
+                        }
                         snapshotParser.setBabyPostCounter(babyPostCount);
                     }
 
 
                     // check if there is any new comments for baby's posts.
                     HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
-                    for (String key : babyCommentCount.keySet()) {
-                        Log.d("info", "new count for baby " + key + " is " + babyCommentCount.get(key));
-                    }
-                    Log.d("info", "there were " + snapshotParser.commentCountForBaby(baby_id) + " comments for baby " + baby_id);
+                    HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
+                    // Log.d("info", "there were " + snapshotParser.commentCountForBaby(baby_id) + " comments for baby " + baby_id);
                     if (babyCommentCount.get(baby_id) > snapshotParser.commentCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
-                        Log.d("info", "send nitofication for new comment " + baby_id);
-                        holder.unread.setVisibility(View.VISIBLE);
-                        Log.d("info", "adapter setting baby comment counter");
+                        //Log.d("info", "send nitofication for new comment " + baby_id);
+                        for (String myPost : snapshotParser.myPosts(snapshot)) {
+                            if (!postCommentCount.containsKey(myPost)) {
+                                Log.d("warning", "unknow post in post table: " + myPost);
+                                continue;
+                            }
+                            if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
+                                if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                    holder.unread.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
                         snapshotParser.setBabyCommentCounter(babyCommentCount);
+                        snapshotParser.setPostCommentCounter(postCommentCount);
                     }
 
 
                     // Check if there is any new like for this baby's posts.
                     HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
+                    HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
                     if (babyLikeCount.get(baby_id) > snapshotParser.likeCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
-                        Log.d("info", "send nitofication for new like " + baby_id);
-                        holder.unread.setVisibility(View.VISIBLE);
+                        for (String myPost : snapshotParser.myPosts(snapshot)) {
+                            if (!postLikeCount.containsKey(myPost)) {
+                                Log.d("warning", "unknow post for like table: " + myPost);
+                                continue;
+                            }
+                            if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
+                                if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                    holder.unread.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }
                         snapshotParser.setBabyLikeCounter(babyLikeCount);
+                        snapshotParser.setPostLikeCounter(postLikeCount);
                     }
                 }
             }

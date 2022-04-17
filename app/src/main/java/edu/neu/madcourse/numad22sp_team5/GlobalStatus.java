@@ -19,6 +19,10 @@ public class GlobalStatus extends Application {
         initialBabyNotify.add(babyId);
     }
 
+    public static void removeBabyNotify(String babyId) {
+        initialBabyNotify.remove(babyId);
+    }
+
     public static boolean shouldNotifyBaby(String babyId) {
         return initialBabyNotify.contains(babyId);
     }
