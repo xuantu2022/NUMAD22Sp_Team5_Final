@@ -14,7 +14,9 @@ public class SnapshotParser {
 
     private HashMap<String, Long> babyPostCounter = new HashMap<>();
     private HashMap<String, Long> babyCommentCounter = new HashMap<>();
+    private HashMap<String, Long> postCommentCounter = new HashMap<>();
     private HashMap<String, Long> babyLikeCounter = new HashMap<>();
+    private HashMap<String, Long> postLikeCounter = new HashMap<>();
 
     public SnapshotParser(String user) {
         this.user = user;
@@ -24,13 +26,53 @@ public class SnapshotParser {
         return babyPostCounter.get(baby);
     }
 
+    public Long commentCountForBaby(String baby) {
+        return babyCommentCounter.get(baby);
+    }
+
+    public Long commentCountForPost(String post) {
+        return postCommentCounter.get(post);
+    }
+
+    public Long likeCountForBaby(String baby) {
+        return babyLikeCounter.get(baby);
+    }
+
+    public Long likeCountForPost(String post) {
+        if (!postLikeCounter.containsKey(post)) {
+            Log.d("database corruption", "unknown post " + post);
+            return 0L;
+        }
+        return postLikeCounter.get(post);
+    }
+
     public void setBabyPostCounter(HashMap<String, Long> newCounter) {
         this.babyPostCounter = newCounter;
+    }
+
+    public void setBabyCommentCounter(HashMap<String, Long> newCounter) {
+        this.babyCommentCounter = newCounter;
+    }
+
+    public void setPostCommentCounter(HashMap<String, Long> newCounter) {
+        this.postCommentCounter = newCounter;
+    }
+
+    public void setBabyLikeCounter(HashMap<String, Long> newCounter) {
+        this.babyLikeCounter = newCounter;
+    }
+
+    public void setPostLikeCounter(HashMap<String, Long> newCounter) {
+        this.postLikeCounter = newCounter;
     }
 
     // Parses the entire database snapshot, caches the number of posts, comments and likes for babies.
     public void parse(DataSnapshot snapshot) {
         babyPostCounter = parseBabyPostCount(snapshot);
+        babyCommentCounter = parseBabyCommentCount(snapshot);
+        postCommentCounter = parsePostCommentCount(snapshot);
+        babyLikeCounter = parseBabyLikeCount(snapshot);
+        postLikeCounter = parsePostLikeCount(snapshot);
     }
 
     // Returns a map between post id and baby id.
@@ -57,12 +99,81 @@ public class SnapshotParser {
         return followed;
     }
 
+    public HashSet<String> myPosts(DataSnapshot snapshot) {
+        HashSet<String> posts = new HashSet<>();
+        for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
+            String baby_id = baby_post_snapshot.getKey().toString();
+            for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
+                String postId = post_snapshot.getKey().toString();
+                String publisher = post_snapshot.child("publisher").getValue().toString();
+                if (publisher.equals(user)) {
+                    posts.add(postId);
+                }
+            }
+        }
+        return posts;
+    }
+
     // Returns a map between baby id and the number of posts associated with it.
     public HashMap<String, Long> parseBabyPostCount(DataSnapshot snapshot) {
         HashMap<String, Long> counter = new HashMap<>();
         for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
             String baby_id = baby_post_snapshot.getKey().toString();
             counter.put(baby_id, baby_post_snapshot.getChildrenCount());
+        }
+        return counter;
+    }
+
+    public HashMap<String, Long> parseBabyCommentCount(DataSnapshot snapshot) {
+        HashMap<String, Long> counter = new HashMap<>();
+        HashSet<String> babies = parseFollowed(snapshot);
+        for (String baby : babies) {
+            counter.put(baby, 0L);
+        }
+        HashMap<String, String> postToBaby = postToBaby(snapshot);
+        for (DataSnapshot commentSnapshot : snapshot.child("Comments").getChildren()) {
+            String postId = commentSnapshot.getKey().toString();
+            String babyId = postToBaby.get(postId);
+            if (!babies.contains(babyId)) continue;
+            long cur = counter.get(babyId).longValue();
+            cur = cur + commentSnapshot.getChildrenCount();
+            counter.put(babyId, cur);
+        }
+        return counter;
+    }
+
+    public HashMap<String, Long> parsePostCommentCount(DataSnapshot snapshot) {
+        HashMap<String, Long> counter = new HashMap<>();
+        for (DataSnapshot commentSnapshot : snapshot.child("Comments").getChildren()) {
+            String postId = commentSnapshot.getKey().toString();
+            counter.put(postId, commentSnapshot.getChildrenCount());
+        }
+        return counter;
+    }
+
+    public HashMap<String, Long> parseBabyLikeCount(DataSnapshot snapshot) {
+        HashMap<String, Long> counter = new HashMap<>();
+        HashSet<String> babies = parseFollowed(snapshot);
+        for (String baby : babies) {
+            counter.put(baby, 0L);
+        }
+        HashMap<String, String> postToBaby = postToBaby(snapshot);
+        for (DataSnapshot likeSnapshot : snapshot.child("Likes").getChildren()) {
+            String postId = likeSnapshot.getKey().toString();
+            String babyId = postToBaby.get(postId);
+            if (!babies.contains(babyId)) continue;
+            long cur = counter.get(babyId).longValue();
+            cur = cur + likeSnapshot.getChildrenCount();
+            counter.put(babyId, cur);
+        }
+        return counter;
+    }
+
+    public HashMap<String, Long> parsePostLikeCount(DataSnapshot snapshot) {
+        HashMap<String, Long> counter = new HashMap<>();
+        for (DataSnapshot likeSnapshot : snapshot.child("Likes").getChildren()) {
+            String postId = likeSnapshot.getKey().toString();
+            counter.put(postId, likeSnapshot.getChildrenCount());
         }
         return counter;
     }

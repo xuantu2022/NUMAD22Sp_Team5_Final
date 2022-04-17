@@ -163,100 +163,56 @@ public class MainActivity extends AppCompatActivity {
                     snapshotParser.parse(snapshot);
                     onCreate = false;
                 } else {
-                    // check posts.
+                    // check if there is any new post for followed babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
                     HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
                     for (String baby : babyFollowed) {
                         if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
-                            if (snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
-                                continue;
+                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
+                                showNotificationIndicator(baby);
                             }
-                            showNotificationIndicator(baby);
                         }
                     }
                     snapshotParser.setBabyPostCounter(babyPostCount);
 
-                    // check comments
+                    // check if there is any new comments for my posts.
+                    HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
+                    HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
+                    for (String baby : babyFollowed) {
+                        if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
+                            for (String myPost : snapshotParser.myPosts(snapshot)) {
+                                if (!postCommentCount.containsKey(myPost)) {
+                                    Log.d("database corruption", "unknow post: " + myPost);
+                                    continue;
+                                }
+                                if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
+                                    showNotificationIndicator(baby);
+                                }
+                            }
+                        }
+                    }
+                    snapshotParser.setBabyCommentCounter(babyCommentCount);
+                    snapshotParser.setPostCommentCounter(postCommentCount);
+
+                    // Check if there is any new like for my posts.
+                    HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
+                    HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
+                    for (String baby : babyFollowed) {
+                        if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
+                            for (String myPost : snapshotParser.myPosts(snapshot)) {
+                                if (!postLikeCount.containsKey(myPost)) {
+                                    Log.d("database corruption", "unknow post: " + myPost);
+                                    continue;
+                                }
+                                if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
+                                    showNotificationIndicator(baby);
+                                }
+                            }
+                        }
+                    }
+                    snapshotParser.setBabyLikeCounter(babyLikeCount);
+                    snapshotParser.setPostLikeCounter(postLikeCount);
                 }
-//                if (onCreate) {
-//                    Log.d("heng", "a new snapshot");
-//                    babyFollowed.clear();
-//                    for (DataSnapshot followSnapshot : snapshot.child("Follow").child(firebaseUser.getUid()).getChildren()) {
-//                        boolean follow = (boolean) followSnapshot.getValue();
-//                        if (follow) {
-//                            Log.d("heng", "adding followed baby " + followSnapshot.getKey());
-//                            babyFollowed.add(followSnapshot.getKey().toString());
-//                        }
-//                    }
-//                    for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-//                        String baby_id = baby_post_snapshot.getKey().toString();
-//                        if (!babyFollowed.contains(baby_id)) {
-//                            continue;
-//                        }
-//                        babyPostCount.put(baby_id, baby_post_snapshot.getChildrenCount());
-//                        Log.d("heng", "found posts for followed baby " + baby_id);
-//                        for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
-//                            postIDToBabyID.put(post_snapshot.getKey().toString(), baby_id);
-//                            String publisher = post_snapshot.child("publisher").getValue().toString();
-//                            Log.d("heng", "post snapshot id " + post_snapshot.getKey().toString() + " by publisher " + publisher);
-//                            if (publisher.equals(firebaseUser.getUid())) {
-//                                postIDList.add(post_snapshot.getKey().toString());
-//                            }
-//                        }
-//                    }
-//                    for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
-//                        String postID = comment_snapshot.getKey().toString();
-//                        postCommentCount.put(postID, comment_snapshot.getChildrenCount());
-//                    }
-//                    for (DataSnapshot like_snapshot : snapshot.child("Likes").getChildren()) {
-//                        String postID = like_snapshot.getKey().toString();
-//                        postLikeCount.put(postID, like_snapshot.getChildrenCount());
-//                    }
-//                    onCreate = false;
-//                } else {
-//                    Log.d("heng", "a new snapshot");
-//                    babyFollowed.clear();
-//                    for (DataSnapshot followSnapshot : snapshot.child("Follow").child(firebaseUser.getUid()).getChildren()) {
-//                        boolean follow = (boolean) followSnapshot.getValue();
-//                        if (follow) {
-//                            Log.d("heng", "adding followed baby " + followSnapshot.getKey());
-//                            babyFollowed.add(followSnapshot.getKey().toString());
-//                        }
-//                    }
-//                    for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-//                        String baby_id = baby_post_snapshot.getKey().toString();
-//                        if (!babyFollowed.contains(baby_id)) {
-//                            continue;
-//                        }
-//                        Log.d("heng", "found posts for followed baby " + baby_id);
-//                        for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
-//                            postIDToBabyID.put(post_snapshot.getKey().toString(), baby_id);
-//                            String publisher = post_snapshot.child("publisher").getValue().toString();
-//                            Log.d("heng", "post snapshot id " + post_snapshot.getKey().toString() + " by publisher " + publisher);
-//                            if (publisher.equals(firebaseUser.getUid())) {
-//                                postIDList.add(post_snapshot.getKey().toString());
-//                            }
-//                            if (!publisher.equals(firebaseUser.getUid())) {
-//                                Log.d("heng", "about to show notification, oncreate is " + onCreate);
-//                                showNotificationIndicator(baby_id);
-//                            }
-//                        }
-//                    }
-//                    for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
-//                        String postID = comment_snapshot.getKey().toString();
-//                        String commentPublisher = comment_snapshot.child(postID).child("publisher").getValue().toString();
-//                        if (postIDList.contains(postID) && !commentPublisher.equals(firebaseUser.getUid())) {
-//                            showNotificationIndicator(postIDToBabyID.get(postID));
-//                        }
-//                    }
-//                    for (DataSnapshot like_snapshot : snapshot.child("Likes").getChildren()) {
-//                        String postID = like_snapshot.getKey().toString();
-//                        String userId = like_snapshot.child(postID).getChildren().toString();
-//                        if (postIDList.contains(postID) && !like_snapshot.equals(firebaseUser.getUid())) {
-//                            showNotificationIndicator(postIDToBabyID.get(postID));
-//                        }
-//                    }
-//                }
             }
 
             @Override
