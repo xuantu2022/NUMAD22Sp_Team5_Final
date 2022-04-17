@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import edu.neu.madcourse.numad22sp_team5.GlobalStatus;
 import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
@@ -52,6 +53,11 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
 
         ItemMessage message = itemList.get(position);
         String baby_id = message.getBabyId();
+        boolean shouldNotify = message.isNotifyOnCreate();
+        if (shouldNotify) {
+            holder.unread.setVisibility(View.VISIBLE);
+        }
+
         DatabaseReference post_reference = FirebaseDatabase.getInstance().getReference("Posts");
         post_reference.addValueEventListener(new ValueEventListener() {
             @Override

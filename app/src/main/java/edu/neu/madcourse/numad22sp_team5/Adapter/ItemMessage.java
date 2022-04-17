@@ -4,11 +4,13 @@ public class ItemMessage {
     private final String babyId;
     private final String nickname;
     private final String headshot;
+    private boolean notifyOnCreate = false;
 
-    public ItemMessage(String babyId, String nickname, String headshot) {
+    public ItemMessage(String babyId, String nickname, String headshot, boolean notifyOnCreate) {
         this.babyId = babyId;
         this.nickname = nickname;
         this.headshot = headshot;
+        this.notifyOnCreate = notifyOnCreate;
     }
 
     public String getBabyId() {
@@ -20,4 +22,6 @@ public class ItemMessage {
     }
 
     public String getHeadshot() {return headshot;}
+
+    public boolean isNotifyOnCreate() {return notifyOnCreate;}
 }

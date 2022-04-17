@@ -29,6 +29,7 @@ import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessage;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessageAdapter;
 import edu.neu.madcourse.numad22sp_team5.GlobalStatus;
 import edu.neu.madcourse.numad22sp_team5.R;
+import edu.neu.madcourse.numad22sp_team5.SnapshotParser;
 
 
 public class MessageFragment extends Fragment {
@@ -37,6 +38,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView messageView;
     private ItemMessageAdapter messageAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
+    private SnapshotParser snapshotParser;
 
 
     @Override
@@ -44,6 +46,8 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         createMessageView(view);
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        snapshotParser = new SnapshotParser(firebaseUser.getUid());
         //test = ((GlobalStatus) getActivity().getApplication()).getTest();
         readNotification();
         // addMessage(0, "System notification", "nickname");
@@ -65,7 +69,7 @@ public class MessageFragment extends Fragment {
                         String baby_id = followSnapshot.getKey();
                         String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
                         String headshot = dataSnapshot.child("Babys").child(baby_id).child("headshot").getValue().toString();
-                        messages.add(0, new ItemMessage(baby_id, nickname, headshot));
+                        messages.add(0, new ItemMessage(baby_id, nickname, headshot, ((GlobalStatus) getActivity().getApplication()).shouldNotifyBaby(baby_id)));
                     }
                 }
 
