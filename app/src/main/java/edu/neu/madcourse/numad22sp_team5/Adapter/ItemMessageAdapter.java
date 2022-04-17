@@ -130,7 +130,12 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
                         }
                         snapshotParser.setBabyLikeCounter(babyLikeCount);
                         snapshotParser.setPostLikeCounter(postLikeCount);
+                    } else if (babyLikeCount.get(baby_id) < snapshotParser.likeCountForBaby(baby_id)) {
+                        snapshotParser.setBabyLikeCounter(babyLikeCount);
+                        snapshotParser.setPostLikeCounter(postLikeCount);
                     }
+
+
                 }
             }
 
