@@ -6,18 +6,23 @@ import androidx.fragment.app.Fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
@@ -32,15 +37,23 @@ public class MainActivity extends AppCompatActivity {
 
     //add notification indicator
     public View notificationIndicator;
-    private final ReentrantLock lock = new ReentrantLock();
 
 
     private String babyid;
     private String headshot;
     private String nickname;
-    private int onCreate = 0;
+    private boolean onCreate = true;
 
     GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
+    private SnapshotParser snapshotParser;
+    private HashSet<String> babyFollowed = new HashSet<>();
+    private HashSet<String> postIDList = new HashSet<>();
+    private HashMap<String, String> postIDToBabyID = new HashMap<>();
+    private HashMap<String, Long> babyPostCount = new HashMap<>();
+    private HashMap<String, Long> postCommentCount = new HashMap<>();
+    private HashMap<String, Long> postLikeCount = new HashMap<>();
+    private int commentCount = 0;
+    private int likeCount = 0;
 
 
     @Override
@@ -61,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
         babyid = pref.getString("babyid","");
         headshot = pref.getString("headshot", "");
         nickname = pref.getString("nickname", "");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        snapshotParser = new SnapshotParser(firebaseUser.getUid());
         /*
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
@@ -139,14 +154,109 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNotificationIndicator() {
-        DatabaseReference p_reference = FirebaseDatabase.getInstance().getReference("Posts");
-        p_reference.addValueEventListener(new ValueEventListener() {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lock.lock();
-                onCreate++;
-                lock.unlock();
-                showNotificationIndicator();
+                if (onCreate) {
+                    snapshotParser.parse(snapshot);
+                    onCreate = false;
+                } else {
+                    // check posts.
+                    HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
+                    HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
+                    for (String baby : babyFollowed) {
+                        if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
+                            if (snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
+                                continue;
+                            }
+                            showNotificationIndicator(baby);
+                        }
+                    }
+                    snapshotParser.setBabyPostCounter(babyPostCount);
+
+                    // check comments
+                }
+//                if (onCreate) {
+//                    Log.d("heng", "a new snapshot");
+//                    babyFollowed.clear();
+//                    for (DataSnapshot followSnapshot : snapshot.child("Follow").child(firebaseUser.getUid()).getChildren()) {
+//                        boolean follow = (boolean) followSnapshot.getValue();
+//                        if (follow) {
+//                            Log.d("heng", "adding followed baby " + followSnapshot.getKey());
+//                            babyFollowed.add(followSnapshot.getKey().toString());
+//                        }
+//                    }
+//                    for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
+//                        String baby_id = baby_post_snapshot.getKey().toString();
+//                        if (!babyFollowed.contains(baby_id)) {
+//                            continue;
+//                        }
+//                        babyPostCount.put(baby_id, baby_post_snapshot.getChildrenCount());
+//                        Log.d("heng", "found posts for followed baby " + baby_id);
+//                        for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
+//                            postIDToBabyID.put(post_snapshot.getKey().toString(), baby_id);
+//                            String publisher = post_snapshot.child("publisher").getValue().toString();
+//                            Log.d("heng", "post snapshot id " + post_snapshot.getKey().toString() + " by publisher " + publisher);
+//                            if (publisher.equals(firebaseUser.getUid())) {
+//                                postIDList.add(post_snapshot.getKey().toString());
+//                            }
+//                        }
+//                    }
+//                    for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
+//                        String postID = comment_snapshot.getKey().toString();
+//                        postCommentCount.put(postID, comment_snapshot.getChildrenCount());
+//                    }
+//                    for (DataSnapshot like_snapshot : snapshot.child("Likes").getChildren()) {
+//                        String postID = like_snapshot.getKey().toString();
+//                        postLikeCount.put(postID, like_snapshot.getChildrenCount());
+//                    }
+//                    onCreate = false;
+//                } else {
+//                    Log.d("heng", "a new snapshot");
+//                    babyFollowed.clear();
+//                    for (DataSnapshot followSnapshot : snapshot.child("Follow").child(firebaseUser.getUid()).getChildren()) {
+//                        boolean follow = (boolean) followSnapshot.getValue();
+//                        if (follow) {
+//                            Log.d("heng", "adding followed baby " + followSnapshot.getKey());
+//                            babyFollowed.add(followSnapshot.getKey().toString());
+//                        }
+//                    }
+//                    for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
+//                        String baby_id = baby_post_snapshot.getKey().toString();
+//                        if (!babyFollowed.contains(baby_id)) {
+//                            continue;
+//                        }
+//                        Log.d("heng", "found posts for followed baby " + baby_id);
+//                        for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
+//                            postIDToBabyID.put(post_snapshot.getKey().toString(), baby_id);
+//                            String publisher = post_snapshot.child("publisher").getValue().toString();
+//                            Log.d("heng", "post snapshot id " + post_snapshot.getKey().toString() + " by publisher " + publisher);
+//                            if (publisher.equals(firebaseUser.getUid())) {
+//                                postIDList.add(post_snapshot.getKey().toString());
+//                            }
+//                            if (!publisher.equals(firebaseUser.getUid())) {
+//                                Log.d("heng", "about to show notification, oncreate is " + onCreate);
+//                                showNotificationIndicator(baby_id);
+//                            }
+//                        }
+//                    }
+//                    for (DataSnapshot comment_snapshot : snapshot.child("Comments").getChildren()) {
+//                        String postID = comment_snapshot.getKey().toString();
+//                        String commentPublisher = comment_snapshot.child(postID).child("publisher").getValue().toString();
+//                        if (postIDList.contains(postID) && !commentPublisher.equals(firebaseUser.getUid())) {
+//                            showNotificationIndicator(postIDToBabyID.get(postID));
+//                        }
+//                    }
+//                    for (DataSnapshot like_snapshot : snapshot.child("Likes").getChildren()) {
+//                        String postID = like_snapshot.getKey().toString();
+//                        String userId = like_snapshot.child(postID).getChildren().toString();
+//                        if (postIDList.contains(postID) && !like_snapshot.equals(firebaseUser.getUid())) {
+//                            showNotificationIndicator(postIDToBabyID.get(postID));
+//                        }
+//                    }
+//                }
             }
 
             @Override
@@ -154,36 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        DatabaseReference like_reference = FirebaseDatabase.getInstance().getReference("Likes");
-        like_reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lock.lock();
-                onCreate++;
-                lock.unlock();
-                showNotificationIndicator();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-        DatabaseReference comments_reference = FirebaseDatabase.getInstance().getReference("Comments");
-        comments_reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                lock.lock();
-                onCreate++;
-                lock.unlock();
-                showNotificationIndicator();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
     }
 
     @Override
@@ -197,9 +278,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     //add notification indicator
-    private void showNotificationIndicator() {
-        if (onCreate > 3 && !globalStatus.getIsInMessage()) {
+    private void showNotificationIndicator(String babyId) {
+        if (!globalStatus.getIsInMessage()) {
             notificationIndicator.setVisibility(View.VISIBLE);
+            globalStatus.addBabyNotify(babyId);
         }
     }
 

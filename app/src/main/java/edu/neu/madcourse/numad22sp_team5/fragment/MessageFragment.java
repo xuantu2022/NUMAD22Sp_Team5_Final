@@ -37,7 +37,6 @@ public class MessageFragment extends Fragment {
     private RecyclerView messageView;
     private ItemMessageAdapter messageAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
-    String test;
 
 
     @Override
