@@ -23,24 +23,40 @@ public class SnapshotParser {
     }
 
     public Long postCountForBaby(String baby) {
+        if (!babyPostCounter.containsKey(baby)) {
+            Log.d("database corruption", "post table not initialized for baby " + baby);
+            return 0L;
+        }
         return babyPostCounter.get(baby);
     }
 
     public Long commentCountForBaby(String baby) {
+        if (!babyCommentCounter.containsKey(baby)) {
+            Log.d("database corruption", "Comment table not initialized for baby " + baby);
+            return 0L;
+        }
         return babyCommentCounter.get(baby);
     }
 
     public Long commentCountForPost(String post) {
+        if (!postCommentCounter.containsKey(post)) {
+            Log.d("database corruption", "comment table not updated for post " + post);
+            return 0L;
+        }
         return postCommentCounter.get(post);
     }
 
     public Long likeCountForBaby(String baby) {
+        if (!babyLikeCounter.containsKey(baby)) {
+            Log.d("database corruption", "like table not updated for baby " + baby);
+            return 0L;
+        }
         return babyLikeCounter.get(baby);
     }
 
     public Long likeCountForPost(String post) {
         if (!postLikeCounter.containsKey(post)) {
-            Log.d("database corruption", "unknown post " + post);
+            Log.d("database corruption", "Like table not updated for post " + post);
             return 0L;
         }
         return postLikeCounter.get(post);
