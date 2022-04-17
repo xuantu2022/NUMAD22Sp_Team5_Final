@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessage;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemMessageAdapter;
+import edu.neu.madcourse.numad22sp_team5.GlobalStatus;
 import edu.neu.madcourse.numad22sp_team5.R;
 
 
@@ -35,6 +37,7 @@ public class MessageFragment extends Fragment {
     private RecyclerView messageView;
     private ItemMessageAdapter messageAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
+    String test;
 
 
     @Override
@@ -42,7 +45,7 @@ public class MessageFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         createMessageView(view);
-
+        //test = ((GlobalStatus) getActivity().getApplication()).getTest();
         readNotification();
         // addMessage(0, "System notification", "nickname");
         return view;

@@ -43,10 +43,15 @@ public class TimelineActivity extends AppCompatActivity {
     private ItemEventAdapter eventAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
 
+    GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
+    String test;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.baby_timeline);
+
+        //test = globalStatus.getTest();
 
         Intent intent = getIntent();
         baby_id = intent.getStringExtra("baby_id");

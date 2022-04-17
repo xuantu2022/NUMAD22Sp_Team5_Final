@@ -1,21 +1,14 @@
 package edu.neu.madcourse.numad22sp_team5;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import androidx.appcompat.widget.Toolbar;
-
 
 
 import com.google.android.material.navigation.NavigationBarView;
@@ -47,11 +40,15 @@ public class MainActivity extends AppCompatActivity {
     private String nickname;
     private int onCreate = 0;
 
+    GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //globalStatus.setTest("test");
 
         navigationBarView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         /* disable customized toolbar
@@ -85,9 +82,11 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.nav_home:
                         selectedFragment = new HomeFragment();
+                        globalStatus.setIsInMessage(false);
                         break;
                     case R.id.nav_message:
                         selectedFragment = new MessageFragment();
+                        globalStatus.setIsInMessage(true);
                         //add notification indicator
                         if(notificationIndicator != null){
                             if(notificationIndicator.getVisibility() == View.VISIBLE){
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_setting:
                         selectedFragment = new SettingFragment();
+                        globalStatus.setIsInMessage(false);
                         break;
                 }
                 if (selectedFragment != null) {
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
     //add notification indicator
     private void showNotificationIndicator() {
-        if (onCreate > 3) {
+        if (onCreate > 3 && !globalStatus.getIsInMessage()) {
             notificationIndicator.setVisibility(View.VISIBLE);
         }
     }
