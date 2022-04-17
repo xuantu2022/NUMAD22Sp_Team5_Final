@@ -17,6 +17,7 @@ public class SnapshotParser {
     private HashMap<String, Long> postCommentCounter = new HashMap<>();
     private HashMap<String, Long> babyLikeCounter = new HashMap<>();
     private HashMap<String, Long> postLikeCounter = new HashMap<>();
+    private boolean parsed = false;
 
     public SnapshotParser(String user) {
         this.user = user;
@@ -84,11 +85,13 @@ public class SnapshotParser {
 
     // Parses the entire database snapshot, caches the number of posts, comments and likes for babies.
     public void parse(DataSnapshot snapshot) {
+        if (parsed) return;
         babyPostCounter = parseBabyPostCount(snapshot);
         babyCommentCounter = parseBabyCommentCount(snapshot);
         postCommentCounter = parsePostCommentCount(snapshot);
         babyLikeCounter = parseBabyLikeCount(snapshot);
         postLikeCounter = parsePostLikeCount(snapshot);
+        parsed = true;
     }
 
     // Returns a map between post id and baby id.

@@ -44,7 +44,12 @@ public class TimelineActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager rLayoutManger;
 
     GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
-    String test;
+
+    @Override
+    protected void onDestroy() {
+        globalStatus.unmuteBaby(baby_id);
+        super.onDestroy();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -160,9 +160,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (onCreate) {
+                    Log.d("info", "init snapshot in main");
                     snapshotParser.parse(snapshot);
                     onCreate = false;
                 } else {
+                    Log.d("info", "main received another data snapshot");
                     // check if there is any new post for followed babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
                     HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
@@ -191,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
+                    Log.d("info", "main setting baby comment counter");
                     snapshotParser.setBabyCommentCounter(babyCommentCount);
                     snapshotParser.setPostCommentCounter(postCommentCount);
 

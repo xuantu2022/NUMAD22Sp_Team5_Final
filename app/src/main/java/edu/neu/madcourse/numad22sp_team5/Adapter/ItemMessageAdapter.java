@@ -54,16 +54,19 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
     public void onBindViewHolder(ItemMessageHolder holder, int position) {
         ItemMessage currentItem = itemList.get(position);
         holder.nickName.setText(currentItem.getNickname());
-        holder.unread.setVisibility(View.GONE);
+        // holder.unread.setVisibility(View.GONE);
 
 
         Glide.with(mContext).load(currentItem.getHeadshot()).centerCrop().into(holder.headshot);
 
         ItemMessage message = itemList.get(position);
+        GlobalStatus status = message.getStatus();
         String baby_id = message.getBabyId();
         boolean shouldNotify = message.isNotifyOnCreate();
-        if (shouldNotify) {
+        if (shouldNotify && holder.onCreate) {
             holder.unread.setVisibility(View.VISIBLE);
+        } else if (holder.onCreate) {
+            holder.unread.setVisibility(View.GONE);
         }
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -72,29 +75,41 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (holder.onCreate) {
+                    Log.d("info", "init message adapter received a data snapshot");
                     snapshotParser.parse(snapshot);
                     holder.onCreate = false;
                 } else {
+                    Log.d("info", "message adapter received another data snapshot");
                     // check if there is any new post for this babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
-                    if (babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id)) {
+                    if (babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                        Log.d("info", "send nitofication for new post " + baby_id);
                         holder.unread.setVisibility(View.VISIBLE);
+                        snapshotParser.setBabyPostCounter(babyPostCount);
                     }
-                    snapshotParser.setBabyPostCounter(babyPostCount);
+
 
                     // check if there is any new comments for baby's posts.
                     HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
-                    if (babyCommentCount.get(baby_id) > snapshotParser.commentCountForBaby(baby_id)) {
-                        holder.unread.setVisibility(View.VISIBLE);
+                    for (String key : babyCommentCount.keySet()) {
+                        Log.d("info", "new count for baby " + key + " is " + babyCommentCount.get(key));
                     }
-                    snapshotParser.setBabyCommentCounter(babyCommentCount);
+                    Log.d("info", "there were " + snapshotParser.commentCountForBaby(baby_id) + " comments for baby " + baby_id);
+                    if (babyCommentCount.get(baby_id) > snapshotParser.commentCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                        Log.d("info", "send nitofication for new comment " + baby_id);
+                        holder.unread.setVisibility(View.VISIBLE);
+                        Log.d("info", "adapter setting baby comment counter");
+                        snapshotParser.setBabyCommentCounter(babyCommentCount);
+                    }
+
 
                     // Check if there is any new like for this baby's posts.
                     HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
-                    if (babyLikeCount.get(baby_id) > snapshotParser.likeCountForBaby(baby_id)) {
+                    if (babyLikeCount.get(baby_id) > snapshotParser.likeCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                        Log.d("info", "send nitofication for new like " + baby_id);
                         holder.unread.setVisibility(View.VISIBLE);
+                        snapshotParser.setBabyLikeCounter(babyLikeCount);
                     }
-                    snapshotParser.setBabyLikeCounter(babyLikeCount);
                 }
             }
 
@@ -108,6 +123,7 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
             @Override
             public void onClick(View view) {
                 holder.unread.setVisibility(View.GONE);
+                status.muteBaby(message.getBabyId());
                 Intent intent = new Intent(mContext, TimelineActivity.class);
                 intent.putExtra("baby_id", message.getBabyId());
                 mContext.startActivity(intent);
