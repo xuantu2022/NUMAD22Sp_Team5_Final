@@ -39,6 +39,7 @@ public class MessageFragment extends Fragment {
     private ItemMessageAdapter messageAdapter;
     private RecyclerView.LayoutManager rLayoutManger;
     private SnapshotParser snapshotParser;
+    GlobalStatus globalStatus;
 
 
     @Override
@@ -48,6 +49,7 @@ public class MessageFragment extends Fragment {
         createMessageView(view);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         snapshotParser = new SnapshotParser(firebaseUser.getUid());
+        globalStatus = ((GlobalStatus) getActivity().getApplication());
         //test = ((GlobalStatus) getActivity().getApplication()).getTest();
         readNotification();
         // addMessage(0, "System notification", "nickname");
@@ -69,7 +71,7 @@ public class MessageFragment extends Fragment {
                         String baby_id = followSnapshot.getKey();
                         String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
                         String headshot = dataSnapshot.child("Babys").child(baby_id).child("headshot").getValue().toString();
-                        messages.add(0, new ItemMessage(baby_id, nickname, headshot, ((GlobalStatus) getActivity().getApplication()).shouldNotifyBaby(baby_id)));
+                        messages.add(0, new ItemMessage(baby_id, nickname, headshot, globalStatus.shouldNotifyBaby(baby_id)));
                     }
                 }
 

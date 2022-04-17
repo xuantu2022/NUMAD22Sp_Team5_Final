@@ -2,6 +2,7 @@ package edu.neu.madcourse.numad22sp_team5.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,21 +20,26 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import edu.neu.madcourse.numad22sp_team5.GlobalStatus;
 import edu.neu.madcourse.numad22sp_team5.MainActivity;
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.R;
+import edu.neu.madcourse.numad22sp_team5.SnapshotParser;
 import edu.neu.madcourse.numad22sp_team5.TimelineActivity;
 
 public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> {
     private Context mContext;
     private ArrayList<ItemMessage> itemList;
     private Long currentCount;
-
+    private SnapshotParser snapshotParser;
 
     //Constructor
     public ItemMessageAdapter(Context context, ArrayList<ItemMessage> itemList) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        snapshotParser = new SnapshotParser(firebaseUser.getUid());
         this.mContext = context;
         this.itemList = itemList;
     }
@@ -58,16 +66,36 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
             holder.unread.setVisibility(View.VISIBLE);
         }
 
-        DatabaseReference post_reference = FirebaseDatabase.getInstance().getReference("Posts");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference post_reference = FirebaseDatabase.getInstance().getReference();
         post_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Long posts_count = snapshot.child(baby_id).getChildrenCount();
-                if (!holder.onCreate && posts_count > currentCount) {
-                    holder.unread.setVisibility(View.VISIBLE);
+                if (holder.onCreate) {
+                    snapshotParser.parse(snapshot);
+                    holder.onCreate = false;
+                } else {
+                    // check if there is any new post for this babies.
+                    HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
+                    if (babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id)) {
+                        holder.unread.setVisibility(View.VISIBLE);
+                    }
+                    snapshotParser.setBabyPostCounter(babyPostCount);
+
+                    // check if there is any new comments for baby's posts.
+                    HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
+                    if (babyCommentCount.get(baby_id) > snapshotParser.commentCountForBaby(baby_id)) {
+                        holder.unread.setVisibility(View.VISIBLE);
+                    }
+                    snapshotParser.setBabyCommentCounter(babyCommentCount);
+
+                    // Check if there is any new like for this baby's posts.
+                    HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
+                    if (babyLikeCount.get(baby_id) > snapshotParser.likeCountForBaby(baby_id)) {
+                        holder.unread.setVisibility(View.VISIBLE);
+                    }
+                    snapshotParser.setBabyLikeCounter(babyLikeCount);
                 }
-                currentCount = posts_count;
-                holder.onCreate = false;
             }
 
             @Override
