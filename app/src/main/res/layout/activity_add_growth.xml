@@ -10,24 +10,36 @@
         android:id="@+id/growth_text"
         android:layout_width="141dp"
         android:layout_height="27dp"
+        android:layout_alignTop="@+id/height"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="-40dp"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:textColor="@color/black"
+
         android:text="Record Baby Growth" />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/growth_text"
-        android:layout_marginStart="47dp"
         android:id="@+id/height"
-        android:hint="height: cm"/>
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/weight"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="-40dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/edit_text_background"
+        android:paddingLeft="7dp"
+
+        android:hint="  Height" />
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/height"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:layout_marginStart="47dp"
         android:id="@+id/weight"
-        android:hint="weight: kg"/>
+        android:hint="  Weight"
+        android:layout_centerVertical="true"
+        android:paddingLeft="7dp"
+        android:background="@drawable/edit_text_background"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +48,37 @@
         android:text="Post"
         android:id="@+id/growth_post"/>
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/growth_text"
+        android:layout_marginStart="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        app:srcCompat="@drawable/baby_growth_meas" />
 
+    <TextView
+        android:id="@+id/cm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/height"
+        android:text="CM"
+        android:layout_marginTop="-40dp"
+        android:layout_alignTop="@+id/kg"
+        android:layout_marginStart="3dp"
+        android:textStyle="bold"
+        />
+
+    <TextView
+        android:id="@+id/kg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/weight"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="3dp"
+        android:textStyle="bold"
+        android:text="KG" />
 
 
 </RelativeLayout>
