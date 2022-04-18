@@ -39,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn_photo"
         android:layout_marginBottom="-30dp"
-        android:layout_marginStart="55dp"
+        android:layout_marginEnd="80dp"
+        android:layout_toLeftOf="@+id/textView3"
 
 
         android:text="Photo" />
@@ -58,7 +59,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/btn_growth"
-        android:layout_marginStart="315dp"
+        android:layout_toRightOf="@+id/textView3"
+        android:layout_marginStart="80dp"
         android:layout_marginBottom="-31dp"
         android:text="Growth" />
 </RelativeLayout>
