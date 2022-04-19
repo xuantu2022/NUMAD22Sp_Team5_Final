@@ -25,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText username, fullname, email, password;
+    EditText username, email, password;
     Button register;
     TextView txt_login;
 

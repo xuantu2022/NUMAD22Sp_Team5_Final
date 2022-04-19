@@ -65,7 +65,8 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
         boolean shouldNotify = message.isNotifyOnCreate();
         if (shouldNotify && holder.onCreate) {
             holder.unread.setVisibility(View.VISIBLE);
-        } else if (holder.onCreate) {
+        }
+        else if (holder.onCreate) {
             holder.unread.setVisibility(View.GONE);
         }
 

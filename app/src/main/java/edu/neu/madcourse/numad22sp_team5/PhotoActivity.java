@@ -167,10 +167,10 @@ public class PhotoActivity extends AppCompatActivity {
 
                             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Posts");
                             String postid = reference.push().getKey();
+
                             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                             LocalDateTime now = LocalDateTime.now();
                             String time = dtf.format(now);
-
 
                             HashMap<String,Object> hashMap = new HashMap<>();
                             hashMap.put("babyid",babyid);
@@ -188,11 +188,22 @@ public class PhotoActivity extends AppCompatActivity {
                                 hashMap.put("postType","milestone");
                             }
 
-
-
                             HashMap<String,Object> postHash = new HashMap<>();
                             postHash.put(postid, hashMap);
                             reference.child(babyid).updateChildren(postHash);
+
+                            // add notification branch in firebase
+                            DatabaseReference reference_notify = FirebaseDatabase.getInstance().getReference("Notification");
+                            String notificationId = reference_notify.push().getKey();
+                            HashMap<String, Object> notifyMap = new HashMap<>();
+                            notifyMap.put("postid", postid);
+                            notifyMap.put("post publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notifyMap.put("type", "post");
+                            notifyMap.put("time", time);
+                            HashMap<String, Object> notifyHash = new HashMap<>();
+                            notifyHash.put(notificationId, notifyMap);
+                            reference_notify.child(babyid).updateChildren(notifyHash);
 
                             progressDialog.dismiss();
 
