@@ -65,13 +65,14 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
         boolean shouldNotify = message.isNotifyOnCreate();
         if (shouldNotify && holder.onCreate) {
             holder.unread.setVisibility(View.VISIBLE);
-        } else if (holder.onCreate) {
+        }
+        else if (holder.onCreate) {
             holder.unread.setVisibility(View.GONE);
         }
 
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference post_reference = FirebaseDatabase.getInstance().getReference();
-        post_reference.addValueEventListener(new ValueEventListener() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (holder.onCreate) {

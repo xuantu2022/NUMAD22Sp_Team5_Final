@@ -10,9 +10,30 @@ public class GlobalStatus extends Application {
     private static boolean isInMessage;
     private static HashSet<String> initialBabyNotify = new HashSet<>();
     private static HashMap<String, Boolean> muteNotify = new HashMap<String, Boolean>();
+    private static HashSet<String> babyListNotify = new HashSet<>();
+    private static int timesInMain = 0;
 
     public GlobalStatus() {
         GlobalStatus.isInMessage = false;
+    }
+
+    public static void setTimesInMain(int timesInMain){
+        GlobalStatus.timesInMain = timesInMain;
+    }
+
+    public static int getTimesInMain(){
+        return GlobalStatus.timesInMain;
+    }
+
+    public static void addBabyListNotify(String babyId) {
+        babyListNotify.add(babyId);
+    }
+
+    public static boolean shouldBabyListNotify(String babyId) {
+        return babyListNotify.contains(babyId);
+    }
+    public static void clearBabyListNotify() {
+        babyListNotify.clear();
     }
 
     public static void addBabyNotify(String babyId) {

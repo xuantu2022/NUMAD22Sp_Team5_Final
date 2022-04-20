@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private int likeCount = 0;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,12 +138,21 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationBarView itemView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
-        notificationIndicator.setVisibility(View.GONE);
+        if (globalStatus.getTimesInMain() == 0) {
+            notificationIndicator.setVisibility(View.GONE);
+        }
+        globalStatus.setTimesInMain(globalStatus.getTimesInMain()+1);
+
         itemView.addView(notificationIndicator);
+        //notification from babyList
+        //notificationIndicator.setVisibility(View.VISIBLE);
+        if (globalStatus.shouldBabyListNotify(babyid)) {
+            //notificationIndicator.setVisibility(View.VISIBLE);
+        }
 
+        Log.d("babylist_main", "start initNotify function");
         initNotificationIndicator();
-
-        // showNotificationIndicator();
+        Log.d("babylist_main", "end initNotify function");
     }
 
     //Save current state of fragment
@@ -156,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initNotificationIndicator() {
+        Log.d("babylist_babyid", "babyid is " + babyid);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.addValueEventListener(new ValueEventListener() {

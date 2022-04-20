@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
@@ -115,6 +116,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
                             .child(firebaseUser.getUid()).child("time").setValue(time);
+
+                    // add notification branch in firebase
+                    DatabaseReference reference_notify = FirebaseDatabase.getInstance().getReference("Notification");
+                    String notificationId = reference_notify.push().getKey();
+                    HashMap<String, Object> notifyMap = new HashMap<>();
+                    notifyMap.put("postid", post.getPostid());
+                    notifyMap.put("post publisher", post.getPublisher());
+                    notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    notifyMap.put("type", "like");
+                    notifyMap.put("time", time);
+                    HashMap<String, Object> notifyHash = new HashMap<>();
+                    notifyHash.put(notificationId, notifyMap);
+                    reference_notify.child(post.getBabyid()).updateChildren(notifyHash);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(post.getPostid())
                             .child(firebaseUser.getUid()).removeValue();
