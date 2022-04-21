@@ -186,7 +186,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
 
         readPosts();
-        recyclerView.scrollToPosition(0);
 
         // Inflate the layout for this fragment
         return view;
@@ -214,7 +213,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                 }
 
                 postAdapter.notifyDataSetChanged();
-                recyclerView.scrollToPosition(0);
+
 
 
 
