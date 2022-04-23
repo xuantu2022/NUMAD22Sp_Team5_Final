@@ -85,7 +85,7 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
 
                     // check if there is any new post for this babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
-                    if (babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                    if (babyPostCount.containsKey(baby_id) && babyPostCount.get(baby_id) > snapshotParser.postCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
                         Log.d("info", "receiving a new post from itemMessageAdapter");
                         if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby_id).equals(firebaseUser.getUid())) {
                             holder.unread.setVisibility(View.VISIBLE);
@@ -98,7 +98,7 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
                     HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
                     HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
                     //Log.d("info", "there were " + snapshotParser.commentCountForBaby(baby_id) + " comments for baby " + baby_id);
-                    if (babyCommentCount.get(baby_id) != snapshotParser.commentCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                    if (babyCommentCount.containsKey(baby_id) && babyCommentCount.get(baby_id) != snapshotParser.commentCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
                         //Log.d("info", "send nitofication for new comment " + baby_id);
                         for (String myPost : snapshotParser.myPosts(snapshot)) {
                             if (!postCommentCount.containsKey(myPost)) {
@@ -119,7 +119,7 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
                     // Check if there is any new like for this baby's posts.
                     HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
                     HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
-                    if (babyLikeCount.get(baby_id) != snapshotParser.likeCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
+                    if (babyLikeCount.containsKey(baby_id) && babyLikeCount.get(baby_id) != snapshotParser.likeCountForBaby(baby_id) && !status.isBabyMute(baby_id)) {
                         for (String myPost : snapshotParser.myPosts(snapshot)) {
                             if (!postLikeCount.containsKey(myPost)) {
                                 Log.d("warning", "unknow post for like table: " + myPost);
@@ -134,10 +134,10 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
                         snapshotParser.setBabyLikeCounter(babyLikeCount);
                         snapshotParser.setPostLikeCounter(postLikeCount);
                     }
-//                    else if (babyLikeCount.get(baby_id) < snapshotParser.likeCountForBaby(baby_id)) {
-//                        snapshotParser.setBabyLikeCounter(babyLikeCount);
-//                        snapshotParser.setPostLikeCounter(postLikeCount);
-//                    }
+                    else if (babyLikeCount.get(baby_id) < snapshotParser.likeCountForBaby(baby_id)) {
+                        snapshotParser.setBabyLikeCounter(babyLikeCount);
+                        snapshotParser.setPostLikeCounter(postLikeCount);
+                    }
 
 
                 }

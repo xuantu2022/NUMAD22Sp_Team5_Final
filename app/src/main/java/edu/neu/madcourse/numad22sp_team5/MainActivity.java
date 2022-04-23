@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
                     HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
                     for (String baby : babyFollowed) {
+                        if (!babyPostCount.containsKey(baby)) continue;
                         if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
                             if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
                                 showNotificationIndicator(baby);
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                     HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
                     HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
                     for (String baby : babyFollowed) {
+                        if (!babyCommentCount.containsKey(baby)) continue;
                         if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postCommentCount.containsKey(myPost)) {
@@ -205,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
                     HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
                     for (String baby : babyFollowed) {
+                        if (!babyLikeCount.containsKey(baby)) continue;
                         if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postLikeCount.containsKey(myPost)) {
