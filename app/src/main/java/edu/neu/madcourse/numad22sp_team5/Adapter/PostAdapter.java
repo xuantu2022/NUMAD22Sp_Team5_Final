@@ -126,6 +126,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
+                    notifyMap.put("description", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(post.getBabyid()).updateChildren(notifyHash);

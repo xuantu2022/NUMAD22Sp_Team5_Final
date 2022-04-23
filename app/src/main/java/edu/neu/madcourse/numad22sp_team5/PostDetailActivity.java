@@ -160,6 +160,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
+                    notifyMap.put("description", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(babyid).updateChildren(notifyHash);
@@ -228,6 +229,7 @@ public class PostDetailActivity extends AppCompatActivity {
         notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
         notifyMap.put("type", "comment");
         notifyMap.put("time", time);
+        notifyMap.put("description", addComment.getText().toString());
         HashMap<String, Object> notifyHash = new HashMap<>();
         notifyHash.put(notificationId, notifyMap);
         reference_notify.child(babyid).updateChildren(notifyHash);

@@ -86,6 +86,7 @@ public class AddGrowthActivity extends AppCompatActivity {
                     notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     notifyMap.put("type", "post");
                     notifyMap.put("time", time);
+                    notifyMap.put("description", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(babyid).updateChildren(notifyHash);
