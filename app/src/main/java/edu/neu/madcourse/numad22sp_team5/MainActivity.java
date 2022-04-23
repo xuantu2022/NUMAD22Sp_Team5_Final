@@ -246,7 +246,9 @@ public class MainActivity extends AppCompatActivity {
     private void showNotificationIndicator(String babyId) {
         if (!globalStatus.getIsInMessage()) {
             notificationIndicator.setVisibility(View.VISIBLE);
-            globalStatus.addBabyNotify(babyId);
+            if (!globalStatus.isMessageRunning()) {
+                globalStatus.addBabyNotify(babyId);
+            }
         }
     }
 

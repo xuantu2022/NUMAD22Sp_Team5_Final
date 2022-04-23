@@ -6,14 +6,12 @@ public class ItemMessage {
     private final String babyId;
     private final String nickname;
     private final String headshot;
-    private boolean notifyOnCreate = false;
     GlobalStatus globalStatus;
 
-    public ItemMessage(String babyId, String nickname, String headshot, boolean notifyOnCreate, GlobalStatus status) {
+    public ItemMessage(String babyId, String nickname, String headshot, GlobalStatus status) {
         this.babyId = babyId;
         this.nickname = nickname;
         this.headshot = headshot;
-        this.notifyOnCreate = notifyOnCreate;
         globalStatus = status;
     }
 
@@ -30,6 +28,4 @@ public class ItemMessage {
     }
 
     public String getHeadshot() {return headshot;}
-
-    public boolean isNotifyOnCreate() {return notifyOnCreate;}
 }

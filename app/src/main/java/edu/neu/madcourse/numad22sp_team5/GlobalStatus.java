@@ -10,6 +10,7 @@ public class GlobalStatus extends Application {
     private static boolean isInMessage;
     private static HashSet<String> initialBabyNotify = new HashSet<>();
     private static HashMap<String, Boolean> muteNotify = new HashMap<String, Boolean>();
+    private static boolean messageRunning = false;
 
     public GlobalStatus() {
         GlobalStatus.isInMessage = false;
@@ -52,6 +53,12 @@ public class GlobalStatus extends Application {
 
     public static void setIsInMessage(boolean isInMessage) {
         GlobalStatus.isInMessage = isInMessage;
+    }
+
+    public static boolean isMessageRunning() { return messageRunning; }
+
+    public static void setMessageRunning(boolean running) {
+        GlobalStatus.messageRunning = running;
     }
 
 

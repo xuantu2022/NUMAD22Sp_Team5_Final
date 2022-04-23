@@ -46,11 +46,13 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("info", "Creating message fragment");
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         createMessageView(view);
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         snapshotParser = new SnapshotParser(firebaseUser.getUid());
         globalStatus = ((GlobalStatus) getActivity().getApplication());
+        globalStatus.setMessageRunning(true);
         //test = ((GlobalStatus) getActivity().getApplication()).getTest();
         readNotification();
         // addMessage(0, "System notification", "nickname");
@@ -73,8 +75,7 @@ public class MessageFragment extends Fragment {
                         String baby_id = followSnapshot.getKey();
                         String nickname = dataSnapshot.child("Babys").child(baby_id).child("nickname").getValue().toString();
                         String headshot = dataSnapshot.child("Babys").child(baby_id).child("headshot").getValue().toString();
-                        messages.add(0, new ItemMessage(baby_id, nickname, headshot, globalStatus.shouldNotifyBaby(baby_id), globalStatus));
-                        globalStatus.removeBabyNotify(baby_id);
+                        messages.add(0, new ItemMessage(baby_id, nickname, headshot, globalStatus));
                     }
                 }
 
@@ -98,7 +99,14 @@ public class MessageFragment extends Fragment {
         messageView.setAdapter(messageAdapter);
     }
 
-//    private void addMessage(int position, String babyId, String nickname) {
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("info", "destroying message fragment");
+        globalStatus.setMessageRunning(false);
+    }
+
+    //    private void addMessage(int position, String babyId, String nickname) {
 //        messages.add(position, new ItemMessage(babyId, nickname, headshot));
 //        messageAdapter.notifyItemInserted(position);
 //    }
