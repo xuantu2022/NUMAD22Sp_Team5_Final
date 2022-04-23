@@ -161,6 +161,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
                     notifyMap.put("description", "");
+                    notifyMap.put("postImage", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(babyid).updateChildren(notifyHash);
@@ -230,6 +231,7 @@ public class PostDetailActivity extends AppCompatActivity {
         notifyMap.put("type", "comment");
         notifyMap.put("time", time);
         notifyMap.put("description", addComment.getText().toString());
+        notifyMap.put("postImage", "");
         HashMap<String, Object> notifyHash = new HashMap<>();
         notifyHash.put(notificationId, notifyMap);
         reference_notify.child(babyid).updateChildren(notifyHash);

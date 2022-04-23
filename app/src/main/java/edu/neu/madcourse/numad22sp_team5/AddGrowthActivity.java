@@ -87,6 +87,7 @@ public class AddGrowthActivity extends AppCompatActivity {
                     notifyMap.put("type", "post");
                     notifyMap.put("time", time);
                     notifyMap.put("description", "");
+                    notifyMap.put("postImage", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(babyid).updateChildren(notifyHash);

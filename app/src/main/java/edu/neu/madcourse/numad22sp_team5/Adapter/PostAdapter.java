@@ -127,6 +127,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
                     notifyMap.put("description", "");
+                    notifyMap.put("postImage", "");
                     HashMap<String, Object> notifyHash = new HashMap<>();
                     notifyHash.put(notificationId, notifyMap);
                     reference_notify.child(post.getBabyid()).updateChildren(notifyHash);

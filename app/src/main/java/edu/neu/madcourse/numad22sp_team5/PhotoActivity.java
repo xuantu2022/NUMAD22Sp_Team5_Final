@@ -204,6 +204,7 @@ public class PhotoActivity extends AppCompatActivity {
                             notifyMap.put("type", "post");
                             notifyMap.put("time", time);
                             notifyMap.put("description", description.getText().toString());
+                            notifyMap.put("postImage", myUrl);
                             HashMap<String, Object> notifyHash = new HashMap<>();
                             notifyHash.put(notificationId, notifyMap);
                             reference_notify.child(babyid).updateChildren(notifyHash);
