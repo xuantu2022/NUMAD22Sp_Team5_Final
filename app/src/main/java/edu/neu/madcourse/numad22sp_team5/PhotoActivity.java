@@ -194,6 +194,19 @@ public class PhotoActivity extends AppCompatActivity {
                             postHash.put(postid, hashMap);
                             reference.child(babyid).updateChildren(postHash);
 
+                            // add notification branch in firebase
+                            DatabaseReference reference_notify = FirebaseDatabase.getInstance().getReference("Notification");
+                            String notificationId = reference_notify.push().getKey();
+                            HashMap<String, Object> notifyMap = new HashMap<>();
+                            notifyMap.put("postid", postid);
+                            notifyMap.put("post publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notifyMap.put("type", "post");
+                            notifyMap.put("time", time);
+                            HashMap<String, Object> notifyHash = new HashMap<>();
+                            notifyHash.put(notificationId, notifyMap);
+                            reference_notify.child(babyid).updateChildren(notifyHash);
+
                             progressDialog.dismiss();
 
                             //startActivity(new Intent(PhotoActivity.this, MainActivity.class));

@@ -150,6 +150,19 @@ public class PostDetailActivity extends AppCompatActivity {
 
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
                             .child(firebaseUser.getUid()).child("time").setValue(time);
+
+                    // add notification branch in firebase
+                    DatabaseReference reference_notify = FirebaseDatabase.getInstance().getReference("Notification");
+                    String notificationId = reference_notify.push().getKey();
+                    HashMap<String, Object> notifyMap = new HashMap<>();
+                    notifyMap.put("postid", postid);
+                    notifyMap.put("post publisher", publisherid);
+                    notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    notifyMap.put("type", "like");
+                    notifyMap.put("time", time);
+                    HashMap<String, Object> notifyHash = new HashMap<>();
+                    notifyHash.put(notificationId, notifyMap);
+                    reference_notify.child(babyid).updateChildren(notifyHash);
                 } else {
                     FirebaseDatabase.getInstance().getReference().child("Likes").child(postid)
                             .child(firebaseUser.getUid()).removeValue();
@@ -205,6 +218,19 @@ public class PostDetailActivity extends AppCompatActivity {
 
         reference.push().setValue(map);
         addComment.setText("");
+
+        // add notification branch in firebase
+        DatabaseReference reference_notify = FirebaseDatabase.getInstance().getReference("Notification");
+        String notificationId = reference_notify.push().getKey();
+        HashMap<String, Object> notifyMap = new HashMap<>();
+        notifyMap.put("postid", postid);
+        notifyMap.put("post publisher", publisherid);
+        notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        notifyMap.put("type", "comment");
+        notifyMap.put("time", time);
+        HashMap<String, Object> notifyHash = new HashMap<>();
+        notifyHash.put(notificationId, notifyMap);
+        reference_notify.child(babyid).updateChildren(notifyHash);
     }
 
     private void readComments() {
