@@ -139,8 +139,6 @@ public class ItemMessageAdapter extends RecyclerView.Adapter<ItemMessageHolder> 
                         snapshotParser.setBabyLikeCounter(babyLikeCount);
                         snapshotParser.setPostLikeCounter(postLikeCount);
                     }
-
-
                 }
             }
 

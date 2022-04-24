@@ -67,20 +67,40 @@ public class SnapshotParser {
         this.babyPostCounter = newCounter;
     }
 
+    public void setPostCountForBaby(String baby, Long count) {
+        this.babyPostCounter.put(baby, count);
+    }
+
     public void setBabyCommentCounter(HashMap<String, Long> newCounter) {
         this.babyCommentCounter = newCounter;
+    }
+
+    public void setCommentForBaby(String baby, Long count) {
+        this.babyCommentCounter.put(baby, count);
     }
 
     public void setPostCommentCounter(HashMap<String, Long> newCounter) {
         this.postCommentCounter = newCounter;
     }
 
+    public void setCommentForPost(String post, Long count) {
+        this.postCommentCounter.put(post, count);
+    }
+
     public void setBabyLikeCounter(HashMap<String, Long> newCounter) {
         this.babyLikeCounter = newCounter;
     }
 
+    public void setLikeForBaby(String baby, Long count) {
+        this.babyLikeCounter.put(baby, count);
+    }
+
     public void setPostLikeCounter(HashMap<String, Long> newCounter) {
         this.postLikeCounter = newCounter;
+    }
+
+    public void setLikeForPost(String post, Long count) {
+        this.postLikeCounter.put(post, count);
     }
 
     // Parses the entire database snapshot, caches the number of posts, comments and likes for babies.
