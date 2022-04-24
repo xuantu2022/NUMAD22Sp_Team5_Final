@@ -2,11 +2,19 @@ package edu.neu.madcourse.numad22sp_team5.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.app.ActivityManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,10 +80,14 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     private TextView home_family;
     private TextView home_album;
 
+    int noti_id = 1;
+    private final String channelId = "POST_BG";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Xuan: create notification channel
+        createNotificationChannel();
     }
 
 
@@ -203,18 +216,29 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postLists.clear();
+                // Xuan: get lastPost for background notification
+                Post lastPost = null;
                 for(DataSnapshot data : snapshot.getChildren()) {
                     Post post = data.getValue(Post.class);
                     //for(String id: followingList) {
                     //    if (post.getPublisher().equals(id)) {
                     postLists.add(post);
+                    lastPost = post;
                     //    }
                     //}
                 }
 
+                // Xuan: Only post notification when app running in background
+                if (!isAppOnForeground()) {
+                    // Xuan: check if lastPost is published by myself
+                    String curUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    if (lastPost != null && !curUser.equals(lastPost.getPublisher())) {
+                        // Xuan: post a notification here
+                        sendNotification(lastPost.getPublisher());
+                    }
+                }
+
                 postAdapter.notifyDataSetChanged();
-
-
 
 
             }
@@ -271,4 +295,54 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         intent.putExtra("publisherid", postLists.get(position).getPublisher());
         startActivity(intent);
     }
+
+
+    // Xuan: Create Notification Channel
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Notification Name";
+            String description = "Notification Description";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    // Xuan: Send Notification
+    private void sendNotification(String publisher) {
+        Notification noti = new NotificationCompat.Builder(getContext(), channelId)
+                .setSmallIcon(R.drawable.notification)
+                .setContentTitle("New update for baby " + nickname)
+                .build();
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
+
+        managerCompat.notify(noti_id++, noti);
+    }
+
+    // Xuan: Check app running on foreground
+    private boolean isAppOnForeground() {
+        ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName = getContext().getPackageName();
+        List<ActivityManager.RunningAppProcessInfo> appProcesses = manager.getRunningAppProcesses();
+
+        if (appProcesses == null) {
+            return false;
+        }
+
+        for (ActivityManager.RunningAppProcessInfo p : appProcesses) {
+            if (p.processName.equals(packageName)
+                && p.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
