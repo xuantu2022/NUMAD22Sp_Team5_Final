@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.concurrent.locks.ReentrantLock;
 
+import edu.neu.madcourse.numad22sp_team5.Support.NotificationParser;
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.MessageFragment;
 import edu.neu.madcourse.numad22sp_team5.fragment.SettingFragment;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean onCreate = true;
 
     GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
-    private SnapshotParser snapshotParser;
+    //private SnapshotParser snapshotParser;
     private HashSet<String> babyFollowed = new HashSet<>();
     private HashSet<String> postIDList = new HashSet<>();
     private HashMap<String, String> postIDToBabyID = new HashMap<>();
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     private HashMap<String, Long> postLikeCount = new HashMap<>();
     private int commentCount = 0;
     private int likeCount = 0;
+
+    private NotificationParser notificationParser;
 
 
     @Override
@@ -77,7 +80,9 @@ public class MainActivity extends AppCompatActivity {
         headshot = pref.getString("headshot", "");
         nickname = pref.getString("nickname", "");
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        snapshotParser = new SnapshotParser(firebaseUser.getUid());
+        //snapshotParser = new SnapshotParser(firebaseUser.getUid());
+
+        notificationParser = new NotificationParser(firebaseUser.getUid());
         /*
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
@@ -140,9 +145,55 @@ public class MainActivity extends AppCompatActivity {
         notificationIndicator.setVisibility(View.GONE);
         itemView.addView(notificationIndicator);
 
-        initNotificationIndicator();
+        //initNotificationIndicator();
 
-        // showNotificationIndicator();
+        notificationOnMessage();
+    }
+
+    private void notificationOnMessage() {
+        String firebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (onCreate) {
+                    Log.d("info", "init snapshot in main");
+                    notificationParser.parse(snapshot);
+                    onCreate = false;
+                } else {
+                    Log.d("info", "main received another data snapshot");
+                    // check if there is any new post for followed babies.
+                    HashMap<String, Long> babyPostCount = notificationParser.parseBabyPostCount(snapshot);
+                    HashSet<String> babyFollowed = notificationParser.parseFollowed(snapshot);
+                    for (String baby : babyFollowed) {
+                        if (!babyPostCount.containsKey(baby)) continue;
+                        if (babyPostCount.get(baby) > notificationParser.postCountForBaby(baby)) {
+                            if (notificationParser.type(snapshot, baby).equals("post")) {
+                                if (!notificationParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser)) {
+                                    showNotificationIndicator(baby);
+                                }
+                            }
+                            if (notificationParser.type(snapshot, baby).equals("comment")) {
+                                if (!notificationParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser) && notificationParser.publisherOfPost(snapshot, baby).equals(firebaseUser)) {
+                                    showNotificationIndicator(baby);
+                                }
+                            }
+                            if (notificationParser.type(snapshot, baby).equals("like")) {
+                                if (!notificationParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser) && notificationParser.publisherOfPost(snapshot, baby).equals(firebaseUser)) {
+                                    showNotificationIndicator(baby);
+                                }
+                            }
+                        }
+                    }
+                    notificationParser.setBabyPostCounter(babyPostCount);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     //Save current state of fragment
@@ -155,85 +206,85 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initNotificationIndicator() {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (onCreate) {
-                    Log.d("info", "init snapshot in main");
-                    snapshotParser.parse(snapshot);
-                    onCreate = false;
-                } else {
-                    Log.d("info", "main received another data snapshot");
-                    // check if there is any new post for followed babies.
-                    HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
-                    HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyPostCount.containsKey(baby)) continue;
-                        if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
-                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
-                                showNotificationIndicator(baby);
-                            }
-                        }
-                    }
-                    snapshotParser.setBabyPostCounter(babyPostCount);
-
-                    // check if there is any new comments for my posts.
-                    HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
-                    HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyCommentCount.containsKey(baby)) continue;
-                        if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
-                            for (String myPost : snapshotParser.myPosts(snapshot)) {
-                                if (!postCommentCount.containsKey(myPost)) {
-                                    Log.d("database corruption", "unknow post: " + myPost);
-                                    continue;
-                                }
-                                if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
-                                    if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
-                                        showNotificationIndicator(baby);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    Log.d("info", "main setting baby comment counter");
-                    snapshotParser.setBabyCommentCounter(babyCommentCount);
-                    snapshotParser.setPostCommentCounter(postCommentCount);
-
-                    // Check if there is any new like for my posts.
-                    HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
-                    HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyLikeCount.containsKey(baby)) continue;
-                        if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
-                            for (String myPost : snapshotParser.myPosts(snapshot)) {
-                                if (!postLikeCount.containsKey(myPost)) {
-                                    Log.d("database corruption", "unknow post: " + myPost);
-                                    continue;
-                                }
-                                if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
-                                    if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
-                                        showNotificationIndicator(baby);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    snapshotParser.setBabyLikeCounter(babyLikeCount);
-                    snapshotParser.setPostLikeCounter(postLikeCount);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
+//    private void initNotificationIndicator() {
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+//        reference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (onCreate) {
+//                    Log.d("info", "init snapshot in main");
+//                    snapshotParser.parse(snapshot);
+//                    onCreate = false;
+//                } else {
+//                    Log.d("info", "main received another data snapshot");
+//                    // check if there is any new post for followed babies.
+//                    HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
+//                    HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
+//                    for (String baby : babyFollowed) {
+//                        if (!babyPostCount.containsKey(baby)) continue;
+//                        if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
+//                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
+//                                showNotificationIndicator(baby);
+//                            }
+//                        }
+//                    }
+//                    snapshotParser.setBabyPostCounter(babyPostCount);
+//
+//                    // check if there is any new comments for my posts.
+//                    HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
+//                    HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
+//                    for (String baby : babyFollowed) {
+//                        if (!babyCommentCount.containsKey(baby)) continue;
+//                        if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
+//                            for (String myPost : snapshotParser.myPosts(snapshot)) {
+//                                if (!postCommentCount.containsKey(myPost)) {
+//                                    Log.d("database corruption", "unknow post: " + myPost);
+//                                    continue;
+//                                }
+//                                if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
+//                                    if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+//                                        showNotificationIndicator(baby);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    Log.d("info", "main setting baby comment counter");
+//                    snapshotParser.setBabyCommentCounter(babyCommentCount);
+//                    snapshotParser.setPostCommentCounter(postCommentCount);
+//
+//                    // Check if there is any new like for my posts.
+//                    HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
+//                    HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
+//                    for (String baby : babyFollowed) {
+//                        if (!babyLikeCount.containsKey(baby)) continue;
+//                        if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
+//                            for (String myPost : snapshotParser.myPosts(snapshot)) {
+//                                if (!postLikeCount.containsKey(myPost)) {
+//                                    Log.d("database corruption", "unknow post: " + myPost);
+//                                    continue;
+//                                }
+//                                if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
+//                                    if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+//                                        showNotificationIndicator(baby);
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                    snapshotParser.setBabyLikeCounter(babyLikeCount);
+//                    snapshotParser.setPostLikeCounter(postLikeCount);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
