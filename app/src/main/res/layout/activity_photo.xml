@@ -134,15 +134,16 @@
                 android:onClick="tagButton"
                 android:layout_marginStart="5dp"
                 android:text="Shower" />
+
             <Button
                 android:id="@+id/nail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/shower"
-                android:layout_below="@+id/swim"
+                android:layout_below="@+id/smile"
+                android:layout_marginStart="5dp"
+                android:layout_toRightOf="@+id/ice"
                 android:backgroundTint="#C5BEBE"
                 android:onClick="tagButton"
-                android:layout_marginStart="5dp"
                 android:text="Clip Nail" />
             <Button
                 android:id="@+id/ice"
