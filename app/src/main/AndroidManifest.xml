@@ -20,9 +20,6 @@
             android:name=".AddGrowthActivity"
             android:exported="false" />
         <activity
-            android:name=".TimelineActivity"
-            android:exported="false" />
-        <activity
             android:name=".AlbumFullImageActivity"
             android:exported="false" />
         <activity

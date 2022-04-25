@@ -35,10 +35,6 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
     @Override
     public void onBindViewHolder(ItemEventHolder holder, int position) {
         ItemEvent currentEvent = eventList.get(position);
-//        holder.eventType.setText("Post type: " + currentEvent.getType());
-//        if (currentEvent.getType().length() == 0) {
-//            holder.eventType.setVisibility(View.GONE);
-//        }
         holder.eventTime.setText(currentEvent.getTime());
         holder.eventPublisher.setText(currentEvent.getPublisherName());
         holder.eventDescription.setText("\"" + currentEvent.getDescription() + "\"");
@@ -62,39 +58,6 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
                 mContext.startActivity(intent);
             }
         });
-
-//        holder.eventType.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, PostDetailActivity.class);
-//                intent.putExtra("postid", event.getPostId());
-//                intent.putExtra("babyid", event.getBabyid());
-//                intent.putExtra("publisherid", event.getPublisher());
-//                mContext.startActivity(intent);
-//            }
-//        });
-//
-//        holder.eventPublisher.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, PostDetailActivity.class);
-//                intent.putExtra("postid", event.getPostId());
-//                intent.putExtra("babyid", event.getBabyid());
-//                intent.putExtra("publisherid", event.getPublisher());
-//                mContext.startActivity(intent);
-//            }
-//        });
-//
-//        holder.eventTime.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(mContext, PostDetailActivity.class);
-//                intent.putExtra("postid", event.getPostId());
-//                intent.putExtra("babyid", event.getBabyid());
-//                intent.putExtra("publisherid", event.getPublisher());
-//                mContext.startActivity(intent);
-//            }
-//        });
     }
 
     @Override

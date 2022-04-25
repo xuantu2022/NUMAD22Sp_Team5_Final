@@ -62,16 +62,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         onCreate = true;
         globalStatus.setIsInMessage(false);
-
-        //globalStatus.setTest("test");
-
         navigationBarView = (NavigationBarView) findViewById(R.id.bottom_navigation);
         /* disable customized toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);*/
 
         //get babyInfo from sharedPreferences
-
         SharedPreferences pref = getSharedPreferences("babyInfo",MODE_PRIVATE);
         babyid = pref.getString("babyid","");
         headshot = pref.getString("headshot", "");
@@ -139,10 +135,7 @@ public class MainActivity extends AppCompatActivity {
         notificationIndicator = LayoutInflater.from(this).inflate(R.layout.layout_indicator,navigationBarView,false);
         notificationIndicator.setVisibility(View.GONE);
         itemView.addView(notificationIndicator);
-
         initNotificationIndicator();
-
-        // showNotificationIndicator();
     }
 
     //Save current state of fragment
@@ -162,11 +155,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (onCreate) {
-                    Log.d("info", "init snapshot in main");
                     snapshotParser.parse(snapshot);
                     onCreate = false;
                 } else {
-                    Log.d("info", "main received another data snapshot");
                     // check if there is any new post for followed babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
                     HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
@@ -188,7 +179,6 @@ public class MainActivity extends AppCompatActivity {
                         if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postCommentCount.containsKey(myPost)) {
-                                    Log.d("database corruption", "unknow post: " + myPost);
                                     continue;
                                 }
                                 if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
@@ -199,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    Log.d("info", "main setting baby comment counter");
                     snapshotParser.setBabyCommentCounter(babyCommentCount);
                     snapshotParser.setPostCommentCounter(postCommentCount);
 
@@ -211,7 +200,6 @@ public class MainActivity extends AppCompatActivity {
                         if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postLikeCount.containsKey(myPost)) {
-                                    Log.d("database corruption", "unknow post: " + myPost);
                                     continue;
                                 }
                                 if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
