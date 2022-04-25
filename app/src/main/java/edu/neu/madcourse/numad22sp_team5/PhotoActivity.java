@@ -254,28 +254,28 @@ public class PhotoActivity extends AppCompatActivity {
     public void tagButton(View view){
         switch (view.getId()){
             case R.id.swim:
-                tag.setText("First Swimming");
+                tag.setText("1st Swimming");
                 break;
             case R.id.walk:
-                tag.setText("First Walking");
+                tag.setText("1st Walking");
                 break;
             case R.id.medicine:
-                tag.setText("First Taking Medicine");
+                tag.setText("1st Taking Medicine");
                 break;
             case R.id.smile:
-                tag.setText("First Smiling");
+                tag.setText("1st Smiling");
                 break;
             case R.id.flight:
-                tag.setText("First Taking Flight");
+                tag.setText("1st Taking Flight");
                 break;
             case R.id.shower:
-                tag.setText("First Taking Shower");
+                tag.setText("1st Taking Shower");
                 break;
             case R.id.nail:
-                tag.setText("First Clipping Nail");
+                tag.setText("1st Clipping Nail");
                 break;
             case R.id.ice:
-                tag.setText("First Eating Ice Cream");
+                tag.setText("1st Eating Ice Cream");
                 break;
             default:
                 tag.setText("");
