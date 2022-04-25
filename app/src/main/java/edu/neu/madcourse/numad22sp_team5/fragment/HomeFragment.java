@@ -80,16 +80,10 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     private TextView home_family;
     private TextView home_album;
 
-    int noti_id = 1;
-    private final String channelId = "POST_BG";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Xuan: create notification channel
-        createNotificationChannel();
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -216,31 +210,15 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 postLists.clear();
-                // Xuan: get lastPost for background notification
-                Post lastPost = null;
                 for(DataSnapshot data : snapshot.getChildren()) {
                     Post post = data.getValue(Post.class);
                     //for(String id: followingList) {
                     //    if (post.getPublisher().equals(id)) {
                     postLists.add(post);
-                    lastPost = post;
                     //    }
                     //}
                 }
-
-                // Xuan: Only post notification when app running in background
-                if (!isAppOnForeground()) {
-                    // Xuan: check if lastPost is published by myself
-                    String curUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    if (lastPost != null && !curUser.equals(lastPost.getPublisher())) {
-                        // Xuan: post a notification here
-                        sendNotification(lastPost.getPublisher());
-                    }
-                }
-
                 postAdapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -295,54 +273,4 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         intent.putExtra("publisherid", postLists.get(position).getPublisher());
         startActivity(intent);
     }
-
-
-    // Xuan: Create Notification Channel
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Notification Name";
-            String description = "Notification Description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = (NotificationManager) getContext().getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    // Xuan: Send Notification
-    private void sendNotification(String publisher) {
-        Notification noti = new NotificationCompat.Builder(getContext(), channelId)
-                .setSmallIcon(R.drawable.notification)
-                .setContentTitle("New update for baby " + nickname)
-                .build();
-
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
-
-        managerCompat.notify(noti_id++, noti);
-    }
-
-    // Xuan: Check app running on foreground
-    private boolean isAppOnForeground() {
-        ActivityManager manager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        String packageName = getContext().getPackageName();
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = manager.getRunningAppProcesses();
-
-        if (appProcesses == null) {
-            return false;
-        }
-
-        for (ActivityManager.RunningAppProcessInfo p : appProcesses) {
-            if (p.processName.equals(packageName)
-                && p.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                return true;
-            }
-        }
-        return false;
-    }
-
 }
