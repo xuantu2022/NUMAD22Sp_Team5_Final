@@ -12,12 +12,12 @@
         android:layout_height="27dp"
         android:layout_alignTop="@+id/height"
         android:layout_marginStart="47dp"
-        android:layout_marginTop="-40dp"
-        android:textStyle="bold"
-        android:textSize="15dp"
+        android:layout_marginTop="-70dp"
+        android:text="Record Baby Growth"
         android:textColor="@color/black"
+        android:textSize="15dp"
 
-        android:text="Record Baby Growth" />
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/height"
