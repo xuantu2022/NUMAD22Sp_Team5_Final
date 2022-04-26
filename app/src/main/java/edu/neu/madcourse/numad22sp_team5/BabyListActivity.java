@@ -125,8 +125,7 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
 
                 if (!babySet.contains(babyid) ) {
                     babySet.add(babyid);
-                    //Log.d("babyid in listener", baby.getBabyid());
-                    initListener(Objects.requireNonNull(baby));
+                    initListener(babyid, baby.getNickname());
                 }
             }
 
@@ -169,9 +168,9 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
     }
 
     //Xuan: create change data listener
-    public void initListener(Baby b) {
+    public void initListener(String id, String nickname) {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
-                .child("Posts").child(b.getBabyid());
+                .child("Posts").child(id);
 
         ref.addChildEventListener(new ChildEventListener() {
             @Override
@@ -184,7 +183,7 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
                     String curUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     if (listenerCreated && post != null && !curUser.equals(post.getPublisher())) {
                         // Xuan: post a notification here
-                        sendNotification(b);
+                        sendNotification(nickname);
                     }
                 }
             }
@@ -229,10 +228,10 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
     }
 
     // Xuan: Send Notification
-    private void sendNotification(Baby b) {
+    private void sendNotification(String nickname) {
         Notification noti = new NotificationCompat.Builder(this, channelId)
                 .setSmallIcon(R.drawable.notification)
-                .setContentTitle("New update for baby " + b.nickname)
+                .setContentTitle("New update for baby " + nickname)
                 .build();
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(this);
@@ -259,4 +258,8 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
         return false;
     }
 
+    @Override
+    public void onBackPressed() {
+        this.moveTaskToBack(false);
+    }
 }
