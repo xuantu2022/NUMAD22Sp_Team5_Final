@@ -40,7 +40,9 @@ import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.BabyAdapter;
 import edu.neu.madcourse.numad22sp_team5.Model.Baby;
+import edu.neu.madcourse.numad22sp_team5.Model.Message;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
+
 
 
 public class BabyListActivity extends AppCompatActivity implements BabyAdapter.OnBabyListener {
@@ -209,6 +211,65 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
             }
         });
     }
+
+//    //add comment and like to trigger notification
+//    public void initListener(String id, String nickname) {
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference()
+//                .child("Notification").child(id);
+//
+//        ref.addChildEventListener(new ChildEventListener() {
+//            @Override
+//            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
+//                Message notification = snapshot.getValue(edu.neu.madcourse.numad22sp_team5.Model.Message.class);
+//
+//                // Xuan: Only post notification when app running in background
+//                if (!isAppOnForeground()) {
+//                    // Xuan: check if lastPost is published by myself
+//                    String curUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+//                    if (listenerCreated && notification != null && !curUser.equals(notification.getPublisher())) {
+//                        Log.d("info", "current user " + curUser);
+//                        Log.d("info", "publisher " + notification.getPublisher());
+//                        Log.d("info", "description  " + notification.getDescription());
+//                        Log.d("info", "post id  " + notification.getPostId());
+//                        Log.d("info", "post publisher " + notification.getPostPublisher());
+//                        Log.d("info", "type " + notification.getType());
+//                        if (notification.getType().equals("post")) {
+//                            Log.d("info", "new post");
+//                            sendNotification(nickname);
+//                        }
+//                        if (notification.getType().equals("comment") && curUser.equals(notification.getPostPublisher())) {
+//                            Log.d("info", "new comment");
+//                            sendNotification(nickname);
+//                        }
+//                        if (notification.getType().equals("like") && curUser.equals(notification.getPostPublisher())) {
+//                            Log.d("info", "new like");
+//                            sendNotification(nickname);
+//                        }
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+//
+//            }
+//
+//            @Override
+//            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
 
     // Xuan: Create Notification Channel
     private void createNotificationChannel() {

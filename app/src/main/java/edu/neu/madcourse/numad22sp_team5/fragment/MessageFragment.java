@@ -91,7 +91,7 @@ public class MessageFragment extends Fragment {
                     String type = Objects.requireNonNull(notify_snapshot.child("type").getValue()).toString();
                     String description = Objects.requireNonNull(notify_snapshot.child("description").getValue()).toString();
                     String postImage = Objects.requireNonNull(notify_snapshot.child("postImage").getValue()).toString();
-                    String postPublisher = Objects.requireNonNull(notify_snapshot.child("post publisher").getValue()).toString();
+                    String postPublisher = Objects.requireNonNull(notify_snapshot.child("postPublisher").getValue()).toString();
                     if (type.equals("post") && !publisher.equals(firebaseUser)) {
                         eventList.add(0, new ItemEvent(baby_id, "New post from " + publisherName, time, publisher, type, description, post_id, postPublisher, postImage));
                     }

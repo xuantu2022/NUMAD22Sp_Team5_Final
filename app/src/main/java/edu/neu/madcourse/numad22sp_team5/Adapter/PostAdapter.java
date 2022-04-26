@@ -123,7 +123,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     String notificationId = reference_notify.push().getKey();
                     HashMap<String, Object> notifyMap = new HashMap<>();
                     notifyMap.put("postid", post.getPostid());
-                    notifyMap.put("post publisher", post.getPublisher());
+                    notifyMap.put("postPublisher", post.getPublisher());
                     notifyMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);

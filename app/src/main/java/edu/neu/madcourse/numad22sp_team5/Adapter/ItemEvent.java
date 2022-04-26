@@ -24,6 +24,8 @@ public class ItemEvent {
         this.postPublisher = postPublisher;
     }
 
+    public ItemEvent(){}
+
     public String getBabyid() {
         return babyid;
     }

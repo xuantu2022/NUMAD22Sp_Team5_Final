@@ -200,7 +200,7 @@ public class PhotoActivity extends AppCompatActivity {
                             String notificationId = reference_notify.push().getKey();
                             HashMap<String, Object> notifyMap = new HashMap<>();
                             notifyMap.put("postid", postid);
-                            notifyMap.put("post publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            notifyMap.put("postPublisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
                             notifyMap.put("type", "post");
                             notifyMap.put("time", time);
