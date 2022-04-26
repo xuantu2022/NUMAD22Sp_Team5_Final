@@ -18,9 +18,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -106,6 +108,11 @@ public class GrowthHistoryActivity extends AppCompatActivity {
                         list.add(post);
                     }
                 }
+                Collections.sort(list, (post1, post2) -> {
+                    String t1 = post1.getTime();
+                    String t2 = post2.getTime();
+                    return t2.compareTo(t1);
+                });
                 adapter.notifyDataSetChanged();
             }
 

@@ -14,10 +14,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.Collections;
 
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 
@@ -44,7 +45,7 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
-        userid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
+        userid = mAuth.getCurrentUser().getUid();
 
         recyclerView = findViewById(R.id.recyclerView_album);
         recyclerView.setHasFixedSize(true);
@@ -60,10 +61,15 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (!Objects.requireNonNull(post).getPostImages().equals("")) {
+                    if (!post.getPostImages().equals("")) {
                         list.add(post);
                     }
                 }
+                Collections.sort(list, (post1, post2) -> {
+                    String t1 = post1.getTime();
+                    String t2 = post2.getTime();
+                    return t2.compareTo(t1);
+                });
                 adapter.notifyDataSetChanged();
             }
 
