@@ -164,9 +164,10 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         });
 
         //add background pic for home fragment
-        StorageReference backgroundRef = FirebaseStorage.getInstance().getReference().child("app_materials/bg1.jpg");
+        //StorageReference backgroundRef = FirebaseStorage.getInstance().getReference().child("app_materials/bg1.jpg");
         ImageView background = view.findViewById(R.id.background);
-        Glide.with(this).load(backgroundRef).centerCrop().into(background);
+        background.setImageResource(R.drawable.bg1);
+        //Glide.with(this).load(backgroundRef).centerCrop().into(background);
 
         //set baby headshot
         ImageView headshot = view.findViewById(R.id.headshot);

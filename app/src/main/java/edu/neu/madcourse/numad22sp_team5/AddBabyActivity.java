@@ -160,7 +160,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                         map.put("headshot", myUri);
                         map.put("gender", gender_picked);
 
-                        Log.d("gender",gender_picked);
+                        //Log.d("gender",gender_picked);
 
                         //store baby data to database
                         referenceBaby.child(Objects.requireNonNull(babyid)).setValue(map);

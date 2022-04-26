@@ -43,6 +43,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginActivity" />
         <activity
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:name=".MainActivity"
             android:exported="false" />
         <activity android:name=".AddBabyActivity" />

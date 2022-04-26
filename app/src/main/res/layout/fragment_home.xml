@@ -48,6 +48,7 @@
                     android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="191dp"
+                    android:scaleType="centerCrop"
                     android:background="@color/light_grey"
                     tools:src="" />
 
