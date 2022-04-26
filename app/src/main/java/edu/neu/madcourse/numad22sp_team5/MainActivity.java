@@ -47,14 +47,14 @@ public class MainActivity extends AppCompatActivity {
 
     GlobalStatus globalStatus = (GlobalStatus) this.getApplication();
     private SnapshotParser snapshotParser;
-    private HashSet<String> babyFollowed = new HashSet<>();
-    private HashSet<String> postIDList = new HashSet<>();
-    private HashMap<String, String> postIDToBabyID = new HashMap<>();
-    private HashMap<String, Long> babyPostCount = new HashMap<>();
-    private HashMap<String, Long> postCommentCount = new HashMap<>();
-    private HashMap<String, Long> postLikeCount = new HashMap<>();
-    private int commentCount = 0;
-    private int likeCount = 0;
+//    private HashSet<String> babyFollowed = new HashSet<>();
+//    private HashSet<String> postIDList = new HashSet<>();
+//    private HashMap<String, String> postIDToBabyID = new HashMap<>();
+//    private HashMap<String, Long> babyPostCount = new HashMap<>();
+//    private HashMap<String, Long> postCommentCount = new HashMap<>();
+//    private HashMap<String, Long> postLikeCount = new HashMap<>();
+//    private int commentCount = 0;
+//    private int likeCount = 0;
 
 
     @Override
@@ -161,13 +161,11 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     // check if there is any new post for followed babies.
                     HashMap<String, Long> babyPostCount = snapshotParser.parseBabyPostCount(snapshot);
-                    HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyPostCount.containsKey(baby)) continue;
-                        if (
-                                babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
-                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(Objects.requireNonNull(firebaseUser).getUid())) {
-                                showNotificationIndicator(baby);
+                    //HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
+                    if (babyPostCount.containsKey(babyid)) {
+                        if (babyPostCount.get(babyid) > snapshotParser.postCountForBaby(babyid)) {
+                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, babyid).equals(Objects.requireNonNull(firebaseUser).getUid())) {
+                                showNotificationIndicator(babyid);
                             }
                         }
                     }
@@ -176,16 +174,15 @@ public class MainActivity extends AppCompatActivity {
                     // check if there is any new comments for my posts.
                     HashMap<String, Long> babyCommentCount = snapshotParser.parseBabyCommentCount(snapshot);
                     HashMap<String, Long> postCommentCount = snapshotParser.parsePostCommentCount(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyCommentCount.containsKey(baby)) continue;
-                        if (babyCommentCount.get(baby) > snapshotParser.commentCountForBaby(baby)) {
+                    if (babyCommentCount.containsKey(babyid)) {
+                        if (babyCommentCount.get(babyid) > snapshotParser.commentCountForBaby(babyid)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postCommentCount.containsKey(myPost)) {
                                     continue;
                                 }
                                 if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
                                     if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(Objects.requireNonNull(firebaseUser).getUid())) {
-                                        showNotificationIndicator(baby);
+                                        showNotificationIndicator(babyid);
                                     }
                                 }
                             }
@@ -197,16 +194,15 @@ public class MainActivity extends AppCompatActivity {
                     // Check if there is any new like for my posts.
                     HashMap<String, Long> babyLikeCount = snapshotParser.parseBabyLikeCount(snapshot);
                     HashMap<String, Long> postLikeCount = snapshotParser.parsePostLikeCount(snapshot);
-                    for (String baby : babyFollowed) {
-                        if (!babyLikeCount.containsKey(baby)) continue;
-                        if (babyLikeCount.get(baby) > snapshotParser.likeCountForBaby(baby)) {
+                    if (babyLikeCount.containsKey(babyid)) {
+                        if (babyLikeCount.get(babyid) > snapshotParser.likeCountForBaby(babyid)) {
                             for (String myPost : snapshotParser.myPosts(snapshot)) {
                                 if (!postLikeCount.containsKey(myPost)) {
                                     continue;
                                 }
                                 if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
                                     if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(Objects.requireNonNull(firebaseUser).getUid())) {
-                                        showNotificationIndicator(baby);
+                                        showNotificationIndicator(babyid);
                                     }
                                 }
                             }
