@@ -44,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.AlbumHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
+        SharedPreferences pref = requireActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
         babyid = pref.getString("babyid","");
         babyHeadshot = pref.getString("headshot", "");
         nickname = pref.getString("nickname", "");
@@ -100,8 +101,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
 
-
-        System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
         nickname = mainActivity.getNickname();*/
 

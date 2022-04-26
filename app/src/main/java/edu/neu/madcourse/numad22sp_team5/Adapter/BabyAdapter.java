@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Model.Baby;
 import edu.neu.madcourse.numad22sp_team5.R;
@@ -46,7 +47,7 @@ public class BabyAdapter extends RecyclerView.Adapter<BabyAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Baby baby = babyList.get(position);
         holder.babyName.setText(baby.getNickname());
-        if (baby.getOwnerid().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+        if (baby.getOwnerid().equals(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid())) {
             holder.babyOwner.setText("My");
         } else {
             holder.babyOwner.setVisibility(View.GONE);

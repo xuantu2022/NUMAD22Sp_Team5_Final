@@ -55,6 +55,7 @@ import java.util.Calendar;
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PhotoActivity extends AppCompatActivity {
     Uri imageUri;
@@ -153,7 +154,7 @@ public class PhotoActivity extends AppCompatActivity {
                     public Object then(@NonNull Task task) throws Exception {
                         Log.i("uploadImage", "success");
                         if(!task.isSuccessful()){
-                            throw task.getException();
+                            throw Objects.requireNonNull(task.getException());
 
                         }
                         return filerefrence.getDownloadUrl();
@@ -178,7 +179,7 @@ public class PhotoActivity extends AppCompatActivity {
                             hashMap.put("growth","");
                             hashMap.put("postid",postid);
                             hashMap.put("postImages",myUrl);
-                            hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                            hashMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                             hashMap.put("tag",tag.getText().toString());
                             hashMap.put("time",time);
 
@@ -239,7 +240,7 @@ public class PhotoActivity extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK){
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            imageUri = result.getUri();
+            imageUri = Objects.requireNonNull(result).getUri();
 
             image_added.setImageURI(imageUri);
         }else{

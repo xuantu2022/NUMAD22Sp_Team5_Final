@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEvent;
 import edu.neu.madcourse.numad22sp_team5.Adapter.ItemEventAdapter;
@@ -43,14 +44,14 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences pref = getActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
+        SharedPreferences pref = requireActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
         baby_id = pref.getString("babyid","");
 
         readTimeline();
 
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         createMessageView(view);
-        globalStatus = ((GlobalStatus) getActivity().getApplication());
+        globalStatus = ((GlobalStatus) requireActivity().getApplication());
         globalStatus.setMessageRunning(true);
         return view;
     }
@@ -75,22 +76,22 @@ public class MessageFragment extends Fragment {
     }
 
     private void readTimeline() {
-        String firebaseUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String firebaseUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 eventList.clear();
                 for (DataSnapshot notify_snapshot : snapshot.child("Notification").child(baby_id).getChildren()) {
-                    String notification_id = notify_snapshot.getKey().toString();
-                    String post_id = notify_snapshot.child("postid").getValue().toString();
-                    String time = notify_snapshot.child("time").getValue().toString();
-                    String publisher = notify_snapshot.child("publisher").getValue().toString();
-                    String publisherName = snapshot.child("Users").child(publisher).child("username").getValue().toString();
-                    String type = notify_snapshot.child("type").getValue().toString();
-                    String description = notify_snapshot.child("description").getValue().toString();
-                    String postImage = notify_snapshot.child("postImage").getValue().toString();
-                    String postPublisher = notify_snapshot.child("post publisher").getValue().toString();
+                    String notification_id = Objects.requireNonNull(notify_snapshot.getKey()).toString();
+                    String post_id = Objects.requireNonNull(notify_snapshot.child("postid").getValue()).toString();
+                    String time = Objects.requireNonNull(notify_snapshot.child("time").getValue()).toString();
+                    String publisher = Objects.requireNonNull(notify_snapshot.child("publisher").getValue()).toString();
+                    String publisherName = Objects.requireNonNull(snapshot.child("Users").child(publisher).child("username").getValue()).toString();
+                    String type = Objects.requireNonNull(notify_snapshot.child("type").getValue()).toString();
+                    String description = Objects.requireNonNull(notify_snapshot.child("description").getValue()).toString();
+                    String postImage = Objects.requireNonNull(notify_snapshot.child("postImage").getValue()).toString();
+                    String postPublisher = Objects.requireNonNull(notify_snapshot.child("post publisher").getValue()).toString();
                     if (type.equals("post") && !publisher.equals(firebaseUser)) {
                         eventList.add(0, new ItemEvent(baby_id, "New post from " + publisherName, time, publisher, type, description, post_id, postPublisher, postImage));
                     }

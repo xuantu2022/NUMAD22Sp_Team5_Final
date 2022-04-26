@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.FamilySearchAdapter;
 import edu.neu.madcourse.numad22sp_team5.Model.User;
@@ -48,7 +49,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // get baby id by intent
         //babyid = getActivity().getIntent().getExtras().getString("babyid");
-        SharedPreferences babyPref = this.getActivity().getSharedPreferences("babyInfo", Context.MODE_PRIVATE);
+        SharedPreferences babyPref = this.requireActivity().getSharedPreferences("babyInfo", Context.MODE_PRIVATE);
         babyid = babyPref.getString("babyid", "");
 
         // Inflate the layout for this fragment
@@ -118,7 +119,7 @@ public class SearchFragment extends Fragment {
                     users.clear();
                     for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                         User user = dataSnapshot.getValue(User.class);
-                        userMapping.put(user.getId(), user);
+                        userMapping.put(Objects.requireNonNull(user).getId(), user);
                     }
                     for (String id : userMapping.keySet()) {
                         findFollowers(id);

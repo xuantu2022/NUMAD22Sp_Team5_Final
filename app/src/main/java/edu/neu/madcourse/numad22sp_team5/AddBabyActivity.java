@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -40,6 +41,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AddBabyActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     private Button next;
@@ -131,7 +133,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                 @Override
                 public Object then(@NonNull Task task) throws Exception {
                     if (!task.isComplete()) {
-                        throw task.getException();
+                        throw Objects.requireNonNull(task.getException());
                     }
                     return fileReference.getDownloadUrl();
                 }
@@ -144,7 +146,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
 
                         DatabaseReference referenceBaby = FirebaseDatabase.getInstance().getReference("Babys");
                         DatabaseReference referenceFollows = FirebaseDatabase.getInstance().getReference("Follow");
-                        String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String userid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
                         String babyid = referenceBaby.push().getKey();
 
@@ -156,8 +158,10 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
                         map.put("headshot", myUri);
                         map.put("gender", gender_picked);
 
+                        Log.d("gender",gender_picked);
+
                         //store baby data to database
-                        referenceBaby.child(babyid).setValue(map);
+                        referenceBaby.child(Objects.requireNonNull(babyid)).setValue(map);
 
                         //store baby and user relationship to database
                         /*
@@ -195,7 +199,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
 
         if(requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            imageUri = result.getUri();
+            imageUri = Objects.requireNonNull(result).getUri();
             headshot.setImageURI(imageUri);
         } else {
             Toast.makeText(this, "Something gone wring!", Toast.LENGTH_SHORT).show();

@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 import edu.neu.madcourse.numad22sp_team5.Model.User;
@@ -51,7 +52,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
-        String userid = mAuth.getCurrentUser().getUid();
+        String userid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         // add -> connect to addItemActivity
         addGrowth = findViewById(R.id.textView_addGrowth);
@@ -101,7 +102,7 @@ public class GrowthHistoryActivity extends AppCompatActivity {
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (post.getPostType().equals("growth") && post.getGrowth().length() != 0) {
+                    if (Objects.requireNonNull(post).getPostType().equals("growth") && post.getGrowth().length() != 0) {
                         list.add(post);
                     }
                 }

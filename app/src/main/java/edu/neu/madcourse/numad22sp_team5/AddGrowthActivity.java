@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class AddGrowthActivity extends AppCompatActivity {
 
@@ -68,7 +69,7 @@ public class AddGrowthActivity extends AppCompatActivity {
                     hashMap.put("growth", growth);
                     hashMap.put("postid", postid);
                     hashMap.put("postImages", "");
-                    hashMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    hashMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                     hashMap.put("tag", "");
                     hashMap.put("time", time);
                     hashMap.put("postType", "growth");

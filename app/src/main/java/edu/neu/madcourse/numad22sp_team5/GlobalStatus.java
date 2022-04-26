@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class GlobalStatus extends Application {
     private static boolean isInMessage;
@@ -29,7 +30,7 @@ public class GlobalStatus extends Application {
     }
 
     public static boolean isBabyMute(String baby) {
-        if (muteNotify.containsKey(baby) && muteNotify.get(baby).equals(true)) {
+        if (muteNotify.containsKey(baby) && Objects.equals(muteNotify.get(baby), true)) {
             Log.d("info", "baby is muted " + baby);
             return true;
         }

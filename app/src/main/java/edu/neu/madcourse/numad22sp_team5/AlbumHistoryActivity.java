@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
 
@@ -43,7 +44,7 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
-        userid = mAuth.getCurrentUser().getUid();
+        userid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         recyclerView = findViewById(R.id.recyclerView_album);
         recyclerView.setHasFixedSize(true);
@@ -59,7 +60,7 @@ public class AlbumHistoryActivity extends AppCompatActivity implements AlbumHist
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Post post = dataSnapshot.getValue(Post.class);
-                    if (!post.getPostImages().equals("")) {
+                    if (!Objects.requireNonNull(post).getPostImages().equals("")) {
                         list.add(post);
                     }
                 }

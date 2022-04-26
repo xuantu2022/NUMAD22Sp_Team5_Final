@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.PostDetailActivity;
 import edu.neu.madcourse.numad22sp_team5.Model.Post;
@@ -123,7 +124,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     HashMap<String, Object> notifyMap = new HashMap<>();
                     notifyMap.put("postid", post.getPostid());
                     notifyMap.put("post publisher", post.getPublisher());
-                    notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    notifyMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
                     notifyMap.put("description", "");
@@ -236,7 +237,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(firebaseUser.getUid()).exists()) {
+                if(snapshot.child(Objects.requireNonNull(firebaseUser).getUid()).exists()) {
                     imageView.setImageResource(R.drawable.ic_liked);
                     imageView.setTag("liked");
                 } else {
@@ -275,7 +276,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                publisher.setText("Publisher: " + user.getUsername());
+                publisher.setText("Publisher: " + Objects.requireNonNull(user).getUsername());
             }
 
             @Override

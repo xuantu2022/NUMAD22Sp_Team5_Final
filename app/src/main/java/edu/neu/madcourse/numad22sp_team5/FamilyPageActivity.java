@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Model.User;
 
@@ -53,7 +54,7 @@ public class FamilyPageActivity extends AppCompatActivity {
 
         // get userid
         mAuth = FirebaseAuth.getInstance();
-        userid = mAuth.getCurrentUser().getUid();
+        userid = Objects.requireNonNull(mAuth.getCurrentUser()).getUid();
 
         family_add = findViewById(R.id.textView_family_add);
         parent_name = findViewById(R.id.textView_parentName);
@@ -68,7 +69,7 @@ public class FamilyPageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-                    userMapping.put(user.getId(), user);
+                    userMapping.put(Objects.requireNonNull(user).getId(), user);
                 }
 
                 // check if current user is baby owner, if not, add button will be gone
@@ -77,15 +78,15 @@ public class FamilyPageActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String ownerid = (String) snapshot.getValue();
-                        if (ownerid.equals(userid)){
+                        if (Objects.equals(ownerid, userid)){
                             parent_me.setVisibility(View.VISIBLE);
                         }
-                        if (!ownerid.equals(userid)) {
+                        if (!Objects.equals(ownerid, userid)) {
                             family_add.setVisibility(View.GONE);
                         }
                         // set parent information
-                        parent_name.setText(userMapping.get(ownerid).getUsername());
-                        parent_email.setText(userMapping.get(ownerid).getEmail());
+                        parent_name.setText(Objects.requireNonNull(userMapping.get(ownerid)).getUsername());
+                        parent_email.setText(Objects.requireNonNull(userMapping.get(ownerid)).getEmail());
                     }
 
                     @Override
@@ -141,7 +142,7 @@ public class FamilyPageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
-                    userMapping.put(user.getId(), user);
+                    userMapping.put(Objects.requireNonNull(user).getId(), user);
                 }
                 for (String id : userMapping.keySet()) {
                     findFollowers(id);
