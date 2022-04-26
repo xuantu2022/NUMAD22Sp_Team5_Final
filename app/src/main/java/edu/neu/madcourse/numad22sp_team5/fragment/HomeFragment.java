@@ -75,7 +75,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     FloatingActionButton floatingActionButton;
 
 
-
     private TextView home_growth;
     private TextView home_milestone;
     private TextView home_family;
@@ -225,29 +224,8 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
             }
         });
-        /*
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postLists.clear();
-                for(DataSnapshot data : snapshot.getChildren()) {
-                    Post post = data.getValue(Post.class);
-                    //for(String id: followingList) {
-                    //    if (post.getPublisher().equals(id)) {
-                            postLists.add(post);
-                    //    }
-                    //}
-                }
 
-                Collections.reverse(postLists);
-                postAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
     }
     public void openAddItemActivity(){

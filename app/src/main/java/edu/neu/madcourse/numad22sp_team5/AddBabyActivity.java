@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.Continuation;
@@ -68,6 +69,7 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
         dob = findViewById(R.id.dob_input);
         headshot = findViewById(R.id.headshot);
         progressBar = findViewById(R.id.progressBar);
+
 
         headshot.setImageResource(R.drawable.ic_add_items);
 
@@ -226,11 +228,21 @@ public class AddBabyActivity extends AppCompatActivity implements DatePickerDial
     }
 
     //get gender info from radio button
+
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
+
         boolean checked = ((RadioButton) view).isChecked();
-        if (checked) {
-            gender_picked = ((RadioButton) view).getText().toString();
+
+        switch(view.getId()) {
+            case R.id.radio_female:
+                if (checked)
+                    gender_picked = "female";
+                    break;
+            case R.id.radio_male:
+                if (checked)
+                    gender_picked = "male";
+                    break;
         }
     }
 

@@ -93,6 +93,7 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
                 babyList.clear();
                 for(DataSnapshot data: snapshot.getChildren()) {
                     String babyid = data.getKey();
+                    //Log.d("babyid", babyid);
                     //use babyid to get baby data.
                     getBabyInfo(babyid);
 
@@ -114,20 +115,19 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Baby baby = snapshot.getValue(Baby.class);
-                for (Baby babynum: babyList) {
-                    Log.d("babyid in list", babynum.getBabyid());
-                }
+
                 babyList.add(baby);
-                Log.d("babyid in size ", ""+ babyList.size());
+
+                //Log.d("babyid in size ", ""+ babyList.size());
                 babyAdapter.notifyDataSetChanged();
 
-                // Xuan: add baby id to baby set for notification usage if not existing
-                /*
+                //Xuan: add baby id to baby set for notification usage if not existing
+
                 if (!babySet.contains(babyid) ) {
                     babySet.add(babyid);
-                    Log.d("babyid in listener", baby.getBabyid());
+                    //Log.d("babyid in listener", baby.getBabyid());
                     initListener(Objects.requireNonNull(baby));
-                }*/
+                }
             }
 
             @Override
