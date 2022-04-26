@@ -44,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.AlbumHistoryActivity;
 import edu.neu.madcourse.numad22sp_team5.BabyListActivity;
@@ -74,7 +75,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
     FloatingActionButton floatingActionButton;
 
 
-
     private TextView home_growth;
     private TextView home_milestone;
     private TextView home_family;
@@ -90,7 +90,7 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        SharedPreferences pref = getActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
+        SharedPreferences pref = requireActivity().getSharedPreferences("babyInfo",MODE_PRIVATE);
         babyid = pref.getString("babyid","");
         babyHeadshot = pref.getString("headshot", "");
         nickname = pref.getString("nickname", "");
@@ -100,8 +100,6 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
         MainActivity mainActivity = (MainActivity) getActivity();
         babyid = mainActivity.getBabyid();
 
-
-        System.out.println("babyid from HomeFrament.onCreaveView: " + babyid);
         babyHeadshot = mainActivity.getHeadshot();
         nickname = mainActivity.getNickname();*/
 
@@ -226,29 +224,8 @@ public class HomeFragment extends Fragment implements PostAdapter.OnPostListener
 
             }
         });
-        /*
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                postLists.clear();
-                for(DataSnapshot data : snapshot.getChildren()) {
-                    Post post = data.getValue(Post.class);
-                    //for(String id: followingList) {
-                    //    if (post.getPublisher().equals(id)) {
-                            postLists.add(post);
-                    //    }
-                    //}
-                }
 
-                Collections.reverse(postLists);
-                postAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
     }
     public void openAddItemActivity(){

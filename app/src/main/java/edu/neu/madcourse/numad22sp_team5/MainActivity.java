@@ -23,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
 import edu.neu.madcourse.numad22sp_team5.fragment.HomeFragment;
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         headshot = pref.getString("headshot", "");
         nickname = pref.getString("nickname", "");
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        snapshotParser = new SnapshotParser(firebaseUser.getUid());
+        snapshotParser = new SnapshotParser(Objects.requireNonNull(firebaseUser).getUid());
         /*
         Intent intent = getIntent();
         babyid = intent.getStringExtra("babyid");
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             Fragment fragment = getSupportFragmentManager().getFragment(savedInstanceState, "KEY");
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                    fragment).commit();
+                    Objects.requireNonNull(fragment)).commit();
         }  else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Save current state of fragment
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Fragment fragment = getSupportFragmentManager().findFragmentByTag("Selected");
         if (fragment != null) {
@@ -163,8 +164,9 @@ public class MainActivity extends AppCompatActivity {
                     HashSet<String> babyFollowed = snapshotParser.parseFollowed(snapshot);
                     for (String baby : babyFollowed) {
                         if (!babyPostCount.containsKey(baby)) continue;
-                        if (babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
-                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(firebaseUser.getUid())) {
+                        if (
+                                babyPostCount.get(baby) > snapshotParser.postCountForBaby(baby)) {
+                            if (!snapshotParser.publisherOfBabyLastPost(snapshot, baby).equals(Objects.requireNonNull(firebaseUser).getUid())) {
                                 showNotificationIndicator(baby);
                             }
                         }
@@ -182,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                                     continue;
                                 }
                                 if (postCommentCount.get(myPost) > snapshotParser.commentCountForPost(myPost)) {
-                                    if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                    if (!snapshotParser.publisherOfLastCommentOnPost(snapshot, myPost).equals(Objects.requireNonNull(firebaseUser).getUid())) {
                                         showNotificationIndicator(baby);
                                     }
                                 }
@@ -203,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                                     continue;
                                 }
                                 if (postLikeCount.get(myPost) > snapshotParser.likeCountForPost(myPost)) {
-                                    if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(firebaseUser.getUid())) {
+                                    if (!snapshotParser.publisherOfLastLikeOnPost(snapshot, myPost).equals(Objects.requireNonNull(firebaseUser).getUid())) {
                                         showNotificationIndicator(baby);
                                     }
                                 }

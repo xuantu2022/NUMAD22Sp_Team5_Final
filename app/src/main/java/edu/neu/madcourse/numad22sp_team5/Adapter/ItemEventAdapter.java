@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -26,8 +27,9 @@ public class ItemEventAdapter extends RecyclerView.Adapter<ItemEventHolder> {
         this.eventList = itemList;
     }
 
+    @NonNull
     @Override
-    public ItemEventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ItemEventHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_timeline, parent, false);
         return new ItemEventHolder(view);
     }

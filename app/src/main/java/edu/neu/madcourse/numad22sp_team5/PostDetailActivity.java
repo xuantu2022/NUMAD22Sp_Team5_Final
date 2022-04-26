@@ -33,6 +33,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.CommentAdapter;
 import edu.neu.madcourse.numad22sp_team5.Model.Comment;
@@ -157,7 +158,7 @@ public class PostDetailActivity extends AppCompatActivity {
                     HashMap<String, Object> notifyMap = new HashMap<>();
                     notifyMap.put("postid", postid);
                     notifyMap.put("post publisher", publisherid);
-                    notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    notifyMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
                     notifyMap.put("type", "like");
                     notifyMap.put("time", time);
                     notifyMap.put("description", "");
@@ -189,7 +190,7 @@ public class PostDetailActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.child(firebaseUser.getUid()).exists()) {
+                if(snapshot.child(Objects.requireNonNull(firebaseUser).getUid()).exists()) {
                     imageView.setImageResource(R.drawable.ic_liked);
                     imageView.setTag("liked");
                 } else {
@@ -227,7 +228,7 @@ public class PostDetailActivity extends AppCompatActivity {
         HashMap<String, Object> notifyMap = new HashMap<>();
         notifyMap.put("postid", postid);
         notifyMap.put("post publisher", publisherid);
-        notifyMap.put("publisher", FirebaseAuth.getInstance().getCurrentUser().getUid());
+        notifyMap.put("publisher", Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid());
         notifyMap.put("type", "comment");
         notifyMap.put("time", time);
         notifyMap.put("description", addComment.getText().toString());
@@ -271,7 +272,7 @@ public class PostDetailActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Post post = snapshot.getValue(Post.class);
 
-                if (post.getPostType().equals("growth")) {
+                if (Objects.requireNonNull(post).getPostType().equals("growth")) {
                     growth_holder.setVisibility(View.VISIBLE);
                     growth.setText(post.getGrowth());
                 } else {
@@ -322,7 +323,7 @@ public class PostDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 User user = snapshot.getValue(User.class);
-                publisher.setText("Publisher: " + user.getUsername());
+                publisher.setText("Publisher: " + Objects.requireNonNull(user).getUsername());
             }
 
             @Override

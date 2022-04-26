@@ -6,6 +6,7 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 // helper class to parse a snapshot of the entire database. This class is thread-compatible.
 public class SnapshotParser {
@@ -118,9 +119,9 @@ public class SnapshotParser {
     private HashMap<String, String> postToBaby(DataSnapshot snapshot) {
         HashMap<String, String> postToBabyMap = new HashMap<>();
         for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-            String baby_id = baby_post_snapshot.getKey().toString();
+            String baby_id = Objects.requireNonNull(baby_post_snapshot.getKey()).toString();
             for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
-                postToBabyMap.put(post_snapshot.getKey().toString(), baby_id);
+                postToBabyMap.put(Objects.requireNonNull(post_snapshot.getKey()).toString(), baby_id);
             }
         }
         return postToBabyMap;
@@ -132,7 +133,7 @@ public class SnapshotParser {
         for (DataSnapshot followSnapshot : snapshot.child("Follow").child(this.user).getChildren()) {
             boolean follow = (boolean) followSnapshot.getValue();
             if (follow) {
-                followed.add(followSnapshot.getKey().toString());
+                followed.add(Objects.requireNonNull(followSnapshot.getKey()).toString());
             }
         }
         return followed;
@@ -141,10 +142,10 @@ public class SnapshotParser {
     public HashSet<String> myPosts(DataSnapshot snapshot) {
         HashSet<String> posts = new HashSet<>();
         for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-            String baby_id = baby_post_snapshot.getKey().toString();
+            String baby_id = Objects.requireNonNull(baby_post_snapshot.getKey()).toString();
             for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
-                String postId = post_snapshot.getKey().toString();
-                String publisher = post_snapshot.child("publisher").getValue().toString();
+                String postId = Objects.requireNonNull(post_snapshot.getKey()).toString();
+                String publisher = Objects.requireNonNull(post_snapshot.child("publisher").getValue()).toString();
                 if (publisher.equals(user)) {
                     posts.add(postId);
                 }
@@ -157,7 +158,7 @@ public class SnapshotParser {
     public HashMap<String, Long> parseBabyPostCount(DataSnapshot snapshot) {
         HashMap<String, Long> counter = new HashMap<>();
         for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-            String baby_id = baby_post_snapshot.getKey().toString();
+            String baby_id = Objects.requireNonNull(baby_post_snapshot.getKey()).toString();
             counter.put(baby_id, baby_post_snapshot.getChildrenCount());
         }
         return counter;
@@ -171,10 +172,10 @@ public class SnapshotParser {
         }
         HashMap<String, String> postToBaby = postToBaby(snapshot);
         for (DataSnapshot commentSnapshot : snapshot.child("Comments").getChildren()) {
-            String postId = commentSnapshot.getKey().toString();
+            String postId = Objects.requireNonNull(commentSnapshot.getKey()).toString();
             String babyId = postToBaby.get(postId);
             if (!babies.contains(babyId)) continue;
-            long cur = counter.get(babyId).longValue();
+            long cur = Objects.requireNonNull(counter.get(babyId));
             cur = cur + commentSnapshot.getChildrenCount();
             counter.put(babyId, cur);
         }
@@ -184,7 +185,7 @@ public class SnapshotParser {
     public HashMap<String, Long> parsePostCommentCount(DataSnapshot snapshot) {
         HashMap<String, Long> counter = new HashMap<>();
         for (DataSnapshot commentSnapshot : snapshot.child("Comments").getChildren()) {
-            String postId = commentSnapshot.getKey().toString();
+            String postId = Objects.requireNonNull(commentSnapshot.getKey()).toString();
             counter.put(postId, commentSnapshot.getChildrenCount());
         }
         return counter;
@@ -198,10 +199,10 @@ public class SnapshotParser {
         }
         HashMap<String, String> postToBaby = postToBaby(snapshot);
         for (DataSnapshot likeSnapshot : snapshot.child("Likes").getChildren()) {
-            String postId = likeSnapshot.getKey().toString();
+            String postId = Objects.requireNonNull(likeSnapshot.getKey()).toString();
             String babyId = postToBaby.get(postId);
             if (!babies.contains(babyId)) continue;
-            long cur = counter.get(babyId).longValue();
+            long cur = Objects.requireNonNull(counter.get(babyId));
             cur = cur + likeSnapshot.getChildrenCount();
             counter.put(babyId, cur);
         }
@@ -211,7 +212,7 @@ public class SnapshotParser {
     public HashMap<String, Long> parsePostLikeCount(DataSnapshot snapshot) {
         HashMap<String, Long> counter = new HashMap<>();
         for (DataSnapshot likeSnapshot : snapshot.child("Likes").getChildren()) {
-            String postId = likeSnapshot.getKey().toString();
+            String postId = Objects.requireNonNull(likeSnapshot.getKey()).toString();
             counter.put(postId, likeSnapshot.getChildrenCount());
         }
         return counter;
@@ -220,10 +221,10 @@ public class SnapshotParser {
     public String publisherOfBabyLastPost(DataSnapshot snapshot, String baby) {
         String publisher = new String();
         for (DataSnapshot baby_post_snapshot : snapshot.child("Posts").getChildren()) {
-            String baby_id = baby_post_snapshot.getKey().toString();
+            String baby_id = Objects.requireNonNull(baby_post_snapshot.getKey()).toString();
             if (!baby_id.equals(baby)) { continue; }
             for (DataSnapshot post_snapshot : baby_post_snapshot.getChildren()) {
-                publisher = post_snapshot.child("publisher").getValue().toString();
+                publisher = Objects.requireNonNull(post_snapshot.child("publisher").getValue()).toString();
             }
         }
         return publisher;
@@ -232,7 +233,7 @@ public class SnapshotParser {
     public String publisherOfLastCommentOnPost(DataSnapshot snapshot, String postId) {
         String publisher = new String();
         for (DataSnapshot comment_snapshot : snapshot.child("Comments").child(postId).getChildren()) {
-            publisher = comment_snapshot.child("publisher").getValue().toString();
+            publisher = Objects.requireNonNull(comment_snapshot.child("publisher").getValue()).toString();
         }
         return publisher;
     }
@@ -240,7 +241,7 @@ public class SnapshotParser {
     public String publisherOfLastLikeOnPost(DataSnapshot snapshot, String postId) {
         String publisher = new String();
         for (DataSnapshot like_snapshot : snapshot.child("Likes").child(postId).getChildren()) {
-            publisher = like_snapshot.getKey().toString();
+            publisher = Objects.requireNonNull(like_snapshot.getKey()).toString();
         }
         return publisher;
     }

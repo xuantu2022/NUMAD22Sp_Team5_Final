@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 import edu.neu.madcourse.numad22sp_team5.Adapter.BabyAdapter;
 import edu.neu.madcourse.numad22sp_team5.Model.Baby;
@@ -82,7 +83,7 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
 
     private void initBabyData() {
 
-        String userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String userid = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
 
         DatabaseReference babyIdRef = FirebaseDatabase.getInstance().getReference("Follow").child(userid);
         //get user's baby list
@@ -92,9 +93,12 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
                 babyList.clear();
                 for(DataSnapshot data: snapshot.getChildren()) {
                     String babyid = data.getKey();
+                    //Log.d("babyid", babyid);
                     //use babyid to get baby data.
                     getBabyInfo(babyid);
+
                 }
+
             }
 
             @Override
@@ -111,12 +115,18 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Baby baby = snapshot.getValue(Baby.class);
+
                 babyList.add(baby);
+
+                //Log.d("babyid in size ", ""+ babyList.size());
                 babyAdapter.notifyDataSetChanged();
-                // Xuan: add baby id to baby set for notification usage if not existing
-                if (!babySet.contains(babyid)) {
+
+                //Xuan: add baby id to baby set for notification usage if not existing
+
+                if (!babySet.contains(babyid) ) {
                     babySet.add(babyid);
-                    initListener(baby);
+                    //Log.d("babyid in listener", baby.getBabyid());
+                    initListener(Objects.requireNonNull(baby));
                 }
             }
 
@@ -165,13 +175,13 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
 
         ref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot snapshot, String previousChildName) {
+            public void onChildAdded(@NonNull DataSnapshot snapshot, String previousChildName) {
                 Post post = snapshot.getValue(Post.class);
 
                 // Xuan: Only post notification when app running in background
                 if (!isAppOnForeground()) {
                     // Xuan: check if lastPost is published by myself
-                    String curUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    String curUser = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
                     if (listenerCreated && post != null && !curUser.equals(post.getPublisher())) {
                         // Xuan: post a notification here
                         sendNotification(b);
@@ -180,22 +190,22 @@ public class BabyListActivity extends AppCompatActivity implements BabyAdapter.O
             }
 
             @Override
-            public void onChildChanged(DataSnapshot snapshot, String previousChildName) {
+            public void onChildChanged(@NonNull DataSnapshot snapshot, String previousChildName) {
 
             }
 
             @Override
-            public void onChildRemoved(DataSnapshot snapshot) {
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
             }
 
             @Override
-            public void onChildMoved(DataSnapshot snapshot, String previousChildName) {
+            public void onChildMoved(@NonNull DataSnapshot snapshot, String previousChildName) {
 
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });

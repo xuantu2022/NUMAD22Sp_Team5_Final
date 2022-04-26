@@ -10,10 +10,12 @@ import androidx.core.app.NotificationManagerCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Objects;
+
 public class FirebasePushNotification extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
-        String title = message.getNotification().getTitle();
+        String title = Objects.requireNonNull(message.getNotification()).getTitle();
         String text = message.getNotification().getBody();
         final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
         NotificationChannel channel = new NotificationChannel(
