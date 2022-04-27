@@ -10,6 +10,8 @@ Xuan Tu: xuantu2022
 Video Link:
 https://www.youtube.com/watch?v=m6wc2GtOfdo&t=5s
 
+User can be used to view baby‘s post:
+
 Test User1:
 Email: yadanwei@gmail.com 
 Password: 123456
@@ -18,4 +20,37 @@ Test User2:
 Email: aaa@gmail.com
 Password: 123456
 
+Users can be used to add family member
+
+Test User3:
+Username: mama
+Email:mama@gmail.com
+Password:123456
+
+Test User4:
+Username: mocha
+mocha@google.com
+Password: 123456
+
+Test User5:
+Username: yoshi
+Email: yoshi@google.com
+Password: 123456
+
+Test User6:
+Username: pris2
+Email: pristu@gmail.com
+Password:123456
+
+Test User7:
+Username: pris3
+Email: tu@neu.edu
+Password: 123456
+
+Test User8：
+Username: janni
+Email：zzjm1231@gmail.com
+Password: 123456
+
+To add family member, just input username you'd like to add.
 To logout, enter into main page and go to setting.
