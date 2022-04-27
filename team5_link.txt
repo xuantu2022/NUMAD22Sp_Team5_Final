@@ -1,0 +1,21 @@
+Github link: https://github.com/xuantu2022/NUMAD22Sp_Team5_Final/tree/main
+
+Team Member and Github Name:
+Yadan Wei: Yadan-Wei
+Feier Gu: feiergu
+Yi Zhang: Elaine0208
+Jiaming Zhou: Janicein 
+Xuan Tu: xuantu2022
+
+Video Link:
+https://www.youtube.com/watch?v=m6wc2GtOfdo&t=5s
+
+Test User1:
+Email: yadanwei@gmail.com 
+Password: 123456
+
+Test User2:
+Email: aaa@gmail.com
+Password: 123456
+
+To logout, enter into main page and go to setting.
